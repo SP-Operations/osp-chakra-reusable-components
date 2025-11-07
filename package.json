@@ -1,0 +1,43 @@
+{
+  "name": "osp-chakra-reusable-components",
+  "version": "0.0.7",
+  "description": "",
+  "files": [
+    "dist",
+    "dist/images",
+    "dist/copy-assets.js",
+    "copy-assets.js"
+  ],
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prebuild": "ts-node scripts/generate-index.ts",
+    "build": "tsup && xcopy scripts\\copy-assets.js dist\\",
+    "postinstall": "node dist/copy-assets.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": ">=17",
+    "react-dom": ">=17"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^3.28.1",
+    "framer-motion": "^12.23.24",
+    "react": ">=17",
+    "react-dom": ">=17",
+    "st-peter-ui": "file:st-peter-ui-0.1.1.tgz",
+    "zod": "^4.1.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.2",
+    "esbuild-plugin-copy": "^2.1.1",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "fs-extra": "^11.0.0"
+  }
+}
