@@ -42,7 +42,7 @@ __export(index_exports, {
 });
 module.exports = __toCommonJS(index_exports);
 
-// src/LoginPage.tsx
+// src/Pages/LoginPage/LoginPage.tsx
 var import_react = require("@chakra-ui/react");
 var import_react2 = require("react");
 var import_framer_motion = require("framer-motion");
@@ -66,7 +66,7 @@ var icons8_google_48_default = "./images/osp-chakra-reusable-components/icons8-g
 // src/assets/images/createaccount.jpg
 var createaccount_default = "./images/osp-chakra-reusable-components/createaccount.jpg";
 
-// src/LoginPage.tsx
+// src/Pages/LoginPage/LoginPage.tsx
 var import_jsx_runtime = require("react/jsx-runtime");
 var MotionFlex = (0, import_framer_motion.motion)(import_react.Flex);
 var MotionBox = (0, import_framer_motion.motion)(import_react.Box);
@@ -379,10 +379,260 @@ function LoginPage({
   );
 }
 
-// src/ReinstatementPage/ReinstatementPage.tsx
+// src/Pages/ReinstatementPage/ReinstatementPage.tsx
+var import_react3 = require("@chakra-ui/react");
+var import_react4 = require("react");
 var import_jsx_runtime2 = require("react/jsx-runtime");
-function ReinstatementPage() {
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h1", { children: "Reinstatement Form" });
+function ReinstatementPage({
+  initialPlans,
+  onSubmit
+}) {
+  const RIFee = (0, import_react4.useRef)(null);
+  const RIPayment = (0, import_react4.useRef)(null);
+  const TotalAmountDue = (0, import_react4.useRef)(null);
+  const [reinstateFullyPaid, setReinstateFullyPaid] = (0, import_react4.useState)(false);
+  const [selectedPlan, setSelectedPlan] = (0, import_react4.useState)(null);
+  const [checkedPlans, setCheckedPlans] = (0, import_react4.useState)([]);
+  const [phLapsedPlans] = (0, import_react4.useState)(initialPlans || []);
+  const selectedPlanData = phLapsedPlans == null ? void 0 : phLapsedPlans.find(
+    (plan) => plan.lpaNo === selectedPlan
+  );
+  const {
+    open: isErrorModalOpen,
+    onOpen: onErrorOpen,
+    onClose: onErrorClose
+  } = (0, import_react3.useDisclosure)();
+  const handleSelect = (plan, checked) => {
+    if (checked) {
+      const newItem = {
+        lpaNo: plan.lpaNo,
+        planType: plan.planType,
+        reinstatementFee: 500,
+        reinstatementPayment: reinstateFullyPaid ? plan.newBalance ? parseFloat(plan.newBalance) : 0 : plan.newInstAmt ? parseFloat(plan.newInstAmt) : 0
+      };
+      setCheckedPlans((prev) => [...prev, newItem]);
+    } else {
+      setCheckedPlans((prev) => prev.filter((p) => p.lpaNo !== plan.lpaNo));
+    }
+  };
+  const handleReinstateFullyPaidChange = (checked) => {
+    setReinstateFullyPaid(checked);
+    setCheckedPlans(
+      (prev) => prev.map((element) => {
+        const plan = phLapsedPlans.find((p) => p.lpaNo === element.lpaNo);
+        return __spreadProps(__spreadValues({}, element), {
+          reinstatementPayment: checked ? (plan == null ? void 0 : plan.newBalance) ? parseFloat(plan.newBalance) : 0 : (plan == null ? void 0 : plan.newInstAmt) ? parseFloat(plan.newInstAmt) : 0
+        });
+      })
+    );
+  };
+  (0, import_react4.useEffect)(() => {
+    const totalRIFee = checkedPlans.reduce(
+      (sum, plan) => sum + plan.reinstatementFee,
+      0
+    );
+    const totalRIPayment = checkedPlans.reduce(
+      (sum, plan) => sum + plan.reinstatementPayment,
+      0
+    );
+    const totalDue = totalRIFee + totalRIPayment;
+    if (RIFee.current) RIFee.current.innerText = totalRIFee.toFixed(2);
+    if (RIPayment.current) RIPayment.current.innerText = totalRIPayment.toFixed(2);
+    if (TotalAmountDue.current)
+      TotalAmountDue.current.innerText = totalDue.toFixed(2);
+  }, [checkedPlans, reinstateFullyPaid]);
+  const btnReinstate_OnClick = () => {
+    if (checkedPlans.length === 0) onErrorOpen();
+    else onSubmit(checkedPlans);
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.Card.Root, { maxW: "6xl", mx: "auto", p: 6, shadow: "lg", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.CardHeader, { textAlign: "center", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Heading, { size: "lg", children: "Reinstatement" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Text, { color: "gray.600", mt: 2, children: "Bring your plan back on track with ease. The Reinstatement option lets you reactivate a lapsed plan so you can continue enjoying your benefits and resume payments smoothly." })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.CardBody, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+        import_react3.Box,
+        {
+          borderWidth: "1px",
+          borderRadius: "md",
+          mb: 6,
+          bg: "gray.50",
+          maxH: "150px",
+          overflowY: "auto",
+          children: phLapsedPlans.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Text, { p: 4, textAlign: "center", children: "No Lapsed Plan" }) : phLapsedPlans.map((plan) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+            import_react3.HStack,
+            {
+              p: 3,
+              justify: "space-around",
+              borderBottom: "1px solid",
+              borderColor: "gray.200",
+              cursor: "pointer",
+              bg: selectedPlan === plan.lpaNo ? "var(--chakra-colors-primary)/15" : "white",
+              _hover: { bg: "gray.100" },
+              onClick: () => setSelectedPlan(plan.lpaNo),
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.Checkbox.Root, { colorPalette: "green", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Checkbox.HiddenInput, { onChange: (e) => handleSelect(plan, e.target.checked) }),
+                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Checkbox.Control, {})
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Text, { children: plan.lpaNo }),
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Text, { children: plan.phName }),
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.Text, { children: [
+                  "Mode: ",
+                  plan.mop
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.Text, { children: [
+                  "Due: ",
+                  plan.duedate
+                ] })
+              ]
+            },
+            plan.lpaNo
+          ))
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.Stack, { direction: { base: "column", md: "row" }, p: 6, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.Box, { flex: "1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Heading, { size: "md", textAlign: "center", mb: 4, children: "Current Plan" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.SimpleGrid, { columns: { base: 1, md: 2 }, p: 4, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(FormField, { label: "LPA No.", value: selectedPlanData == null ? void 0 : selectedPlanData.lpaNo }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+              FormField,
+              {
+                label: "Account Status",
+                value: selectedPlanData == null ? void 0 : selectedPlanData.status
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+              FormField,
+              {
+                label: "Total Amount Payable",
+                value: selectedPlanData == null ? void 0 : selectedPlanData.totalAmtPayable
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+              FormField,
+              {
+                label: "Total Amount Paid",
+                value: selectedPlanData == null ? void 0 : selectedPlanData.totalAmtPaid
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(FormField, { label: "Balance", value: selectedPlanData == null ? void 0 : selectedPlanData.balance }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+              FormField,
+              {
+                label: "Installment Amount",
+                value: selectedPlanData == null ? void 0 : selectedPlanData.instAmt
+              }
+            )
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.Checkbox.Root, { mt: 4, colorPalette: "green", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Checkbox.HiddenInput, { onChange: (e) => handleReinstateFullyPaidChange(e.target.checked) }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Checkbox.Control, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Checkbox.Label, __spreadProps(__spreadValues({}, { children: null }), { children: "Reinstate Fully Paid" }))
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.Box, { flex: "1", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Heading, { size: "md", textAlign: "center", mb: 4, children: "After Reinstatement" }),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.SimpleGrid, { columns: { base: 1, md: 2 }, p: 4, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(FormField, { label: "LPA No.", value: selectedPlanData == null ? void 0 : selectedPlanData.newLpaNo }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+              FormField,
+              {
+                label: "New Account Status",
+                value: selectedPlanData == null ? void 0 : selectedPlanData.newStatus
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+              FormField,
+              {
+                label: "New Total Amount Payable",
+                value: selectedPlanData == null ? void 0 : selectedPlanData.newTotalAmtPayable
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+              FormField,
+              {
+                label: "Total Amount Paid",
+                value: selectedPlanData == null ? void 0 : selectedPlanData.newTotalAmtPaid
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+              FormField,
+              {
+                label: "Balance",
+                value: selectedPlanData == null ? void 0 : selectedPlanData.newBalance
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+              FormField,
+              {
+                label: "New Installment Amount",
+                value: selectedPlanData == null ? void 0 : selectedPlanData.newInstAmt
+              }
+            )
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+        import_react3.Box,
+        {
+          mt: 8,
+          borderWidth: "1px",
+          borderColor: "var(--chakra-colors-primary)",
+          borderRadius: "lg",
+          p: 5,
+          bg: "var(--chakra-colors-primary)/15",
+          color: "gray.700",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Text, { children: "Applying for reinstatement requires the following payments:" }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.VStack, { align: "start", p: 1, mt: 2, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.Text, { children: [
+                "Reinstatement Fee: ",
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("strong", { children: [
+                  "\u20B1 ",
+                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { ref: RIFee, children: "0" })
+                ] })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.Text, { children: [
+                "Reinstatement Payment:",
+                " ",
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("strong", { children: [
+                  "\u20B1 ",
+                  /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { ref: RIPayment, children: "0" })
+                ] })
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.Text, { fontWeight: "bold", mt: 3, children: [
+              "Total Amount Due: \u20B1 ",
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { ref: TotalAmountDue, children: "0" })
+            ] })
+          ]
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+        import_react3.Button,
+        {
+          mt: 6,
+          colorScheme: "blue",
+          w: "full",
+          size: "lg",
+          onClick: btnReinstate_OnClick,
+          children: "Reinstate"
+        }
+      )
+    ] })
+  ] });
+}
+function FormField({
+  label,
+  value
+}) {
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_react3.Box, { m: 1, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Text, { fontSize: "sm", color: "gray.600", mb: 1, children: label }),
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react3.Input, { value: value || "", readOnly: true, bg: "white" })
+  ] });
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

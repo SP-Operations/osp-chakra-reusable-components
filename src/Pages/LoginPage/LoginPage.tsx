@@ -16,12 +16,12 @@ import {
 import { useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SignupButton, InputFloatingLabel } from 'st-peter-ui';
-import imgLogin from "./assets/images/login.webp";
-import imgMetaLogo from "./assets/images/icons8-meta-48.png";
-import imgStPeterLogo from "./assets/images/stpeter-logo.png";
-import imgAppleLogo from "./assets/images/icons8-apple-48.png";
-import imgGoogleLogo from "./assets/images/icons8-google-48.png";
-import imgCreateAccount from "./assets/images/createaccount.jpg";
+import imgLogin from "../../assets/images/login.webp";
+import imgMetaLogo from "../../assets/images/icons8-meta-48.png";
+import imgStPeterLogo from "../../assets/images/stpeter-logo.png";
+import imgAppleLogo from "../../assets/images/icons8-apple-48.png";
+import imgGoogleLogo from "../../assets/images/icons8-google-48.png";
+import imgCreateAccount from "../../assets/images/createaccount.jpg";
 
 interface LoginPageProps {
   onLogin: (email: string, password: string) => void;
