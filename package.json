@@ -1,20 +1,14 @@
 {
   "name": "osp-chakra-reusable-components",
-  "version": "0.0.10",
+  "version": "0.0.14",
   "description": "",
-  "files": [
-    "dist",
-    "dist/images",
-    "dist/copy-assets.js",
-    "copy-assets.js"
-  ],
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "prebuild": "ts-node scripts/generate-index.ts",
-    "build": "tsup && xcopy scripts\\copy-assets.js dist\\",
-    "postinstall": "node dist/copy-assets.js"
+    "build": "tsup",
+    "postinstall": "node scripts/copy-assets.js"
   },
   "keywords": [],
   "author": "",
