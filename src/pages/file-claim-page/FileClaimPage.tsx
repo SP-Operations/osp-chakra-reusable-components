@@ -1,6 +1,6 @@
 import React from 'react'
 import { type Claimant, type PhClaimant } from '../../models/types/claim.types';
-import { Box, Container, FileUpload, Grid, GridItem, Icon, Stack, Steps, Table, Text } from '@chakra-ui/react';
+import { Box, Button, CloseButton, Container, Dialog, FileUpload, Grid, GridItem, Icon, Portal, Stack, Steps, Table, Text } from '@chakra-ui/react';
 import { LuUpload } from 'react-icons/lu';
 import { PlanholderForm } from '../../components/forms/PlanholderForm';
 import { ClaimantForm } from '../../components/forms/ClaimantForm';
@@ -285,8 +285,57 @@ export const FileClaimPage = () => {
                             </Box>
                         </>
                     )}
+
+                    <Box display="flex" gap="10px" flexDirection="row" justifyContent="flex-end" marginTop="auto">
+                        {(pageNumber > 1 && pageNumber < 5) && (
+                        <Steps.PrevTrigger asChild>
+                            <Button variant="ghost" onClick={onPrevBtnClick}>Previous</Button>
+                        </Steps.PrevTrigger>
+                        )}
+
+                        {(pageNumber < 5) && (
+                        <Steps.NextTrigger asChild>
+                            <Button onClick={onNextBtnClick}>{(pageNumber) >= 4 ? "Submit" : "Next"}</Button>
+                        </Steps.NextTrigger>
+                        )}
+                    </Box>
                 </Container>
             </Steps.Root>
+
+            <Dialog.Root lazyMount open={openSubmitDialog} onOpenChange={(e) => {setOpenSubmitDialog(e.open)}}>
+                <Dialog.Trigger asChild>
+                    <Button variant="outline" size="sm" visibility="hidden">
+                        Open Dialog
+                    </Button>
+                </Dialog.Trigger>
+                <Portal>
+                    <Dialog.Backdrop />
+                    <Dialog.Positioner>
+                        <Dialog.Content>
+                            <Dialog.Header>
+                                <Dialog.Title>Dialog Title</Dialog.Title>
+                            </Dialog.Header>
+                            <Dialog.Body>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                </p>
+                            </Dialog.Body>
+
+                            <Dialog.Footer>
+                                <Dialog.ActionTrigger asChild>
+                                    <Button variant="outline" onClick={() => setStepNumber(3)}>Cancel</Button>
+                                </Dialog.ActionTrigger>
+                                <Button onClick={onSubmitBtnClick}>Submit</Button>
+                            </Dialog.Footer>
+
+                            <Dialog.CloseTrigger asChild>
+                                <CloseButton size="sm" onClick={() => setStepNumber(3)} />
+                            </Dialog.CloseTrigger>
+                        </Dialog.Content>
+                    </Dialog.Positioner>
+                </Portal>
+            </Dialog.Root>
         </Container>
     )
 }
