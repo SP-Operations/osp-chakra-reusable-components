@@ -56,7 +56,7 @@ export const ClaimantHoverCard = (params: ClaimantHoverCardParams) => {
 
             <Portal>
                 <HoverCard.Positioner>
-                    <HoverCard.Content backgroundColor="bg.muted" borderColor="border">
+                    <HoverCard.Content>
                         <HoverCard.Arrow />
                         <Stack gap="4">
                             <Stack gap="2" direction="row">

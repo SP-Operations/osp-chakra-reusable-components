@@ -1,6 +1,6 @@
 import React from 'react'
 import { type Claimant, type PhClaimant } from '../../models/types/claim.types';
-import { Box, Button, CloseButton, Container, Dialog, FileUpload, Grid, GridItem, Icon, Portal, Stack, Steps, Table, Text } from '@chakra-ui/react';
+import { Box, Button, Card, CloseButton, Container, Dialog, FileUpload, Grid, GridItem, Icon, Portal, Stack, Steps, Table, Text } from '@chakra-ui/react';
 import { LuUpload } from 'react-icons/lu';
 import { PlanholderForm } from '../../components/forms/PlanholderForm';
 import { ClaimantForm } from '../../components/forms/ClaimantForm';
@@ -19,8 +19,8 @@ export const FileClaimPage = () => {
     const onNextBtnClick = () => {
         if(pageNumber === 4)
         {
-            setOpenSubmitDialog(true); // open the dialog.
             setStepNumber(3);
+            setOpenSubmitDialog(true); // open the dialog.
             return;
         }
 
@@ -128,7 +128,13 @@ export const FileClaimPage = () => {
     }, []);
 
     return (
-        <Container display="flex" flexDirection="column" height="fit-content" width="100%" gap="20px" padding="20px">
+        <Container
+            display="flex" flexDirection="column" 
+            height="fit-content" width="100%" 
+            gap="20px" padding="20px"
+            borderStyle="solid" borderColor="border" borderWidth="1px" borderRadius="8px"
+            boxShadow="sm" boxShadowColor="bg.muted"
+        >
             <Steps.Root defaultStep={0} count={stepTitles.length} step={stepNumber} onStepChange={(e) => setStepNumber(e.step)}>
                 <Container centerContent padding="0">
                     <Text textStyle="2xl" fontWeight="semibold">Claim Application</Text>
@@ -304,10 +310,11 @@ export const FileClaimPage = () => {
 
             <Dialog.Root lazyMount open={openSubmitDialog} onOpenChange={(e) => {setOpenSubmitDialog(e.open)}}>
                 <Dialog.Trigger asChild>
-                    <Button variant="outline" size="sm" visibility="hidden">
+                    <Button variant="outline" size="sm" visibility="hidden" position="absolute" zIndex={-1}>
                         Open Dialog
                     </Button>
                 </Dialog.Trigger>
+
                 <Portal>
                     <Dialog.Backdrop />
                     <Dialog.Positioner>
@@ -315,6 +322,7 @@ export const FileClaimPage = () => {
                             <Dialog.Header>
                                 <Dialog.Title>Dialog Title</Dialog.Title>
                             </Dialog.Header>
+
                             <Dialog.Body>
                                 <p>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
@@ -326,6 +334,7 @@ export const FileClaimPage = () => {
                                 <Dialog.ActionTrigger asChild>
                                     <Button variant="outline" onClick={() => setStepNumber(3)}>Cancel</Button>
                                 </Dialog.ActionTrigger>
+
                                 <Button onClick={onSubmitBtnClick}>Submit</Button>
                             </Dialog.Footer>
 
