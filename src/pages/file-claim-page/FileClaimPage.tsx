@@ -162,21 +162,25 @@ export const FileClaimPage = () => {
             boxShadow="sm" boxShadowColor="bg.muted"
         >
             <Steps.Root defaultStep={0} count={stepTitles.length} step={stepNumber} onStepChange={(e) => setStepNumber(e.step)}>
-                <Container centerContent padding="0">
-                    <Text textStyle="2xl" fontWeight="semibold">Claim Application</Text>
-                </Container>
+                {(pageNumber < 5) && (
+                    <>
+                        <Container centerContent padding="0">
+                            <Text textStyle="2xl" fontWeight="semibold">Claim Application</Text>
+                        </Container>
 
-                <Container>
-                    <Steps.List>
-                        {stepTitles.map((step, index) => (
-                            <Steps.Item key={index} index={index} title={step}>
-                                <Steps.Indicator />
-                                <Steps.Title>{step}</Steps.Title>
-                                <Steps.Separator />
-                            </Steps.Item> 
-                        ))}
-                    </Steps.List>
-                </Container>
+                        <Container>
+                            <Steps.List>
+                                {stepTitles.map((step, index) => (
+                                    <Steps.Item key={index} index={index} title={step}>
+                                        <Steps.Indicator />
+                                        <Steps.Title>{step}</Steps.Title>
+                                        <Steps.Separator />
+                                    </Steps.Item> 
+                                ))}
+                            </Steps.List>
+                        </Container>
+                    </>
+                )}
 
                 <Container display="flex" flexDirection="column" gap="20px">
                     {(pageNumber === 1) && (
@@ -319,23 +323,29 @@ export const FileClaimPage = () => {
                     )}
 
                     {(pageNumber === 5) && (
-                        <SuccessPage title="Claims Successfully Submitted" content={
-                            <>
-                                <Text>Your Claim Transaction has been successfully submitted.</Text>
-                                <Text wordBreak="break-word">
-                                    The reference number for your claim is <strong>CL{Math.floor(Math.random() * 1000000000)}</strong>.
-                                    Please keep this number safe, as you will need it for any future inquiries, updates, or 
-                                    correspondence regarding this claim. You may also use it to track the status of your claim
-                                    through our customer service or online portal.
-                                </Text>
-                            </>
-                        } 
-                        footer={
-                            <Stack direction="row" gap="10px">
-                                <Button variant="outline">Home</Button>
-                                <Button variant="solid">Track</Button>
-                            </Stack>
-                        } />
+                        <Box display="flex" alignItems="center" justifyContent="center">
+                            <Box>
+                                <SuccessPage title="Claims Successfully Submitted" content={
+                                    <>
+                                        <Text>Your Claim Transaction has been successfully submitted.</Text>
+                                        <Text wordBreak="break-word">
+                                            The reference number for your claim is <strong>CL{Math.floor(Math.random() * 1000000000)}</strong>.
+                                            Please keep this number safe, as you will need it for any future inquiries, updates, or 
+                                            correspondence regarding this claim. You may also use it to track the status of your claim
+                                            through our customer service or online portal.
+                                        </Text>
+                                    </>
+                                } 
+                                footer={
+                                    <Box display="flex" alignItems="center" justifyContent="center">
+                                        <Stack direction="row" gap="10px">
+                                            <Button variant="outline">Home</Button>
+                                            <Button variant="solid">Track</Button>
+                                        </Stack>
+                                    </Box>
+                                } />
+                            </Box>
+                        </Box>
                     )}
 
                     <Box display="flex" gap="10px" flexDirection="row" justifyContent="flex-end" marginTop="auto">
