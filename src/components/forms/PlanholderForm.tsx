@@ -1,3 +1,5 @@
+// Author: Jimwell Arvin L. Ocsio
+
 import React from 'react'
 import { Box, Field, Text, Textarea } from '@chakra-ui/react'
 import type { PlanholderFormParams } from '../../models/types/claim.types'
@@ -16,7 +18,12 @@ export const PlanholderForm = (params: PlanholderFormParams) => {
 
         <Box display="flex" gap="15px">
             <InputFloatingLabel name="lpaNumber" label="LPA Number" value={params.value.lpaNumber} onChange={(e) => params.onValueChange({...params.value, lpaNumber: e.target.value})} />
-            <InputFloatingLabel type="date" name="dateOfDeath" label="Date of Death" value={params.value.incidentDate} onChange={(e) => params.onValueChange({...params.value, incidentDate: e.target.value})} />
+            <InputFloatingLabel type="date" name="dateOfDeath" label="Date of Death" value={params.value.incidentDate} 
+                onChange={(e) => {
+                    params.onValueChange({...params.value, incidentDate: e.target.value});
+                    console.log(e.target.value);
+                }} 
+            />
         </Box>
 
         <Box>
