@@ -1,10 +1,10 @@
 {
   "name": "osp-chakra-reusable-components",
-  "version": "0.0.15",
+  "version": "0.0.22",
   "description": "",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "prebuild": "node scripts/generate-index.js",
     "build": "tsup",
@@ -19,10 +19,13 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^3.28.1",
+    "@hookform/resolvers": "^5.2.2",
     "framer-motion": "^12.23.24",
+    "lucide-react": "^0.554.0",
     "next-themes": "^0.4.6",
     "react": ">=17",
     "react-dom": ">=17",
+    "react-hook-form": "^7.66.1",
     "react-icons": "^5.5.0",
     "st-peter-ui": "^0.1.2",
     "zod": "^4.1.3"
