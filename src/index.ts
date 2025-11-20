@@ -2,6 +2,8 @@ export * from './components/cards/ClaimantHoverCard';
 export * from './components/forms/ClaimantForm';
 export * from './components/forms/PlanholderForm';
 export * from './models/types/claim.types';
+export * from './models/types/success.page.types';
 export * from './pages/file-claim-page/FileClaimPage';
 export * from './pages/login-page/LoginPage';
 export * from './pages/reinstatement-page/ReinstatementPage';
+export * from './pages/success-page/SuccessPage';

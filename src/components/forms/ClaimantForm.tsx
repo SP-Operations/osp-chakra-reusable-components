@@ -155,7 +155,6 @@ export const ClaimantForm = (params: ClaimantFormParams) => {
                                         {relationship.items.map((rel) => (
                                             <Select.Item item={rel} key={rel}>
                                                 {rel}
-                                                <Select.Indicator />
                                             </Select.Item>
                                         ))}
                                     </Select.Content>

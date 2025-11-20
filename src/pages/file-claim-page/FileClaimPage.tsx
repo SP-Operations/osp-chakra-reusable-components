@@ -1,9 +1,12 @@
+// Author: Jimwell Arvin L. Ocsio
+
 import React from 'react'
 import { type Claimant, type PhClaimant } from '../../models/types/claim.types';
 import { Box, Button, CloseButton, Container, Dialog, FileUpload, Grid, GridItem, Icon, Portal, Stack, Steps, Table, Text } from '@chakra-ui/react';
 import { LuUpload } from 'react-icons/lu';
 import { PlanholderForm } from '../../components/forms/PlanholderForm';
 import { ClaimantForm } from '../../components/forms/ClaimantForm';
+import { SuccessPage } from '../success-page/SuccessPage';
 
 export const FileClaimPage = () => {
     // Summary:
@@ -61,9 +64,9 @@ export const FileClaimPage = () => {
     // Summary:
     //      The title of the steps.
     const stepTitles = [
-        "Upload Required Documents",
-        "Planholder Information",
-        "Claimant's Information",
+        "Documents",
+        "Planholder",
+        "Claimant's",
         "Review & Submit"
     ];
 
@@ -315,17 +318,37 @@ export const FileClaimPage = () => {
                         </>
                     )}
 
+                    {(pageNumber === 5) && (
+                        <SuccessPage title="Claims Successfully Submitted" content={
+                            <>
+                                <Text>Your Claim Transaction has been successfully submitted.</Text>
+                                <Text wordBreak="break-word">
+                                    The reference number for your claim is <strong>CL{Math.floor(Math.random() * 1000000000)}</strong>.
+                                    Please keep this number safe, as you will need it for any future inquiries, updates, or 
+                                    correspondence regarding this claim. You may also use it to track the status of your claim
+                                    through our customer service or online portal.
+                                </Text>
+                            </>
+                        } 
+                        footer={
+                            <Stack direction="row" gap="10px">
+                                <Button variant="outline">Home</Button>
+                                <Button variant="solid">Track</Button>
+                            </Stack>
+                        } />
+                    )}
+
                     <Box display="flex" gap="10px" flexDirection="row" justifyContent="flex-end" marginTop="auto">
                         {(pageNumber > 1 && pageNumber < 5) && (
-                        <Steps.PrevTrigger asChild>
-                            <Button variant="ghost" onClick={onPrevBtnClick}>Previous</Button>
-                        </Steps.PrevTrigger>
+                            <Steps.PrevTrigger asChild>
+                                <Button variant="ghost" onClick={onPrevBtnClick}>Previous</Button>
+                            </Steps.PrevTrigger>
                         )}
 
                         {(pageNumber < 5) && (
-                        <Steps.NextTrigger asChild>
-                            <Button onClick={onNextBtnClick}>{(pageNumber) >= 4 ? "Submit" : "Next"}</Button>
-                        </Steps.NextTrigger>
+                            <Steps.NextTrigger asChild>
+                                <Button onClick={onNextBtnClick}>{(pageNumber) >= 4 ? "Submit" : "Next"}</Button>
+                            </Steps.NextTrigger>
                         )}
                     </Box>
                 </Container>
