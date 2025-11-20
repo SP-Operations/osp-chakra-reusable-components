@@ -115,14 +115,14 @@ export const ClaimantForm = (params: ClaimantFormParams) => {
             <Box textStyle="sm">Please provide the following information.</Box>
         </Box>
 
-        <Grid templateColumns="1fr 225px">
+        <Grid templateColumns="1fr 250px">
             <GridItem padding="10px" display="flex" flexDirection="column" gap="10px">
                 <Box display="flex" gap="15px">
                     <InputFloatingLabel name="lastName" label="Last Name" value={claimant.lastName} onChange={(e) => setClaimant({...claimant, lastName: e.target.value })} />
                     <InputFloatingLabel name="firstName" label="First Name" value={claimant.firstName} onChange={(e) => setClaimant({...claimant, firstName: e.target.value})} />
                     <InputFloatingLabel name="middleName" label="Middle Name" value={claimant.middleName} onChange={(e) => setClaimant({...claimant, middleName: e.target.value})} />
 
-                    <Box maxW="65px">
+                    <Box maxW="100px" flexShrink={0}>
                         <InputFloatingLabel name="suffix" label="Suffix" value={claimant.suffix} onChange={(e) => setClaimant({...claimant, suffix: e.target.value})} />
                     </Box>
                 </Box>
@@ -220,7 +220,12 @@ export const ClaimantForm = (params: ClaimantFormParams) => {
                 </Box>
             </GridItem>
 
-            <GridItem padding="7px 10px" borderColor="border" borderWidth="1px" borderStyle="solid" borderRadius="3px" background="bg.muted">
+            <GridItem 
+                padding="7px 10px" 
+                borderColor="border" borderWidth="1px" borderStyle="solid" borderRadius="3px" 
+                background="bg.muted"
+                colorPalette="teal"
+            >
                 {claimantList.length !== 0 && (
                     <Box display="flex" alignItems="center" padding="10px 0" marginBottom="10px" borderBottomColor="border" borderBottomWidth="1px" borderBottomStyle="solid">
                         <LuUserRound size="20px" />

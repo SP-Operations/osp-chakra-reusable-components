@@ -19,8 +19,8 @@ export const FileClaimPage = () => {
     const onNextBtnClick = () => {
         if(pageNumber === 4)
         {
-            setOpenSubmitDialog(true); // open the dialog.
             setStepNumber(3);
+            setOpenSubmitDialog(true); // open the dialog.
             return;
         }
 
@@ -88,8 +88,30 @@ export const FileClaimPage = () => {
     const [currBenefitText, setCurrBenefitText] = React.useState<React.ReactNode>("");
 
     // Summary:
-    //      The variable resposible for the data of Planholder.
-    const [planholder, setPlanholder] = React.useState<PhClaimant>({lpaNumber: "", incidentDate: "01/01/1990", causeOfIncident: "", index: 0});
+    //      The variable responsible for the data of Planholder.
+    const [planholder, setPlanholder] = React.useState<PhClaimant>({lpaNumber: "", incidentDate: "1990/01/01", causeOfIncident: "", index: 0});
+
+    // Summary:
+    //      This variable is just for presentation purposes.
+    const randomLpaList:string[] = [
+        "L22676596I", "L226276595I", "L22852786H", "L24852786H",
+        "L20626139I"
+    ]
+
+    // Summary:
+    //      This function is just for presentation purposes only.
+    const genRandomPh = () => {
+        let randIndex = Math.floor(Math.random() * (randomLpaList.length - 1 - 0 + 1)) + 0;
+        let randLpa = randomLpaList[randIndex] ?? "";
+        
+        let startDate = new Date('2023/01/01');
+        let endDate = new Date('2025/11/11');
+        let startTime = startDate.getTime();
+        let endTime = endDate.getTime();
+        let randomTime = startTime + Math.random() * (endTime - startTime);
+        let randomDate = new Date(randomTime);
+        setPlanholder({...planholder, incidentDate: `${randomDate.getFullYear()}-${(randomDate.getMonth() + 1).toString().padStart(2,'0')}-${randomDate.getDate().toString().padStart(2, '0')}`, lpaNumber: randLpa})
+    }
 
     // Summary:
     //      As of now generate a random claims benefit for presentation. But this should be computed manually.
@@ -125,10 +147,17 @@ export const FileClaimPage = () => {
     //      Call the generate in the useEffect
     React.useEffect(() => {
         genRandomClaimBen();
+        genRandomPh();
     }, []);
 
     return (
-        <Container display="flex" flexDirection="column" height="fit-content" width="100%" gap="20px" padding="20px">
+        <Container
+            display="flex" flexDirection="column" 
+            height="fit-content" width="100%" 
+            gap="20px" padding="20px"
+            borderStyle="solid" borderColor="border" borderWidth="1px" borderRadius="8px"
+            boxShadow="sm" boxShadowColor="bg.muted"
+        >
             <Steps.Root defaultStep={0} count={stepTitles.length} step={stepNumber} onStepChange={(e) => setStepNumber(e.step)}>
                 <Container centerContent padding="0">
                     <Text textStyle="2xl" fontWeight="semibold">Claim Application</Text>
@@ -203,7 +232,7 @@ export const FileClaimPage = () => {
 
                     {(pageNumber === 4) && (
                         <>
-                            <Box>
+                            <Box as="div">
                                 <Box textStyle="lg" fontWeight="semibold" w="100%">Claims Summary</Box>
 
                                 <Box marginBottom="5">
@@ -238,8 +267,8 @@ export const FileClaimPage = () => {
                                                 <Stack gap="2" direction="row">
                                                     <Text textStyle="sm" fontWeight="semibold" flexShrink={0}>Claim Benefits:</Text>
                                                     <Box as="ul" display="flex" flexDirection="column" gap="1px">
-                                                        {currBenefitList.map((item) => (
-                                                            <li>{item} Benefit</li>
+                                                        {currBenefitList.map((item, index) => (
+                                                            <li key={index}>{item} Benefit</li>
                                                         ))}
                                                     </Box>
                                                 </Stack>
@@ -249,7 +278,7 @@ export const FileClaimPage = () => {
                                 </Box>
                             </Box>
 
-                            <Box>
+                            <Box as="div">
                                 <Box textStyle="md" marginBottom="15px" fontWeight="semibold" borderBottom="1px solid #a1a1aa" paddingBottom="5px">Claimant's {(claimantList.length)}</Box>
 
                                 <Table.Root size="lg" variant="outline">
@@ -272,7 +301,7 @@ export const FileClaimPage = () => {
                                                 </Table.Cell>
 
                                                 <Table.Cell>
-                                                    <Text textStyle="xs" textAlign="center">{model.email} {(model.mobile == "" || model.mobile == null) ? "" : "-" + model.mobile}</Text>
+                                                    <Text textStyle="xs" textAlign="center">{model.email} {(model.mobile == "" || model.mobile == null) ? "" : "- " + model.mobile}</Text>
                                                 </Table.Cell>
 
                                                 <Table.Cell>
@@ -304,28 +333,31 @@ export const FileClaimPage = () => {
 
             <Dialog.Root lazyMount open={openSubmitDialog} onOpenChange={(e) => {setOpenSubmitDialog(e.open)}}>
                 <Dialog.Trigger asChild>
-                    <Button variant="outline" size="sm" visibility="hidden">
+                    <Button variant="outline" size="sm" visibility="hidden" position="absolute" zIndex={-1}>
                         Open Dialog
                     </Button>
                 </Dialog.Trigger>
+
                 <Portal>
                     <Dialog.Backdrop />
                     <Dialog.Positioner>
                         <Dialog.Content>
                             <Dialog.Header>
-                                <Dialog.Title>Dialog Title</Dialog.Title>
+                                <Dialog.Title>Confirm Submission</Dialog.Title>
                             </Dialog.Header>
+
                             <Dialog.Body>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                </p>
+                                <Text>
+                                    You have reached the end of the form. Submitting will finalize
+                                    all the information you provided. Would you like to submit the claim?
+                                </Text>
                             </Dialog.Body>
 
                             <Dialog.Footer>
                                 <Dialog.ActionTrigger asChild>
                                     <Button variant="outline" onClick={() => setStepNumber(3)}>Cancel</Button>
                                 </Dialog.ActionTrigger>
+
                                 <Button onClick={onSubmitBtnClick}>Submit</Button>
                             </Dialog.Footer>
 

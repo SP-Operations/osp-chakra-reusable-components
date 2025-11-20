@@ -1,0 +1,2 @@
+Note:
+    1. The data type of the date in input is a string with a format of yyyy-mm-dd.
