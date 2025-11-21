@@ -83,9 +83,9 @@ export const RopPage = ({ onClick }: RopPageProps) => {
   };
 
   return (
-    <Card.Root maxW="5xl" p="4" boxShadow="sm">
+    <Card.Root maxW="5xl" p="4" boxShadow="sm" colorPalette={"green"}>
       <Card.Body>
-        <Steps.Root defaultStep={0} count={stepper.length} mb="8" size="sm">
+        <Steps.Root defaultStep={0} count={stepper.length} mb="8">
           <Steps.List>
             {stepper.map((step, index) => (
               <Steps.Item key={index} index={index} title={step.title}>
