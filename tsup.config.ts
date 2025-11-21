@@ -1,7 +1,7 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/index.ts"],
+  entry: ["src/index.ts", "scripts/copy-assets.js"],
   format: ["esm", "cjs"],
   dts: true,
   sourcemap: true,
