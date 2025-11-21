@@ -6,3 +6,4 @@ tsup.config.ts
 /*.tgz
 /scripts
 /dev.readme
+/public
