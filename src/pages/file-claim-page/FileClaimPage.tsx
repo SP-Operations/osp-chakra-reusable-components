@@ -171,7 +171,7 @@ export const FileClaimPage = () => {
                         <Container>
                             <Steps.List>
                                 {stepTitles.map((step, index) => (
-                                    <Steps.Item key={index} index={index} title={step}>
+                                    <Steps.Item key={index} index={index} title={step} colorPalette="green">
                                         <Steps.Indicator />
                                         <Steps.Title>{step}</Steps.Title>
                                         <Steps.Separator />
