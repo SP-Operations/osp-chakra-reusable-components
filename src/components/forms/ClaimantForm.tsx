@@ -33,7 +33,10 @@ export const ClaimantForm = (params: ClaimantFormParams) => {
         lastName: "",
         email: "",
         relToPh: "",
-        payoutChannel: ""
+        payoutChannel: "",
+        middleName: "",
+        mobile: "",
+        suffix: ""
     })
 
     // Summary:
@@ -112,14 +115,14 @@ export const ClaimantForm = (params: ClaimantFormParams) => {
             <Box textStyle="sm">Please provide the following information.</Box>
         </Box>
 
-        <Grid templateColumns="1fr 225px">
+        <Grid templateColumns="1fr 250px">
             <GridItem padding="10px" display="flex" flexDirection="column" gap="10px">
                 <Box display="flex" gap="15px">
                     <InputFloatingLabel name="lastName" label="Last Name" value={claimant.lastName} onChange={(e) => setClaimant({...claimant, lastName: e.target.value })} />
                     <InputFloatingLabel name="firstName" label="First Name" value={claimant.firstName} onChange={(e) => setClaimant({...claimant, firstName: e.target.value})} />
                     <InputFloatingLabel name="middleName" label="Middle Name" value={claimant.middleName} onChange={(e) => setClaimant({...claimant, middleName: e.target.value})} />
 
-                    <Box maxW="65px">
+                    <Box maxW="100px" flexShrink={0}>
                         <InputFloatingLabel name="suffix" label="Suffix" value={claimant.suffix} onChange={(e) => setClaimant({...claimant, suffix: e.target.value})} />
                     </Box>
                 </Box>
@@ -131,7 +134,7 @@ export const ClaimantForm = (params: ClaimantFormParams) => {
 
                 <Box display="flex" gap="15px">
                     <Select.Root collection={relationship} onValueChange={(e) => {
-                        const value = e.value[0] ?? '';
+                        const value = e.value[0] ?? "";
                         setRelToPh([value]);
                         setClaimant({...claimant, relToPh: value})
                     }} value={relToPh}>
@@ -152,7 +155,6 @@ export const ClaimantForm = (params: ClaimantFormParams) => {
                                         {relationship.items.map((rel) => (
                                             <Select.Item item={rel} key={rel}>
                                                 {rel}
-                                                <Select.Indicator />
                                             </Select.Item>
                                         ))}
                                     </Select.Content>
@@ -217,9 +219,14 @@ export const ClaimantForm = (params: ClaimantFormParams) => {
                 </Box>
             </GridItem>
 
-            <GridItem padding="7px 10px" border="1px solid #27272a">
+            <GridItem 
+                padding="7px 10px" 
+                borderColor="border" borderWidth="1px" borderStyle="solid" borderRadius="3px" 
+                background="bg.muted"
+                colorPalette="teal"
+            >
                 {claimantList.length !== 0 && (
-                    <Box display="flex" alignItems="center" padding="10px 0" marginBottom="10px" borderBottom="1px solid #27272a">
+                    <Box display="flex" alignItems="center" padding="10px 0" marginBottom="10px" borderBottomColor="border" borderBottomWidth="1px" borderBottomStyle="solid">
                         <LuUserRound size="20px" />
                         <Text>Claimnat's</Text>
                     </Box>
@@ -235,7 +242,8 @@ export const ClaimantForm = (params: ClaimantFormParams) => {
                             onContinueClick={() => {
                                 const newClaimantList = claimantList.filter((item) => item.index !== model.index);
                                 setClaimantList(newClaimantList);
-                            }} />
+                            }}
+                            key={model.index.toString()} />
                     ))}
 
                     {claimantList.length === 0 && (

@@ -1,5 +1,7 @@
 // Author: Jimwell Arvin L. Ocsio
 
+import { HoverCardPropsProvider } from "@chakra-ui/react";
+
 export type Claimant = {
     index: number;
     firstName: string;
