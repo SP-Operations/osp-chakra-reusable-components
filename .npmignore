@@ -4,6 +4,5 @@
 tsconfig.json
 tsup.config.ts
 /*.tgz
-/scripts/generate-index.ts
-/scripts/generate-index.js
+/scripts
 /dev.readme
