@@ -2,11 +2,14 @@
 
 import React from 'react'
 import { type Claimant, type PhClaimant } from '../../models/types/claim.types';
-import { Box, Button, CloseButton, Container, Dialog, FileUpload, Grid, GridItem, Icon, Portal, Stack, Steps, Table, Text } from '@chakra-ui/react';
-import { LuUpload } from 'react-icons/lu';
+import { Box, Button, CloseButton, Container, Dialog, FieldRoot, FileUpload, Flex, Grid, GridItem, Heading, Icon, Portal, Stack, Steps, Table, Text, useDisclosure } from '@chakra-ui/react';
+import { LuUpload, LuUserRound } from 'react-icons/lu';
 import { PlanholderForm } from '../../components/forms/PlanholderForm';
 import { ClaimantForm } from '../../components/forms/ClaimantForm';
 import { SuccessPage } from '../success-page/SuccessPage';
+import { ClaimantCard } from '../../components/cards/ClaimantCard';
+import { PrimaryMdButton } from 'st-peter-ui';
+import { ClaimantPopUpForm } from '../../components/forms/ClaimantPopUpForm';
 
 export const FileClaimPage = () => {
     // Summary:
@@ -153,13 +156,26 @@ export const FileClaimPage = () => {
         genRandomPh();
     }, []);
 
+
+    const [claimantModel, setClaimantModel] = React.useState<Claimant>({
+        index: 0,
+        firstName: "",
+        lastName: "",
+        email: "",
+        relToPh: "",
+        payoutChannel: "",
+        middleName: "",
+        mobile: "",
+        suffix: ""
+    });
+
+    const {open, onOpen, onClose} = useDisclosure();
+
     return (
         <Container
             display="flex" flexDirection="column" 
-            height="fit-content" width="100%" 
+            height="fit-content" maxW="7xl" width="100%"
             gap="20px" padding="20px"
-            borderStyle="solid" borderColor="border" borderWidth="1px" borderRadius="8px"
-            boxShadow="sm" boxShadowColor="bg.muted"
         >
             <Steps.Root defaultStep={0} count={stepTitles.length} step={stepNumber} onStepChange={(e) => setStepNumber(e.step)}>
                 {(pageNumber < 5) && (
@@ -206,25 +222,31 @@ export const FileClaimPage = () => {
                                 </Box>
                             </Container>
 
-                            <Container border="1px solid gray" display="flex" flexDirection="column" gap="10px" marginTop="10px" paddingTop="20px" paddingBottom="20px">
-                                <Text textStyle="md" fontWeight="semibold">Upload Documents</Text>
-                                <Box textStyle="sm">Please upload the required documents listed in the previous step.</Box>
-                                <FileUpload.Root alignItems="stretch">
-                                    <FileUpload.HiddenInput />
-                                    <FileUpload.Dropzone>
-                                        <Icon size="md" color="fg.muted">
-                                            <LuUpload />
-                                        </Icon>
+                            <Container display="flex" flexDirection="column" gap="10px" marginTop="10px" padding="20px 0">
+                                <Flex gap="15px">
+                                    <Box>
+                                        <Text textStyle="md" fontWeight="semibold">Upload Documents</Text>
+                                        <Box textStyle="sm">Please upload the required documents listed in the previous step.</Box>
+                                        <FileUpload.Root alignItems="stretch">
+                                            <FileUpload.HiddenInput />
+                                            <FileUpload.Dropzone>
+                                                <Icon size="md" color="fg.muted">
+                                                    <LuUpload />
+                                                </Icon>
 
-                                        <FileUpload.DropzoneContent>
-                                            <Box>Drag and drop files here.</Box>
-                                            <Box color="fg.muted">
-                                                Upload the required documents in PDF.
-                                            </Box>
-                                        </FileUpload.DropzoneContent>
-                                    </FileUpload.Dropzone>
-                                    <FileUpload.List clearable />
-                                </FileUpload.Root>
+                                                <FileUpload.DropzoneContent>
+                                                    <Box>Drag and drop files here.</Box>
+                                                    <Box color="fg.muted">
+                                                        Upload the required documents in PDF.
+                                                    </Box>
+                                                </FileUpload.DropzoneContent>
+                                            </FileUpload.Dropzone>
+                                            <FileUpload.List clearable />
+                                        </FileUpload.Root>
+                                    </Box>
+
+                                    <FieldRoot></FieldRoot>
+                                </Flex>
                             </Container>
                         </>
                     )}
@@ -234,7 +256,89 @@ export const FileClaimPage = () => {
                     )}
 
                     {(pageNumber === 3) && (
-                        <ClaimantForm onClaimantEvent={setClaimantList} value={claimantList} />
+                        <>
+                            {/* <ClaimantForm onClaimantEvent={setClaimantList} value={claimantList} /> */}
+                            <Box>
+                                <Heading size="lg">Claimant's</Heading>
+                                <Text fontSize="md" mb="4" fontStyle={"italic"}>
+                                    Provide the necessary details of the claimant(s) who will be receiving the claim benefits on behalf of the planholder.
+                                </Text>
+                            </Box>
+
+                            <Box>
+                                <Dialog.Root open={open} size="xl" placement="center">
+                                    <Dialog.Trigger asChild>
+                                        <PrimaryMdButton onClick={onOpen}>Add Claimant</PrimaryMdButton>
+                                    </Dialog.Trigger>
+
+                                    <Portal>
+                                        <Dialog.Backdrop />
+                                        <Dialog.Positioner>
+                                            <Dialog.Content>
+                                                <Dialog.Body>
+                                                    <ClaimantPopUpForm value={claimantModel}
+                                                        onCancel={() => {
+                                                            setClaimantModel({
+                                                                index: 0,
+                                                                firstName: "",
+                                                                lastName: "",
+                                                                email: "",
+                                                                relToPh: "",
+                                                                payoutChannel: "",
+                                                                middleName: "",
+                                                                mobile: "",
+                                                                suffix: ""
+                                                            });
+                                                            onClose();
+                                                        }}  
+
+                                                        onSubmit={(value) => {
+                                                            const maxIndex = claimantList.length > 0 ? Math.max(...claimantList.map(item => item.index)) + 1 : 1;
+                                                            const newClaimantList = [...claimantList, {...value, index: maxIndex}];
+                                                            setClaimantList(newClaimantList);
+                                                            setClaimantModel(
+                                                                {
+                                                                index: 0,
+                                                                firstName: "",
+                                                                lastName: "",
+                                                                email: "",
+                                                                relToPh: "",
+                                                                payoutChannel: "",
+                                                                middleName: "",
+                                                                mobile: "",
+                                                                suffix: ""
+                                                            });
+                                                            onClose();
+                                                        }}
+                                                    />
+                                                </Dialog.Body>
+                                            </Dialog.Content>
+                                        </Dialog.Positioner>
+                                    </Portal>
+                                </Dialog.Root>
+                            </Box>
+
+                            <Box>
+                                {claimantList.length === 0 ? (
+                                    <Box display="flex" justifyContent="center" alignItems="center" height="100%" flexDirection="column" minHeight="200px" 
+                                        borderRadius="4px" background="gray.50"
+                                    >
+                                        <LuUserRound size="40px" color="#a1a1aa" />
+                                        <Text textStyle="sm" color="#a1a1aa">No claimant's added.</Text>
+                                    </Box>
+                                )
+                                : (
+                                    claimantList.map((item, index) => (
+                                        <ClaimantCard key={index} value={item} onValueChange={(e)=> {
+                                            let filteredList = claimantList.filter((item, i) => item.index !== e.index);
+                                            let newList = [...filteredList, e];
+                                            let sortedList = newList.sort((a, b) => a.index - b.index);
+                                            setClaimantList(sortedList);
+                                        }}/>
+                                    ))
+                                )}
+                            </Box>
+                        </>
                     )}
 
                     {(pageNumber === 4) && (

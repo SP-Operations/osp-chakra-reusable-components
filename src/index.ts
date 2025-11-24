@@ -1,5 +1,7 @@
+export * from './components/cards/ClaimantCard';
 export * from './components/cards/ClaimantHoverCard';
 export * from './components/forms/ClaimantForm';
+export * from './components/forms/ClaimantPopUpForm';
 export * from './components/forms/PayoutChannelForm';
 export * from './components/forms/PlanholderForm';
 export * from './components/forms/RopPlanListForm';
