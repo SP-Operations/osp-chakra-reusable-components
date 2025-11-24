@@ -8,7 +8,7 @@ import { PlanholderForm } from '../../components/forms/PlanholderForm';
 import { ClaimantForm } from '../../components/forms/ClaimantForm';
 import { SuccessPage } from '../success-page/SuccessPage';
 import { ClaimantCard } from '../../components/cards/ClaimantCard';
-import { PrimaryMdButton } from 'st-peter-ui';
+import { PrimaryMdButton, SecondaryMdButton } from 'st-peter-ui';
 import { ClaimantPopUpForm } from '../../components/forms/ClaimantPopUpForm';
 
 export const FileClaimPage = () => {
@@ -189,7 +189,7 @@ export const FileClaimPage = () => {
                                 {stepTitles.map((step, index) => (
                                     <Steps.Item key={index} index={index} title={step} colorPalette="green">
                                         <Steps.Indicator />
-                                        <Steps.Title>{step}</Steps.Title>
+                                        <Steps.Title display={{base:"block", mdDown:"none"}}>{step}</Steps.Title>
                                         <Steps.Separator />
                                     </Steps.Item> 
                                 ))}
@@ -452,16 +452,14 @@ export const FileClaimPage = () => {
                         </Box>
                     )}
 
-                    <Box display="flex" gap="10px" flexDirection="row" justifyContent="flex-end" marginTop="auto">
-                        {(pageNumber > 1 && pageNumber < 5) && (
-                            <Steps.PrevTrigger asChild>
-                                <Button variant="ghost" onClick={onPrevBtnClick}>Previous</Button>
-                            </Steps.PrevTrigger>
-                        )}
+                    <Box display="flex" gap="10px" flexDirection="row" justifyContent="space-between" marginTop="auto">
+                        <Steps.PrevTrigger asChild>
+                            <SecondaryMdButton onClick={onPrevBtnClick} visibility={(pageNumber > 1 && pageNumber < 5) ? "visible" : "hidden"}>Previous</SecondaryMdButton>
+                        </Steps.PrevTrigger>
 
                         {(pageNumber < 5) && (
                             <Steps.NextTrigger asChild>
-                                <Button onClick={onNextBtnClick}>{(pageNumber) >= 4 ? "Submit" : "Next"}</Button>
+                                <PrimaryMdButton onClick={onNextBtnClick}>{(pageNumber) >= 4 ? "Submit" : "Next"}</PrimaryMdButton>
                             </Steps.NextTrigger>
                         )}
                     </Box>
