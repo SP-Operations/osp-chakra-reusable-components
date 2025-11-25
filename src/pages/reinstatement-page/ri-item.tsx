@@ -15,8 +15,7 @@ import {
     Flex
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { LuInfo } from "react-icons/lu";
-import { BaseButton, InputFloatingLabel } from "st-peter-ui";
+import { InputFloatingLabel, SecondarySmButton } from "st-peter-ui";
 
 interface CheckedPlan {
   lpaNo: string;
@@ -106,6 +105,7 @@ export default function RIPlanItem({ plan, onChange }: RIPlanItemProps) {
               <CheckboxCard.Label>{plan.duedate}</CheckboxCard.Label>
               <CheckboxCard.Description>Due Date</CheckboxCard.Description>
             </CheckboxCard.Content>
+            <SecondarySmButton  onClick={onOpen}>View Details</SecondarySmButton>
           </CheckboxCard.Control>
         </CheckboxCard.Root>
 
