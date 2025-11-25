@@ -14,10 +14,11 @@ export interface SuccessProps {
   title?: string;
   description?: string;
   transactionId?: string;
-  totalAmount?: string;
+  totalAmount: string;
   dateTime?: string;
-  onClickHome?: () => void;
-  onClickProceed?: () => void;
+  onClickHome: () => void;
+  onClickProceed: () => void;
+  variant: "payment" | "application";
 }
 
 const Success = ({
@@ -28,6 +29,7 @@ const Success = ({
   dateTime,
   onClickHome,
   onClickProceed,
+  variant,
 }: SuccessProps) => {
   return (
     <Flex
@@ -82,7 +84,9 @@ const Success = ({
             color="gray.700"
             fontSize={{ base: "sm", md: "md" }}
           >
-            Transaction Summary
+            {variant === "application"
+              ? "Reference Details"
+              : "Transaction Summary"}
           </Text>
 
           <Box h="1px" bg="gray.200" mb={4} />
@@ -95,12 +99,14 @@ const Success = ({
               </Text>
             </Flex>
 
-            <Flex justify="space-between" wrap="wrap" gap={2}>
-              <Text color="gray.600">Total Amount Paid:</Text>
-              <Text fontWeight="bold" color="green.600">
-                {totalAmount}
-              </Text>
-            </Flex>
+            {variant === "payment" && (
+              <Flex justify="space-between" wrap="wrap" gap={2}>
+                <Text color="gray.600">Total Amount Paid:</Text>
+                <Text fontWeight="bold" color="green.600">
+                  {totalAmount}
+                </Text>
+              </Flex>
+            )}
 
             <Flex justify="space-between" wrap="wrap" gap={2}>
               <Text color="gray.600">Date & Time:</Text>
