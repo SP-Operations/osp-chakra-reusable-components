@@ -131,10 +131,20 @@ export function RIPage({initialPlans, onSubmit}: RIProps) {
               borderTopLeftRadius={"md"}
               borderTopEndRadius={"md"}
             >
-              <Heading size="lg">Lapsed Plans</Heading>
-              <Text fontSize="sm" mb="4" fontStyle={"italic"}>
-                Kindly select plans you want to reinstate.
-              </Text>
+              <Flex justify={"space-between"}>
+                <Box>
+                  <Heading size="lg">Lapsed Plans</Heading>
+                  <Text fontSize="sm" mb="4" fontStyle={"italic"}>
+                    Kindly select plans you want to reinstate.
+                  </Text>
+                </Box>
+                <Box textAlign={"right"}>
+                  <Text fontSize="sm" fontStyle={"italic"}>
+                    No. of plans selected:
+                  </Text>
+                  <Heading size="lg">{checkedPlans.length}/{phLapsedPlans.length}</Heading>
+                </Box>
+              </Flex>
               {phLapsedPlans.length === 0 ? (
                 <Text>No lapsed plans available for reinstatement.</Text>
               ) : (
