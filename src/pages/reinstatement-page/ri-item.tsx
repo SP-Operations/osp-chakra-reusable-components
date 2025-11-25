@@ -15,7 +15,7 @@ import {
     Flex
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { InputFloatingLabel, SecondarySmButton } from "st-peter-ui";
+import { BaseButton, InputFloatingLabel, SecondarySmButton } from "st-peter-ui";
 
 interface CheckedPlan {
   lpaNo: string;
@@ -336,10 +336,9 @@ export default function RIPlanItem({ plan, onChange }: RIPlanItemProps) {
                     </Text>
                   </Box>
                   <Box mt={3} mx={"auto"} textAlign={"center"}>
-                    <Button
-                      bg={
-                        isChecked ? "red.600" : "var(--chakra-colors-primary)"
-                      }
+                    <BaseButton
+                      variant={isChecked ? "outline" : "solid"}
+                      bg={"var(--chakra-colors-primary)"}
                       onClick={() => {
                         setIsChecked((checked) => !checked);
                         onChange?.(!isChecked, {
@@ -353,7 +352,7 @@ export default function RIPlanItem({ plan, onChange }: RIPlanItemProps) {
                       }}
                     >
                       {isChecked ? "Unselect" : "Select"}
-                    </Button>
+                    </BaseButton>
                   </Box>
                 </Dialog.Body>
                 <Dialog.CloseTrigger asChild>

@@ -4,7 +4,7 @@ import { LuUpload } from "react-icons/lu";
 
 export const UploadFile = () => {
   return (
-    <FileUpload.Root maxFiles={10} display="inline-block">
+    <FileUpload.Root maxFiles={10} display="inline-block" maxW="2xl">
       <FileUpload.HiddenInput />
       <FileUpload.Dropzone>
         <Icon size="md" color="fg.muted">
@@ -22,19 +22,22 @@ export const UploadFile = () => {
       </FileUpload.Dropzone>
       <FileUpload.ItemGroup>
         <Box my="1">
-          <Grid templateColumns={{ sm: "repeat(2, 1fr)" }} gap="2">
+          {/* <Grid templateColumns={{ sm: "repeat(2, 1fr)" }} gap="2"> */}
+          <Grid templateColumns="repeat(auto-fit, minmax(120px, 1fr))" gap={2}>
             <FileUpload.Context>
               {({ acceptedFiles }) =>
-                acceptedFiles.map((file) => (
+                acceptedFiles.map((file, index) => (
                   <FileUpload.Item
-                    key={file.name}
+                    key={index}
                     file={file}
                     overflow="hidden"
+                    maxH={"300px"}
                   >
                     <FileUpload.ItemPreviewImage
-                      objectFit="cover"
+                      objectFit="contain"
                       borderRadius="md"
                       mb="3"
+                      // maxH={"300px"}
                     />
 
                     <FileUpload.ItemDeleteTrigger
