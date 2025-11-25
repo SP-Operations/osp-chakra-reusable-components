@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Flex, Table, Checkbox, Text } from "@chakra-ui/react";
+import { Box, Flex, Table, Checkbox, Text, Heading } from "@chakra-ui/react";
 import type { IRopSchema } from "../../models/types/rop.types";
 import { PrimarySmButton, SecondarySmButton } from "st-peter-ui";
 import { ListItem, ListItemColumn } from "../list-item/list-item";
@@ -14,6 +14,7 @@ export function RopPlanListForm({ data, onClick }: RopPlanListProps) {
 
   // Toggle single row
   const toggleSelect = (id: string) => {
+    console.log(id);
     setSelected((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
@@ -112,7 +113,17 @@ export function RopPlanListForm({ data, onClick }: RopPlanListProps) {
     //     </PrimarySmButton>
     //   </Flex>
     // </Box>
-    <Box>
+
+    <Box
+      p="6"
+      border={"1px solid #ddd"}
+      borderTopLeftRadius={"md"}
+      borderTopEndRadius={"md"}
+    >
+      <Heading size="lg">List of Fully Paid Plans</Heading>
+      <Text fontSize="sm" mb="4" fontStyle={"italic"}>
+        Kindly select plans you want to request.
+      </Text>
       {data.map((item) => (
         <ListItem
           selectable={true}

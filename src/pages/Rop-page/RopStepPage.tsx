@@ -53,12 +53,16 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
     <Box maxW="7xl" w="full" mx="auto">
       {step === 1 && (
         <Box mb="4">
-          <H2>PAYOUT CHANNEL</H2>
+          <Text textStyle="2xl" fontWeight="semibold" textAlign={"center"}>
+            PAYOUT CHANNEL
+          </Text>
         </Box>
       )}
       {step === 2 && (
         <Box mb="4">
-          <H2>SUMMARY DETAILS OVERVIEW</H2>
+          <Text textStyle="2xl" fontWeight="semibold" textAlign={"center"}>
+            SUMMARY DETAILS OVERVIEW
+          </Text>
         </Box>
       )}
 

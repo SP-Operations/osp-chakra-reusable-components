@@ -1,5 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import { Box, Field, Input, defineStyle } from "@chakra-ui/react";
+import {
+  Box,
+  Field,
+  Input,
+  defineStyle,
+  useControllableState,
+} from "@chakra-ui/react";
 import type { InputProps } from "@chakra-ui/react";
 import type { UseFormRegisterReturn } from "react-hook-form";
 
@@ -7,12 +13,15 @@ interface FloatingInputProps extends InputProps {
   label: string;
   register?: UseFormRegisterReturn;
   error?: string | undefined | null; // allow undefined and null
+  value?: string | undefined;
+  defaultValue?: string | undefined;
 }
 
 export const FloatingInput = ({
   label,
   register,
   error,
+  value,
   ...rest
 }: FloatingInputProps) => {
   const [focused, setFocused] = useState(false);
@@ -27,6 +36,9 @@ export const FloatingInput = ({
     }
   }, []);
   const shouldFloat = focused || hasValue;
+  const [inputState, setInputState] = useControllableState({
+    value,
+  });
 
   return (
     <Field.Root>
@@ -40,6 +52,10 @@ export const FloatingInput = ({
             setFocused(false);
             register?.onBlur?.(e);
             setHasValue(e.target.value !== ""); // RHF needs this
+          }}
+          onChange={(e) => {
+            register?.onChange(e);
+            setInputState(e.target.value);
           }}
           data-float={shouldFloat || undefined}
         />

@@ -87,7 +87,9 @@ export const RopPage = ({ onClick }: RopPageProps) => {
     <Card.Root w="7xl" border={0}>
       <Card.Body>
         <Box mb="4">
-          <H2>RETURN OF PREMIUM</H2>
+          <Text textStyle="2xl" fontWeight="semibold" textAlign={"center"}>
+            RETURN OF PREMIUM
+          </Text>
         </Box>
         <Steps.Root
           defaultStep={0}
@@ -99,7 +101,9 @@ export const RopPage = ({ onClick }: RopPageProps) => {
             {stepper.map((step, index) => (
               <Steps.Item key={index} index={index} title={step.title}>
                 <Steps.Indicator />
-                <Steps.Title>{step.title}</Steps.Title>
+                <Steps.Title display={{ base: "block", mdDown: "none" }}>
+                  {step.title}
+                </Steps.Title>
                 <Steps.Separator />
               </Steps.Item>
             ))}
