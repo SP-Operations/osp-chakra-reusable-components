@@ -26,7 +26,7 @@ import PayoutChannelForm from "../../components/forms/PayoutChannelForm";
 import ROPApplicationDetails from "../../components/others/RopApplicationDetails";
 import { H2, PrimaryMdButton, SecondaryMdButton } from "st-peter-ui";
 import { stepper } from "../../models/schema/RopMock";
-import { SuccessPage } from "../success-page/SuccessPage";
+import SuccessPage from "../success-page/SuccessPage";
 
 export function RopStepPage({ children, onClick }: ButtonParams) {
   const [step, setStep] = useState(1);
@@ -160,34 +160,12 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
       {/* Step 3: Success/Confirmation */}
       {step === 3 && (
         <Box display="flex" alignItems="center" justifyContent="center">
-          <Box>
-            <SuccessPage
-              title="ROP Successfully Submitted"
-              content={
-                <>
-                  <Text>
-                    Your ROP Transaction has been successfully submitted.
-                  </Text>
-                  <Text wordBreak="break-word">
-                    The reference number for your ROP is{" "}
-                    <strong>ROP{Math.floor(Math.random() * 1000000000)}</strong>
-                    . Please keep this number safe, as you will need it for any
-                    future inquiries, updates, or correspondence regarding this
-                    ROP. You may also use it to track the status of your ROP
-                    through our customer service or online portal.
-                  </Text>
-                </>
-              }
-              footer={
-                <Box display="flex" alignItems="center" justifyContent="center">
-                  <Stack direction="row" gap="10px">
-                    <Button variant="outline">Home</Button>
-                    <Button variant="solid">Track</Button>
-                  </Stack>
-                </Box>
-              }
-            />
-          </Box>
+          <SuccessPage
+            title="ROP Successfully Submitted"
+            description="Your application has been completed successfully. We will notify you via email or sms when there is an update."
+            transactionId={"ROP" + Math.floor(Math.random() * 1000000000)}
+            dateTime={new Date().toLocaleString()}
+          />
         </Box>
       )}
 
