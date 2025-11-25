@@ -16,11 +16,12 @@ export interface SuccessPageProps {
   transactionId?: string;
   totalAmount?: string;
   dateTime?: string;
-  onClickHome?: () => void;
-  onClickProceed?: () => void;
+  onClickHome: () => void;
+  onClickProceed: () => void;
+  variant: "payment" | "application";
 }
 
-const SuccessPage = ({
+export const SuccessPage = ({
   title,
   description,
   transactionId,
@@ -28,6 +29,7 @@ const SuccessPage = ({
   dateTime,
   onClickHome,
   onClickProceed,
+  variant,
 }: SuccessPageProps) => {
   return (
     <Flex
@@ -82,7 +84,9 @@ const SuccessPage = ({
             color="gray.700"
             fontSize={{ base: "sm", md: "md" }}
           >
-            Transaction Summary
+            {variant === "application"
+              ? "Reference Details"
+              : "Transaction Summary"}
           </Text>
 
           <Box h="1px" bg="gray.200" mb={4} />
@@ -95,12 +99,14 @@ const SuccessPage = ({
               </Text>
             </Flex>
 
-            <Flex justify="space-between" wrap="wrap" gap={2}>
-              <Text color="gray.600">Total Amount Paid:</Text>
-              <Text fontWeight="bold" color="green.600">
-                {totalAmount}
-              </Text>
-            </Flex>
+            {variant === "payment" && (
+              <Flex justify="space-between" wrap="wrap" gap={2}>
+                <Text color="gray.600">Total Amount Paid:</Text>
+                <Text fontWeight="bold" color="green.600">
+                  {totalAmount}
+                </Text>
+              </Flex>
+            )}
 
             <Flex justify="space-between" wrap="wrap" gap={2}>
               <Text color="gray.600">Date & Time:</Text>
@@ -138,4 +144,3 @@ const SuccessPage = ({
   );
 };
 
-export default SuccessPage;
