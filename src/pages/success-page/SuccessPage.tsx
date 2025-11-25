@@ -10,18 +10,18 @@ import {
 } from "@chakra-ui/react";
 import { FiCheck } from "react-icons/fi";
 
-export interface SuccessProps {
+export interface SuccessPageProps {
   title?: string;
   description?: string;
   transactionId?: string;
-  totalAmount: string;
+  totalAmount?: string;
   dateTime?: string;
   onClickHome: () => void;
   onClickProceed: () => void;
   variant: "payment" | "application";
 }
 
-const Success = ({
+export const SuccessPage = ({
   title,
   description,
   transactionId,
@@ -30,7 +30,7 @@ const Success = ({
   onClickHome,
   onClickProceed,
   variant,
-}: SuccessProps) => {
+}: SuccessPageProps) => {
   return (
     <Flex
       minH="calc(100vh - 120px)"
@@ -144,4 +144,3 @@ const Success = ({
   );
 };
 
-export default Success;
