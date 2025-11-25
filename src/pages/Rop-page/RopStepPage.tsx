@@ -26,7 +26,7 @@ import PayoutChannelForm from "../../components/forms/PayoutChannelForm";
 import ROPApplicationDetails from "../../components/others/RopApplicationDetails";
 import { H2, PrimaryMdButton, SecondaryMdButton } from "st-peter-ui";
 import { stepper } from "../../models/schema/RopMock";
-import SuccessPage from "../success-page/SuccessPage";
+import { SuccessPage } from "../success-page/SuccessPage";
 
 export function RopStepPage({ children, onClick }: ButtonParams) {
   const [step, setStep] = useState(1);
