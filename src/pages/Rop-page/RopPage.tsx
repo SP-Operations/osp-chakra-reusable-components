@@ -26,6 +26,7 @@ import { mock, stepper } from "../../models/schema/RopMock";
 import { FileUpload } from "../../components/others/FileUpload";
 import { H2, PrimaryMdFlexButton } from "st-peter-ui";
 import { FloatingInput } from "../../components/others/FloatingInput";
+import { UploadFile } from "../../components/others/UploadFile";
 
 type RopPageProps = {
   onClick: () => void;
@@ -83,14 +84,26 @@ export const RopPage = ({ onClick }: RopPageProps) => {
   };
 
   return (
-    <Card.Root maxW="5xl" p="4" boxShadow="sm" colorPalette={"green"}>
+    <Card.Root w="7xl" border={0}>
       <Card.Body>
-        <Steps.Root defaultStep={0} count={stepper.length} mb="8">
+        <Box mb="4">
+          <Text textStyle="2xl" fontWeight="semibold" textAlign={"center"}>
+            RETURN OF PREMIUM
+          </Text>
+        </Box>
+        <Steps.Root
+          defaultStep={0}
+          count={stepper.length}
+          mb="8"
+          colorPalette={"green"}
+        >
           <Steps.List>
             {stepper.map((step, index) => (
               <Steps.Item key={index} index={index} title={step.title}>
                 <Steps.Indicator />
-                <Steps.Title>{step.title}</Steps.Title>
+                <Steps.Title display={{ base: "block", mdDown: "none" }}>
+                  {step.title}
+                </Steps.Title>
                 <Steps.Separator />
               </Steps.Item>
             ))}
@@ -98,9 +111,7 @@ export const RopPage = ({ onClick }: RopPageProps) => {
         </Steps.Root>
 
         {/* Instructions */}
-        <Box mb="4">
-          <H2>RETURN OF PREMIUM</H2>
-        </Box>
+
         <Box mb="6">
           {/* <Text textStyle="sm"> */}
           <Heading size="md" mb="2">
@@ -152,14 +163,15 @@ export const RopPage = ({ onClick }: RopPageProps) => {
           <Collapsible.Root open={showSearch}>
             <Flex gap="8" flexWrap="wrap">
               {/* Left: File Upload */}
-              <Box flex="1" minW="300px">
+              <Box flex="1" minW="300px ">
                 <Text mb="4">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Upload valid Government issued ID with signature
                 </Text>
-                <FileUpload
+                {/* <FileUpload
                   id="govId"
                   label="Government issued ID with signature"
-                />
+                /> */}
+                <UploadFile />
               </Box>
 
               {/* Right: ROP Form */}
