@@ -24,7 +24,7 @@ import type {
 } from "../../models/types/rop.types";
 import PayoutChannelForm from "../../components/forms/PayoutChannelForm";
 import ROPApplicationDetails from "../../components/others/RopApplicationDetails";
-import { PrimaryMdButton } from "st-peter-ui";
+import { H2, PrimaryMdButton, SecondaryMdButton } from "st-peter-ui";
 import { stepper } from "../../models/schema/RopMock";
 import { SuccessPage } from "../success-page/SuccessPage";
 
@@ -50,15 +50,18 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
   ];
 
   return (
-    <Box
-      maxW="3xl"
-      w="full"
-      mx="auto"
-      p={6}
-      borderWidth={1}
-      borderRadius="md"
-      boxShadow="sm"
-    >
+    <Box maxW="7xl" w="full" mx="auto" p="8">
+      {step === 1 && (
+        <Box mb="4">
+          <H2>PAYOUT CHANNEL</H2>
+        </Box>
+      )}
+      {step === 2 && (
+        <Box mb="4">
+          <H2>SUMMARY DETAILS OVERVIEW</H2>
+        </Box>
+      )}
+
       <Steps.Root defaultStep={1} count={stepper.length} colorPalette={"green"}>
         {step < 3 && (
           <Steps.List mb="8">
@@ -80,7 +83,8 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
                 ? "Select Payout Channel"
                 : "Register Payout Channel"}
             </Heading>
-            {mode === "new" && (
+
+            {mode === "new" ? (
               <Text
                 fontSize="sm"
                 color="gray.500"
@@ -93,10 +97,22 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
                 Kindly upload the required documents and register your preferred
                 payout channel.
               </Text>
+            ) : (
+              <Box
+                color="gray.500"
+                borderBottom="1px solid"
+                borderColor="gray.200"
+                display="block"
+                w="full"
+                pb={2}
+              ></Box>
             )}
             <PayoutChannelForm mode={mode} setMode={setMode} document={docs} />
             {mode === "existing" && (
-              <Flex justify="flex-end" w="full" px="4">
+              <Flex justify="space-between" w="full" px="4">
+                <SecondaryMdButton onClick={() => window.history.back()}>
+                  PREVIOUS
+                </SecondaryMdButton>
                 <Steps.NextTrigger asChild>
                   <PrimaryMdButton onClick={nextStep}>Next</PrimaryMdButton>
                 </Steps.NextTrigger>
@@ -116,20 +132,19 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
             {!isEditing && (
               <Flex justify="space-between" w="full" pt={4}>
                 <Steps.PrevTrigger asChild>
-                  <Button colorScheme="gray" onClick={prevStep}>
-                    Back
-                  </Button>
+                  <SecondaryMdButton onClick={prevStep}>
+                    PREVIOUS
+                  </SecondaryMdButton>
                 </Steps.PrevTrigger>
                 <Steps.NextTrigger asChild>
-                  <Button
-                    colorScheme="blue"
+                  <PrimaryMdButton
                     // onClick={() => {
-                    //   //   setIsSuccessModalOpen(true);
+                    //   setIsSuccessModalOpen(true);
                     // }}
                     onClick={nextStep}
                   >
                     Submit
-                  </Button>
+                  </PrimaryMdButton>
                 </Steps.NextTrigger>
               </Flex>
             )}
@@ -178,20 +193,22 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
             <Dialog.Positioner>
               <Dialog.Content>
                 <Dialog.Header>
-                  <Dialog.Title>Request Submitted!</Dialog.Title>
+                  <Dialog.Title>NOTIFICATION!</Dialog.Title>
                 </Dialog.Header>
                 <Dialog.Body>
-                  <Text>
-                    Your Return of premium request has been successfully
-                    submitted.
-                  </Text>
+                  <Text>Would you like to Submit?</Text>
                 </Dialog.Body>
                 <Dialog.Footer>
                   <Dialog.ActionTrigger asChild>
-                    <Button variant="outline" onClick={onClick}>
-                      Close
-                    </Button>
+                    <Button variant="outline">Cancel</Button>
                   </Dialog.ActionTrigger>
+
+                  <PrimaryMdButton
+                    // onClick={onClick}
+                    onClick={nextStep}
+                  >
+                    Yes
+                  </PrimaryMdButton>
                 </Dialog.Footer>
               </Dialog.Content>
             </Dialog.Positioner>

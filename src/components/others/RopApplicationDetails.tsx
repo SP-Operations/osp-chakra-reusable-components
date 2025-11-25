@@ -42,7 +42,7 @@ export default function ROPApplicationDetails({
   const onSubmit = ropForm.handleSubmit(handleSave);
 
   return (
-    <Box maxW="4xl" w="full" p={4}>
+    <Box maxW="7xl" w="full" p={4}>
       {/* Header */}
       <Flex justify="space-between" align="center" mb={6}>
         <Box>
@@ -63,7 +63,7 @@ export default function ROPApplicationDetails({
         <Flex gap={2}>
           {!isEditing ? (
             <Button size="sm" onClick={() => setIsEditing(true)}>
-              <Edit2 size={16} />
+              {/* <Edit2 size={16} /> */}
               Edit
             </Button>
           ) : (

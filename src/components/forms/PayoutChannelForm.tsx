@@ -15,10 +15,13 @@ import {
   Button,
   Portal,
   createListCollection,
+  Grid,
 } from "@chakra-ui/react";
 import type { PayoutChannelFormProps } from "../../models/types/rop.types";
 import { FileUpload } from "../others/FileUpload";
 import { PrimaryMdFlexButton } from "st-peter-ui";
+import { UploadFile } from "../others/UploadFile";
+import { FloatingInput } from "../others/FloatingInput";
 
 export default function PayoutChannelForm({
   mode,
@@ -55,7 +58,7 @@ export default function PayoutChannelForm({
   });
 
   return (
-    <Box as="form" p={4} maxW="full" mx="auto">
+    <Box as="form" p={4} maxW="7xl" w="full" mx="auto">
       {/* Mode toggle */}
       {setMode && (
         <RadioGroup.Root mb={6} defaultValue="existing">
@@ -83,7 +86,7 @@ export default function PayoutChannelForm({
 
       {/* Existing payout */}
       {mode === "existing" && (
-        <Box borderWidth={1} borderRadius="md" p={4} maxW="3xl">
+        <Box borderWidth={1} borderRadius="md" p={4} w="full" mx="auto">
           <Flex justify="space-between" align="center" mb={4}>
             <Flex align="center">
               <Box mr={3}>{channelIcon}</Box>
@@ -128,14 +131,14 @@ export default function PayoutChannelForm({
                 borderWidth={1}
                 borderRadius="md"
                 overflow="hidden"
-                maxW="220px"
+                maxW="240px"
                 alignItems="center"
               >
                 <Image
                   src={item.src}
                   alt={item.label}
                   fit="contain"
-                  boxSize="200px"
+                  boxSize="220px"
                 />
                 <Box p={2} position="relative" bottom="0.5">
                   <Text fontSize="sm" textAlign="center" verticalAlign="middle">
@@ -150,9 +153,10 @@ export default function PayoutChannelForm({
 
       {/* New payout registration */}
       {(mode === "new" || mode == null) && (
-        <Box mb={6}>
-          <Box mb={4}>
-            <Text mb={1}>Payout Channel</Text>
+        <Grid templateColumns={{ lg: "repeat(2, 1fr)" }} gap={6}>
+          <Box my="8px">
+            {/* <Text mb={1}>Payout Channel</Text> */}
+
             <Select.Root
               variant={"outline"}
               key={"outline"}
@@ -162,7 +166,7 @@ export default function PayoutChannelForm({
               }
             >
               <Select.HiddenSelect />
-              <Select.Label>Select Payout Channel</Select.Label>
+              {/* <Select.Label>Select Payout Channel</Select.Label> */}
               <Select.Control>
                 <Select.Trigger>
                   <Select.ValueText placeholder="Select Payout Channel" />
@@ -186,21 +190,24 @@ export default function PayoutChannelForm({
             </Select.Root>
           </Box>
 
-          <Box mb={4}>
-            <Text mb={1}>Payout Account</Text>
-            <Input placeholder="Enter account number or wallet ID" />
+          <Box>
+            <FloatingInput
+              //   placeholder="Enter account number or wallet ID"
+              label={"Payout Account"}
+            />
           </Box>
 
-          <Flex direction="column" gap={4}>
-            {document?.map((item) => (
+          <Flex direction="column" gap={2}>
+            <UploadFile />
+            {/* {document?.map((item) => (
               <FileUpload id={item.id} label={item.label} key={item.id} />
-            ))}
+            ))} */}
           </Flex>
-        </Box>
+        </Grid>
       )}
 
       {(mode === "new" || mode == null) && isShowButton && (
-        <PrimaryMdFlexButton colorScheme="blue" type="submit">
+        <PrimaryMdFlexButton type="submit" mt="2">
           Register Payout Channel
         </PrimaryMdFlexButton>
       )}

@@ -31,6 +31,7 @@ export const FloatingInput = ({
     <Field.Root>
       <Box pos="relative" w="full" my="8px">
         <Input
+          ref={inputRef}
           {...register} // name, onChange, onBlur, ref
           {...rest} // type, disabled, etc.
           onFocus={() => setFocused(true)}

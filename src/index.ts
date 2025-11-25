@@ -6,6 +6,7 @@ export * from './components/forms/RopPlanListForm';
 export * from './components/others/FileUpload';
 export * from './components/others/FloatingInput';
 export * from './components/others/RopApplicationDetails';
+export * from './components/others/UploadFile';
 export * from './models/schema/RopMock';
 export * from './models/schema/RopSchema';
 export * from './models/types/claim.types';
