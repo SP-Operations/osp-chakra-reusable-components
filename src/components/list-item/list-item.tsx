@@ -2,7 +2,6 @@ import { CheckboxCard } from "@chakra-ui/react";
 import { useState } from "react";
 
 interface ListItemProps {
-  key?: string;
   selectable: boolean;
   onClick?: () => void;
   onCheckChange?: (checked: boolean) => void;
@@ -16,7 +15,7 @@ interface ListItemColumnProps {
 }
 
 export function ListItem(props: ListItemProps) {
-  const [isChecked, setIsChecked] = useState(props.isChecked);
+  const [isChecked, setIsChecked] = useState(props.isChecked ?? false);
 
   return (
     <CheckboxCard.Root
@@ -36,24 +35,29 @@ export function ListItem(props: ListItemProps) {
         },
       }}
       onClick={() => {
-        props.onClick;
-        if (props.selectable) setIsChecked((isChecked) => !isChecked);
+        props.onClick?.();
+        if (props.selectable) {
+          setIsChecked(isChecked => !isChecked);
+          props.onCheckChange?.(!isChecked)
+        }
       }}
     >
-      <CheckboxCard.Control
-        _hover={{
-          backgroundColor: "gray.200",
-          _checked: {
-            borderColor: "var(--chakra-colors-primary)",
-            backgroundColor: "var(--chakra-colors-primary-disabled)",
-          },
-        }}
-        _checked={{
-          borderColor: "var(--chakra-colors-primary-disabled)",
-          color: "var(--chakra-colors-primary-hover)",
-        }}
-      >
-        {props.selectable && <CheckboxCard.Indicator />}
+      <CheckboxCard.Control>
+        {props.selectable && (
+          <CheckboxCard.Indicator
+            _hover={{
+              backgroundColor: "gray.200",
+              _checked: {
+                borderColor: "var(--chakra-colors-primary)",
+                backgroundColor: "var(--chakra-colors-primary-disabled)",
+              },
+            }}
+            _checked={{
+              borderColor: "var(--chakra-colors-primary-disabled)",
+              color: "var(--chakra-colors-primary-hover)",
+            }}
+          />
+        )}
         {props.children}
       </CheckboxCard.Control>
     </CheckboxCard.Root>
