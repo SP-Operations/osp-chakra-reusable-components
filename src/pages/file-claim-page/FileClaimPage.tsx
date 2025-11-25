@@ -456,7 +456,10 @@ export const FileClaimPage = () => {
                                 `
                                 } 
                                 transactionId={`CL-${Math.floor(Math.random() * 1000000000)}`}
-                                dateTime={new Date().toLocaleString()} />
+                                dateTime={new Date().toLocaleString()}
+                                variant="application"
+                                onClickHome={() => {}}
+                                onClickProceed={() => {}} />
                             </Box>
                         </Box>
                     )}

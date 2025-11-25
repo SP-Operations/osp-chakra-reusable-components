@@ -4,7 +4,7 @@ import RIPlanItem from "./ri-item"
 import { useRef, useEffect, useState } from "react";
 import { ReviewReinstatementPage } from "./review";
 import PaymentPage from "./payment";
-import SuccessPage from "../success-page/SuccessPage";
+import {SuccessPage} from "../success-page/SuccessPage";
 
 interface PhLapsedPlan {
     lpaNo: string;
@@ -209,6 +209,9 @@ export function RIPage({initialPlans, onSubmit}: RIProps) {
               transactionId={`RI-${Math.floor(Math.random() * 1000000000)}`}
               totalAmount={TotalAmountDue.current?.innerText || ""}
               dateTime={new Date().toLocaleString()}
+              variant="payment"
+              onClickHome={() => {}}
+              onClickProceed={() => {}}
             />
           </Steps.CompletedContent>
 

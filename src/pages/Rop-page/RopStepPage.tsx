@@ -165,6 +165,9 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
             description="Your application has been completed successfully. We will notify you via email or sms when there is an update."
             transactionId={"ROP" + Math.floor(Math.random() * 1000000000)}
             dateTime={new Date().toLocaleString()}
+            variant="application"
+            onClickHome={() => {}}
+            onClickProceed={() => {}}
           />
         </Box>
       )}
