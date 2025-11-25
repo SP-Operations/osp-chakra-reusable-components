@@ -40,10 +40,11 @@ export const ClaimantPopUpForm = (params: ClaimantPopUpFormParams) => {
     return (
     <>
         <Box>
-            <Text textStyle="md" fontWeight="semibold">Claimant's Information</Text>
+            <Text textStyle="lg" fontWeight="semibold">Claimant Information</Text>
+            <Text textStyle="sm" fontWeight="initial">Please provide the following information.</Text>
         </Box>
 
-        <Flex gap="10px" flexDirection="column" marginTop="5px">
+        <Flex padding="5px" gap="10px" flexDirection="column" marginTop="5px">
             <Flex gap="15px">
                 <InputFloatingLabel 
                     name="lastName" 
@@ -79,7 +80,7 @@ export const ClaimantPopUpForm = (params: ClaimantPopUpFormParams) => {
             <Flex gap="15px">
                 <InputFloatingLabel 
                     name="email" 
-                    label="Email Addres"
+                    label="Email Address"
                     onChange={(e) => setClaimant({...claimant, email: e.target.value})}
                     value={claimant.email}
                 />
@@ -182,10 +183,11 @@ export const ClaimantPopUpForm = (params: ClaimantPopUpFormParams) => {
                 </FieldRoot>
             </Flex>
 
-            <Flex justify="space-between">
-                <SecondaryMdButton onClick={params.onCancel}>Cancel</SecondaryMdButton>
-                <PrimaryMdButton onClick={() => params.onSubmit(claimant)}>Add</PrimaryMdButton>
-            </Flex>
+        </Flex>
+
+        <Flex justify="space-between" mt="5px">
+            <SecondaryMdButton onClick={params.onCancel}>Cancel</SecondaryMdButton>
+            <PrimaryMdButton onClick={() => params.onSubmit(claimant)}>{claimant.index > 0 ? "Save" : "Add"}</PrimaryMdButton>
         </Flex>
     </>
     )

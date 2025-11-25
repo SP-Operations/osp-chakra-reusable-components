@@ -19,7 +19,7 @@ export const ClaimantCard = (params: ClaimantCardParams) => {
 
     return (
         <>
-            <CheckboxCard.Root my={2} variant="subtle" colorPalette="green" cursor="pointer" onClick={onOpen} checked={isChecked}>
+            <CheckboxCard.Root variant="subtle" colorPalette="green" cursor="pointer" onClick={onOpen} checked={isChecked}>
 
                 <CheckboxCard.Control>
                     <CheckboxCard.Indicator />

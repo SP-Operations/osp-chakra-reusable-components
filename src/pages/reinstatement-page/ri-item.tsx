@@ -15,8 +15,7 @@ import {
     Flex
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { LuInfo } from "react-icons/lu";
-import { BaseButton, InputFloatingLabel } from "st-peter-ui";
+import { BaseButton, InputFloatingLabel, SecondarySmButton } from "st-peter-ui";
 
 interface CheckedPlan {
   lpaNo: string;
@@ -106,6 +105,7 @@ export default function RIPlanItem({ plan, onChange }: RIPlanItemProps) {
               <CheckboxCard.Label>{plan.duedate}</CheckboxCard.Label>
               <CheckboxCard.Description>Due Date</CheckboxCard.Description>
             </CheckboxCard.Content>
+            <SecondarySmButton  onClick={onOpen}>View Details</SecondarySmButton>
           </CheckboxCard.Control>
         </CheckboxCard.Root>
 
@@ -336,10 +336,9 @@ export default function RIPlanItem({ plan, onChange }: RIPlanItemProps) {
                     </Text>
                   </Box>
                   <Box mt={3} mx={"auto"} textAlign={"center"}>
-                    <Button
-                      bg={
-                        isChecked ? "red.600" : "var(--chakra-colors-primary)"
-                      }
+                    <BaseButton
+                      variant={isChecked ? "outline" : "solid"}
+                      bg={"var(--chakra-colors-primary)"}
                       onClick={() => {
                         setIsChecked((checked) => !checked);
                         onChange?.(!isChecked, {
@@ -353,7 +352,7 @@ export default function RIPlanItem({ plan, onChange }: RIPlanItemProps) {
                       }}
                     >
                       {isChecked ? "Unselect" : "Select"}
-                    </Button>
+                    </BaseButton>
                   </Box>
                 </Dialog.Body>
                 <Dialog.CloseTrigger asChild>

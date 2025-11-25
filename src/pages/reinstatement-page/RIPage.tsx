@@ -1,11 +1,10 @@
-import { Text, Box, Card, Heading, Steps, Button, Stack, Container, ButtonGroup, Flex } from "@chakra-ui/react"
+import { Text, Box, Heading, Steps, Button, Stack, Container, Flex } from "@chakra-ui/react"
 import { PrimaryMdButton, SecondaryMdButton } from "st-peter-ui"
 import RIPlanItem from "./ri-item"
 import { useRef, useEffect, useState } from "react";
-import { LuCheck, LuFileText, LuFilePenLine, LuCreditCard } from "react-icons/lu";
 import { ReviewReinstatementPage } from "./review";
 import PaymentPage from "./payment";
-import { SuccessPage } from "../success-page/SuccessPage";
+import SuccessPage from "../success-page/SuccessPage";
 
 interface PhLapsedPlan {
     lpaNo: string;
@@ -39,11 +38,13 @@ interface RIProps {
   onSubmit: (selectedPlans: CheckedPlan[]) => void;
 }
 
-export default function RIPage({initialPlans, onSubmit}: RIProps) {
+export function RIPage({initialPlans, onSubmit}: RIProps) {
     const [phLapsedPlans] = useState<PhLapsedPlan[]>(initialPlans || []);
     const [checkedPlans, setCheckedPlans] = useState<CheckedPlan[]>([]);
     const TotalAmountDue = useRef<HTMLSpanElement>(null);
-
+    const TotalRIPayment = useRef<HTMLSpanElement>(null);
+    const TotalRIFee = useRef<HTMLSpanElement>(null);
+    
     const step1Next = useRef<HTMLButtonElement>(null);
     const [step, setStep] = useState(0)
 
@@ -62,9 +63,18 @@ export default function RIPage({initialPlans, onSubmit}: RIProps) {
 
     useEffect(() => {
         let totalDue = 0;
+        let totalRIPayment = 0;
+        let totalRIFee = 0;
         checkedPlans.forEach(plan => {
-            totalDue += plan.reinstatementFee + plan.reinstatementPayment;
+          totalRIPayment += plan.reinstatementPayment;
+          totalRIFee += plan.reinstatementFee;
+          totalDue += plan.reinstatementFee + plan.reinstatementPayment;
         });
+        
+        if (TotalRIPayment.current)
+            TotalRIPayment.current.innerText = totalRIPayment.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (TotalRIFee.current)
+            TotalRIFee.current.innerText = totalRIFee.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         if (TotalAmountDue.current)
             TotalAmountDue.current.innerText = totalDue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
@@ -83,7 +93,7 @@ export default function RIPage({initialPlans, onSubmit}: RIProps) {
           step={step}
           onStepChange={(e) => setStep(e.step)}
           count={steps.length}
-          mt={2}
+          my={5}
         >
           <Steps.List>
             {steps.map((step, index) => (
@@ -109,7 +119,7 @@ export default function RIPage({initialPlans, onSubmit}: RIProps) {
 
           {/* Step 1: Select Lapsed Plans */}
           <Steps.Content key={1} index={0}>
-            <Text mx={"auto"} textAlign={"center"} mb={5}>
+            <Text mx={"auto"} my={5}>
               Bring your plan back on track with ease. The Reinstatement option
               lets you reactivate a lapsed plan so you can continue enjoying
               your benefits and resume payments smoothly.
@@ -121,23 +131,31 @@ export default function RIPage({initialPlans, onSubmit}: RIProps) {
               borderTopLeftRadius={"md"}
               borderTopEndRadius={"md"}
             >
-              <Heading size="lg">Lapsed Plans</Heading>
-              <Text fontSize="sm" mb="4" fontStyle={"italic"}>
-                Kindly select plans you want to reinstate.
-              </Text>
+              <Flex justify={"space-between"}>
+                <Box>
+                  <Heading size="lg">Lapsed Plans</Heading>
+                  <Text fontSize="sm" mb="4" fontStyle={"italic"}>
+                    Kindly select plans you want to reinstate.
+                  </Text>
+                </Box>
+                <Box textAlign={"right"}>
+                  <Text fontSize="sm" fontStyle={"italic"}>
+                    No. of plans selected:
+                  </Text>
+                  <Heading size="lg">{checkedPlans.length}/{phLapsedPlans.length}</Heading>
+                </Box>
+              </Flex>
               {phLapsedPlans.length === 0 ? (
                 <Text>No lapsed plans available for reinstatement.</Text>
               ) : (
-                phLapsedPlans.map((plan) => (
-                  <>
+                phLapsedPlans.map((plan, index) => (
                   <RIPlanItem
-                    key={plan.lpaNo}
+                    key={index}
                     plan={plan}
                     onChange={(checked, values) =>
                       handleCheckedChange(checked, values)
                     }
                   />
-                  </>
                 ))
               )}
             </Box>
@@ -151,10 +169,22 @@ export default function RIPage({initialPlans, onSubmit}: RIProps) {
               borderBottomEndRadius={"md"}
               justifyContent={"flex-end"}
             >
-              <Text mr={5}>Total Amount Due:</Text>
-              <Heading size={"lg"} mr={5}>
-                ₱ <span ref={TotalAmountDue}>0.00</span>
-              </Heading>
+              <Box>
+                <Text mr={5}>Reinstatement Payment:</Text>
+                <Text mr={5}>Reinstatement Fee:</Text>
+                <Text mr={5}>Total Amount Due:</Text>
+              </Box>
+              <Box>
+                <Heading size={"lg"} mr={5} textAlign={"right"}>
+                  ₱ <span ref={TotalRIPayment}>0.00</span>
+                </Heading>
+                <Heading size={"lg"} mr={5} textAlign={"right"}>
+                  ₱ <span ref={TotalRIFee}>0.00</span>
+                </Heading>
+                <Heading size={"lg"} mr={5} textAlign={"right"}>
+                  ₱ <span ref={TotalAmountDue}>0.00</span>
+                </Heading>
+              </Box>
             </Box>
           </Steps.Content>
 
@@ -175,30 +205,10 @@ export default function RIPage({initialPlans, onSubmit}: RIProps) {
           <Steps.CompletedContent>
             <SuccessPage
               title="Reinstatement Successfully Submitted"
-              content={
-                <>
-                  <Text>
-                    Your Reinstatement Application has been successfully
-                    submitted.
-                  </Text>
-                  <Text wordBreak="break-word">
-                    The reference number for your application is{" "}
-                    <strong>RI-{Math.floor(Math.random() * 1000000000)}</strong>
-                    . Please keep this number safe, as you will need it for any
-                    future inquiries, updates, or correspondence regarding this
-                    application. You may also use it to track the status of your
-                    application through our customer service or online portal.
-                  </Text>
-                </>
-              }
-              footer={
-                <Box display="flex" alignItems="center" justifyContent="center">
-                  <Stack direction="row" gap="10px">
-                    <Button variant="outline">Home</Button>
-                    <Button variant="solid">Track</Button>
-                  </Stack>
-                </Box>
-              }
+              description="Your application has been successfully submitted."
+              transactionId={`RI-${Math.floor(Math.random() * 1000000000)}`}
+              totalAmount={TotalAmountDue.current?.innerText || ""}
+              dateTime={new Date().toLocaleString()}
             />
           </Steps.CompletedContent>
 

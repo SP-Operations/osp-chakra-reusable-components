@@ -8,7 +8,6 @@ import {
   Heading,
   Button,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { LuReceiptText } from "react-icons/lu";
 
 interface CheckedPlan {
@@ -37,8 +36,8 @@ export function ReviewReinstatementPage({
   console.log("Selected Plans in Review Page:", selectedPlans);
 
   return (
-    <Box px={10}>
-        <Heading size="md" textAlign="center" mb={10}>
+    <Box px={0}>
+        <Heading size="md" textAlign="center" mb={10} fontWeight={"semibold"} color={"gray.800"}>
           Review Reinstatement
         </Heading>
         {selectedPlans.map((plan) => (
@@ -54,35 +53,40 @@ export function ReviewReinstatementPage({
                         LPA NO.: {plan.lpaNo}
                     </Text>
 
-                    <Flex justify="space-between" mb={2}>
-                        <Text color="gray.600">Plan Type</Text>
-                        <Text>{plan.planType}</Text>
-                    </Flex>
+                    <Flex gap={{base: 20, mdDown: 10}} justify="space-between" mb={2}>
+                        <Box width={"full"}>
+                            <Flex justify="space-between" mb={2}>
+                                <Text color="gray.600">Plan Type</Text>
+                                <Text fontWeight="semibold" color={"gray.700"}>{plan.planType}</Text>
+                            </Flex>
 
-                    <Flex justify="space-between" mb={2}>
-                        <Text color="gray.600">Reinstatement Payment</Text>
-                        <Text>
-                        ₱{" "}
-                        {plan.reinstatementPayment.toLocaleString("en-US", {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                        })}
-                        </Text>
-                    </Flex>
-
-                    <Flex justify="space-between" mb={2}>
-                        <Text color="gray.600">Reinstatement Fee</Text>
-                        <Text>
-                        ₱{" "}
-                        {plan.reinstatementFee.toLocaleString("en-US", {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                        })}
-                        </Text>
-                    </Flex>
-                    <Flex justify="space-between" mb={2}>
-                        <Text color="gray.600">Full Payment</Text>
-                        <Text>{plan.isFullyPaid ? "Yes" : "No"}</Text>
+                            <Flex justify="space-between" mb={2}>
+                                <Text color="gray.600">Reinstatement Payment</Text>
+                                <Text fontWeight="semibold" color={"gray.700"}>
+                                ₱{" "}
+                                {plan.reinstatementPayment.toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
+                                </Text>
+                            </Flex>
+                        </Box>
+                        <Box width={"full"}>
+                            <Flex justify="space-between" mb={2}>
+                                <Text color="gray.600">Reinstatement Fee</Text>
+                                <Text fontWeight="semibold" color={"gray.700"}>
+                                ₱{" "}
+                                {plan.reinstatementFee.toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
+                                </Text>
+                            </Flex>
+                            <Flex justify="space-between" mb={2}>
+                                <Text color="gray.600">Full Payment</Text>
+                                <Text fontWeight="semibold" color={"gray.700"}>{plan.isFullyPaid ? "Yes" : "No"}</Text>
+                            </Flex>
+                        </Box>
                     </Flex>
                 </Box>
             </Box>
