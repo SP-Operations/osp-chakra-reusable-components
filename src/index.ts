@@ -5,6 +5,7 @@ export * from './components/forms/ClaimantPopUpForm';
 export * from './components/forms/PayoutChannelForm';
 export * from './components/forms/PlanholderForm';
 export * from './components/forms/RopPlanListForm';
+export * from './components/list-item/list-item';
 export * from './components/others/FileUpload';
 export * from './components/others/FloatingInput';
 export * from './components/others/RopApplicationDetails';

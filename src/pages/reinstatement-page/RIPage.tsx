@@ -1,6 +1,6 @@
-import { Text, Box, Card, Heading, Steps, Button, Stack, Container } from "@chakra-ui/react"
+import { Text, Box, Card, Heading, Steps, Button, Stack, Container, ButtonGroup, Flex } from "@chakra-ui/react"
 import { PrimaryMdButton, SecondaryMdButton } from "st-peter-ui"
-import {RIPlanItem} from "./ri-item"
+import RIPlanItem from "./ri-item"
 import { useRef, useEffect, useState } from "react";
 import { LuCheck, LuFileText, LuFilePenLine, LuCreditCard } from "react-icons/lu";
 import { ReviewReinstatementPage } from "./review";
@@ -39,11 +39,13 @@ interface RIProps {
   onSubmit: (selectedPlans: CheckedPlan[]) => void;
 }
 
-export function RIPage({initialPlans, onSubmit}: RIProps) {
+export default function RIPage({initialPlans, onSubmit}: RIProps) {
     const [phLapsedPlans] = useState<PhLapsedPlan[]>(initialPlans || []);
     const [checkedPlans, setCheckedPlans] = useState<CheckedPlan[]>([]);
     const TotalAmountDue = useRef<HTMLSpanElement>(null);
+
     const step1Next = useRef<HTMLButtonElement>(null);
+    const [step, setStep] = useState(0)
 
     const handleCheckedChange = (checked: boolean, values: CheckedPlan) => {
         setCheckedPlans(prev => {
@@ -71,180 +73,152 @@ export function RIPage({initialPlans, onSubmit}: RIProps) {
     }, [checkedPlans]);
 
     return (
-      <Card.Root
-        maxW={"7xl"}
-        mx="auto"
-        my="8"
-        boxShadow={"sm"}
-        boxShadowColor={"bg.muted"}
-      >
-        <Steps.Root defaultStep={1} count={4}>
-          <Card.Header>
-            <Card.Title fontSize={"2xl"} mx={"auto"}>
-              Reinstatement Application
-            </Card.Title>
-            <Steps.List mt={2}>
-              <Steps.Item
-                index={1}
-                title="reinstatement"
-                colorPalette={"green"}
-              >
-                <Steps.Indicator>
-                  <Steps.Status
-                    incomplete={<LuFileText />}
-                    complete={<LuCheck />}
-                  />
-                </Steps.Indicator>
-                <Steps.Title>Select Lapsed Plans</Steps.Title>
-                <Steps.Separator />
+      <Box maxW={"7xl"} mx={"auto"} my={8} px={0}>
+        <Container centerContent p="0">
+          <Text textStyle="2xl" fontWeight="semibold">
+            Reinstatement Application
+          </Text>
+        </Container>
+        <Steps.Root
+          step={step}
+          onStepChange={(e) => setStep(e.step)}
+          count={steps.length}
+          mt={2}
+        >
+          <Steps.List>
+            {steps.map((step, index) => (
+              <Steps.Item key={index} index={index} title={step}>
+                <Steps.Indicator 
+                _current={{
+                  backgroundColor: "var(--chakra-colors-primary-disabled)/50",
+                  borderColor: "var(--chakra-colors-primary)"
+                }}
+                _complete={{
+                  backgroundColor: "var(--chakra-colors-primary)",
+                  borderColor: "var(--chakra-colors-primary)"
+                }}/>
+                <Steps.Title display={{ base: "block", mdDown: "none" }}>
+                  {step}
+                </Steps.Title>
+                <Steps.Separator _complete={{
+                  backgroundColor: "var(--chakra-colors-primary)"
+                }} />
               </Steps.Item>
-              <Steps.Item index={2} title="review" colorPalette={"green"}>
-                <Steps.Indicator>
-                  <Steps.Status
-                    incomplete={<LuFilePenLine />}
-                    complete={<LuCheck />}
-                  />
-                </Steps.Indicator>
-                <Steps.Title>Review Reinstatement</Steps.Title>
-                <Steps.Separator />
-              </Steps.Item>
-              <Steps.Item index={3} title="success" colorPalette={"green"}>
-                <Steps.Indicator>
-                  <Steps.Status
-                    incomplete={<LuCreditCard />}
-                    complete={<LuCheck />}
-                  />
-                </Steps.Indicator>
-                <Steps.Title>Payment</Steps.Title>
-                <Steps.Separator />
-              </Steps.Item>
-            </Steps.List>
-            <Steps.Content index={1}>
-              <Card.Description mx={"auto"} textAlign={"center"}>
-                Bring your plan back on track with ease. The Reinstatement
-                option lets you reactivate a lapsed plan so you can continue
-                enjoying your benefits and resume payments smoothly.
-              </Card.Description>
-            </Steps.Content>
-          </Card.Header>
-          <Card.Body>
-            <Steps.Content index={1}>
-              <Box
-                p="6"
-                bg="gray.50"
-                border={"1px solid #000"}
-                borderRadius="md"
-              >
-                <Heading size="lg">Lapsed Plans</Heading>
-                <Text fontSize="sm" mb="4" fontStyle={"italic"}>
-                  Kindly select plans you want to reinstate.
-                </Text>
-                {phLapsedPlans.length === 0 ? (
-                  <Text>No lapsed plans available for reinstatement.</Text>
-                ) : (
-                  phLapsedPlans.map((plan) => (
-                    <RIPlanItem
-                      key={plan.lpaNo}
-                      plan={plan}
-                      onChange={(checked, values) =>
-                        handleCheckedChange(checked, values)
-                      }
-                    />
-                  ))
-                )}
-              </Box>
-            </Steps.Content>
-            <Steps.Content index={2}>
-              <ReviewReinstatementPage
-                selectedPlans={checkedPlans}
-                onBack={() => {}}
-                onSubmit={() => {}}
-              />
-            </Steps.Content>
-            <Steps.Content index={3}>
-              <PaymentPage />
-              {/* <ReviewReinstatementPage selectedPlans={checkedPlans} onBack={() => {}} onSubmit={() => {}}/> */}
-            </Steps.Content>
-            <Steps.CompletedContent width={"100%"}>
-              <Container p={8} centerContent>
-                <SuccessPage
-                title="Claims Successfully Submitted"
-                content={
+            ))}
+          </Steps.List>
+
+          {/* Step 1: Select Lapsed Plans */}
+          <Steps.Content key={1} index={0}>
+            <Text mx={"auto"} textAlign={"center"} mb={5}>
+              Bring your plan back on track with ease. The Reinstatement option
+              lets you reactivate a lapsed plan so you can continue enjoying
+              your benefits and resume payments smoothly.
+            </Text>
+            <Box
+              p="6"
+              bg="gray.50"
+              border={"1px solid #ddd"}
+              borderTopLeftRadius={"md"}
+              borderTopEndRadius={"md"}
+            >
+              <Heading size="lg">Lapsed Plans</Heading>
+              <Text fontSize="sm" mb="4" fontStyle={"italic"}>
+                Kindly select plans you want to reinstate.
+              </Text>
+              {phLapsedPlans.length === 0 ? (
+                <Text>No lapsed plans available for reinstatement.</Text>
+              ) : (
+                phLapsedPlans.map((plan) => (
                   <>
-                    <Text>
-                      Your Reinstatement Application has been successfully submitted.
-                    </Text>
-                    <Text wordBreak="break-word">
-                      The reference number for your application is{" "}
-                      <strong>
-                        RI-{Math.floor(Math.random() * 1000000000)}
-                      </strong>
-                      . Please keep this number safe, as you will need it for
-                      any future inquiries, updates, or correspondence regarding
-                      this application. You may also use it to track the status of
-                      your application through our customer service or online portal.
-                    </Text>
+                  <RIPlanItem
+                    key={plan.lpaNo}
+                    plan={plan}
+                    onChange={(checked, values) =>
+                      handleCheckedChange(checked, values)
+                    }
+                  />
                   </>
-                }
-                footer={
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                  >
-                    <Stack direction="row" gap="10px">
-                      <Button variant="outline">Home</Button>
-                      <Button variant="solid">Track</Button>
-                    </Stack>
-                  </Box>
-                }
-              />
-              </Container>
-            </Steps.CompletedContent>
-          </Card.Body>
-          <Card.Footer>
+                ))
+              )}
+            </Box>
             <Box
               width={"full"}
               padding={2}
               bg={"gray.200"}
               display={"flex"}
               alignItems={"center"}
+              borderBottomLeftRadius={"md"}
+              borderBottomEndRadius={"md"}
               justifyContent={"flex-end"}
             >
-              <Steps.Content index={1}>
-                <Text mr={5}>Total Amount Due:</Text>
-              </Steps.Content>
-              <Steps.Content index={1}>
-                <Heading size={"lg"} mr={5}>
-                  ₱ <span ref={TotalAmountDue}>0.00</span>
-                </Heading>
-              </Steps.Content>
-              <Steps.Content index={1}>
-                <Steps.NextTrigger asChild>
-                  <Button ref={step1Next}>Next</Button>
-                </Steps.NextTrigger>
-              </Steps.Content>
-              <Steps.Content index={2}>
-                <Steps.PrevTrigger asChild>
-                  <SecondaryMdButton bg={"red"} mr={3}>
-                    Back
-                  </SecondaryMdButton>
-                </Steps.PrevTrigger>
-                <Steps.NextTrigger asChild>
-                  <PrimaryMdButton>Proceed to Payment</PrimaryMdButton>
-                </Steps.NextTrigger>
-              </Steps.Content>
-              <Steps.Content index={3}>
-                <Steps.PrevTrigger asChild>
-                  <SecondaryMdButton mr={3}>Back</SecondaryMdButton>
-                </Steps.PrevTrigger>
-                <Steps.NextTrigger asChild>
-                  <PrimaryMdButton>Submit</PrimaryMdButton>
-                </Steps.NextTrigger>
-              </Steps.Content>
+              <Text mr={5}>Total Amount Due:</Text>
+              <Heading size={"lg"} mr={5}>
+                ₱ <span ref={TotalAmountDue}>0.00</span>
+              </Heading>
             </Box>
-          </Card.Footer>
+          </Steps.Content>
+
+          {/* Step 2: Review Reinstatement */}
+          <Steps.Content key={2} index={1}>
+            <ReviewReinstatementPage
+              selectedPlans={checkedPlans}
+              onBack={() => {}}
+              onSubmit={() => {}}
+            />
+          </Steps.Content>
+
+          {/* Step 3: Choose Payment Option */}
+          <Steps.Content key={3} index={2}>
+            <PaymentPage />
+          </Steps.Content>
+
+          <Steps.CompletedContent>
+            <SuccessPage
+              title="Reinstatement Successfully Submitted"
+              content={
+                <>
+                  <Text>
+                    Your Reinstatement Application has been successfully
+                    submitted.
+                  </Text>
+                  <Text wordBreak="break-word">
+                    The reference number for your application is{" "}
+                    <strong>RI-{Math.floor(Math.random() * 1000000000)}</strong>
+                    . Please keep this number safe, as you will need it for any
+                    future inquiries, updates, or correspondence regarding this
+                    application. You may also use it to track the status of your
+                    application through our customer service or online portal.
+                  </Text>
+                </>
+              }
+              footer={
+                <Box display="flex" alignItems="center" justifyContent="center">
+                  <Stack direction="row" gap="10px">
+                    <Button variant="outline">Home</Button>
+                    <Button variant="solid">Track</Button>
+                  </Stack>
+                </Box>
+              }
+            />
+          </Steps.CompletedContent>
+
+          <Flex justifyContent={"space-between"}>
+            <Steps.PrevTrigger asChild>
+              {step < 3 && <SecondaryMdButton>Previous</SecondaryMdButton>}
+            </Steps.PrevTrigger>
+            <Steps.NextTrigger asChild>
+              {step < 2 && (
+                <PrimaryMdButton
+                  disabled={step === 0 && checkedPlans.length === 0}
+                >
+                  Next
+                </PrimaryMdButton>
+              )}
+            </Steps.NextTrigger>
+          </Flex>
         </Steps.Root>
-      </Card.Root>
+      </Box>
     );
 }
+
+const steps = ["Select Lapsed Plan", "Review Reinstatement", "Payment"]
