@@ -4,7 +4,7 @@ import RIPlanItem from "./ri-item"
 import { useRef, useEffect, useState } from "react";
 import { ReviewReinstatementPage } from "./review";
 import PaymentPage from "./payment";
-import { SuccessPage } from "../success-page/SuccessPage";
+import Success from "../success-page-new/Success";
 
 interface PhLapsedPlan {
     lpaNo: string;
@@ -203,32 +203,12 @@ export function RIPage({initialPlans, onSubmit}: RIProps) {
           </Steps.Content>
 
           <Steps.CompletedContent>
-            <SuccessPage
+            <Success
               title="Reinstatement Successfully Submitted"
-              content={
-                <>
-                  <Text>
-                    Your Reinstatement Application has been successfully
-                    submitted.
-                  </Text>
-                  <Text wordBreak="break-word">
-                    The reference number for your application is{" "}
-                    <strong>RI-{Math.floor(Math.random() * 1000000000)}</strong>
-                    . Please keep this number safe, as you will need it for any
-                    future inquiries, updates, or correspondence regarding this
-                    application. You may also use it to track the status of your
-                    application through our customer service or online portal.
-                  </Text>
-                </>
-              }
-              footer={
-                <Box display="flex" alignItems="center" justifyContent="center">
-                  <Stack direction="row" gap="10px">
-                    <Button variant="outline">Home</Button>
-                    <Button variant="solid">Track</Button>
-                  </Stack>
-                </Box>
-              }
+              description="Your application has been successfully submitted."
+              transactionId="RI-123456"
+              totalAmount={TotalAmountDue.current?.innerText || ""}
+              dateTime={Date()}
             />
           </Steps.CompletedContent>
 
