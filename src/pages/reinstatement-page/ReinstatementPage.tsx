@@ -49,7 +49,7 @@ interface RIProps {
   onSubmit: (selectedPlans: CheckedPlan[]) => void;
 }
 
-export function ReinstatementPage({
+export function ReinstatementPagee({
   initialPlans,
   onSubmit,
 }: RIProps) {

@@ -1,4 +1,5 @@
 import { defineConfig } from "tsup";
+import copy from "esbuild-plugin-copy";
 
 export default defineConfig({
   entry: ["src/index.ts"],
@@ -17,4 +18,15 @@ export default defineConfig({
       ".webp": "file"
     };
   },
+  esbuildPlugins: [
+    copy({
+      resolveFrom: "cwd",
+      assets: [
+        {
+          from: ["scripts/copy-assets.js"],
+          to: ["dist/scripts/"]
+        }
+      ]
+    })
+  ]
 });

@@ -203,7 +203,7 @@ export const ClaimantForm = (params: ClaimantFormParams) => {
                             </Icon>
 
                             <FileUpload.DropzoneContent>
-                                <Box>Drage and drop files here.</Box>
+                                <Box>Drag and drop files here.</Box>
                                 <Box color="fg.muted">
                                     Upload the required documents in PDF.
                                 </Box>
