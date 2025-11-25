@@ -1,4 +1,5 @@
-import { Box, FileUpload, Grid, Icon } from "@chakra-ui/react";
+import { Box, Button, FileUpload, Grid, Icon } from "@chakra-ui/react";
+import { HiUpload } from "react-icons/hi";
 import { LuUpload } from "react-icons/lu";
 
 export const UploadFile = () => {
@@ -12,6 +13,11 @@ export const UploadFile = () => {
         <FileUpload.DropzoneContent>
           <Box>Drag and drop files here</Box>
           <Box color="fg.muted">.png, .jpg</Box>
+          <FileUpload.Trigger asChild>
+            <Button variant="outline" size="sm">
+              <HiUpload /> Upload Images
+            </Button>
+          </FileUpload.Trigger>
         </FileUpload.DropzoneContent>
       </FileUpload.Dropzone>
       <FileUpload.ItemGroup>

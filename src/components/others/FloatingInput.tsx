@@ -23,6 +23,7 @@ export const FloatingInput = ({
   useEffect(() => {
     if (inputRef.current) {
       setHasValue(inputRef.current.value !== "");
+      console.log(inputRef.current.value);
     }
   }, []);
   const shouldFloat = focused || hasValue;

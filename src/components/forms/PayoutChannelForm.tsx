@@ -117,7 +117,11 @@ export default function PayoutChannelForm({
             </Box>
           </Flex>
 
-          <Flex gap={4} flexWrap="wrap">
+          <Grid
+            gap={4}
+            flexWrap="wrap"
+            templateColumns={{ md: "repeat(3, 1fr)" }}
+          >
             {[
               {
                 label: "Deposit Slip / Screenshot",
@@ -131,23 +135,23 @@ export default function PayoutChannelForm({
                 borderWidth={1}
                 borderRadius="md"
                 overflow="hidden"
-                maxW="240px"
-                alignItems="center"
+                maxH="250px"
               >
                 <Image
+                  mx={"auto"}
                   src={item.src}
                   alt={item.label}
                   fit="contain"
                   boxSize="220px"
                 />
-                <Box p={2} position="relative" bottom="0.5">
+                <Box p={2} position={"relative"} bottom="0.5">
                   <Text fontSize="sm" textAlign="center" verticalAlign="middle">
                     {item.label}
                   </Text>
                 </Box>
               </Box>
             ))}
-          </Flex>
+          </Grid>
         </Box>
       )}
 

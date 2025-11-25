@@ -84,7 +84,7 @@ export const RopPage = ({ onClick }: RopPageProps) => {
   };
 
   return (
-    <Card.Root w="7xl" p="8" border={0}>
+    <Card.Root w="7xl" border={0}>
       <Card.Body>
         <Box mb="4">
           <H2>RETURN OF PREMIUM</H2>
@@ -161,7 +161,7 @@ export const RopPage = ({ onClick }: RopPageProps) => {
               {/* Left: File Upload */}
               <Box flex="1" minW="300px ">
                 <Text mb="4">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Upload valid Government issued ID with signature
                 </Text>
                 {/* <FileUpload
                   id="govId"

@@ -50,7 +50,7 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
   ];
 
   return (
-    <Box maxW="7xl" w="full" mx="auto" p="8">
+    <Box maxW="7xl" w="full" mx="auto">
       {step === 1 && (
         <Box mb="4">
           <H2>PAYOUT CHANNEL</H2>
@@ -68,7 +68,9 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
             {stepper.map((step, index) => (
               <Steps.Item key={index} index={index} title={step.title}>
                 <Steps.Indicator />
-                <Steps.Title>{step.title}</Steps.Title>
+                <Steps.Title display={{ base: "block", mdDown: "none" }}>
+                  {step.title}
+                </Steps.Title>
                 <Steps.Separator />
               </Steps.Item>
             ))}

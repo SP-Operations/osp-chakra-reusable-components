@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Edit2, Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import {
@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import type { IRopSchema } from "../../models/types/rop.types";
 import { FloatingInput } from "./FloatingInput";
+import { mock } from "../../models/schema/RopMock";
 
 export default function ROPApplicationDetails({
   data,
@@ -26,9 +27,12 @@ export default function ROPApplicationDetails({
   isEditing: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const uniqueData = [
-    ...new Map(data.map((item) => [item.requestNo, item])).values(),
-  ];
+  // const uniqueData = [
+  //   ...new Map(data.map((item) => [item.requestNo, item])).values(),
+  // ];
+  const uniqueData = data?.length
+    ? [...new Map(data.map((item) => [item.requestNo, item])).values()]
+    : [...new Map(mock.map((item) => [item.requestNo, item])).values()]; // for demo purpose get mock data if no data has been passed
 
   const ropForm = useForm<{ items: IRopSchema[] }>({
     defaultValues: { items: uniqueData },
@@ -38,6 +42,13 @@ export default function ROPApplicationDetails({
     onEdit?.(values.items);
     setIsEditing(false);
   };
+  // useEffect(() => {
+  //   const finalData = data?.length
+  //     ? [...new Map(data.map((item) => [item.requestNo, item])).values()]
+  //     : mock;
+
+  //   ropForm.reset({ items: finalData });
+  // }, [data, ropForm]);
 
   const onSubmit = ropForm.handleSubmit(handleSave);
 
@@ -98,33 +109,52 @@ export default function ROPApplicationDetails({
             <Text fontSize="xs" color="gray.500">
               Contract Number
             </Text>
-            {data.map((item, i) => (
-              <Text key={i} fontWeight="medium">
-                {item.lpaNo ?? "—"}
-              </Text>
-            ))}
+
+            {data.length
+              ? data.map((item, i) => (
+                  <Text key={i} fontWeight="medium">
+                    {item.lpaNo ?? "—"}
+                  </Text>
+                ))
+              : mock.map((item, i) => (
+                  <Text key={i} fontWeight="medium">
+                    {item.lpaNo ?? "—"}
+                  </Text>
+                ))}
           </Box>
 
           <Box>
             <Text fontSize="xs" color="gray.500">
               Plan Type
             </Text>
-            {data.map((item, i) => (
-              <Text key={i} fontWeight="medium">
-                {item.planType ?? "—"}
-              </Text>
-            ))}
+            {data.length
+              ? data.map((item, i) => (
+                  <Text key={i} fontWeight="medium">
+                    {item.planType ?? "—"}
+                  </Text>
+                ))
+              : mock.map((item, i) => (
+                  <Text key={i} fontWeight="medium">
+                    {item.planType ?? "—"}
+                  </Text>
+                ))}
           </Box>
 
           <Box>
             <Text fontSize="xs" color="gray.500">
               ROP Amount
             </Text>
-            {data.map((item, i) => (
-              <Text key={i} fontWeight="medium">
-                {item.totalAmt ?? "—"}
-              </Text>
-            ))}
+            {data.length
+              ? data.map((item, i) => (
+                  <Text key={i} fontWeight="medium">
+                    {item.totalAmt ?? "—"}
+                  </Text>
+                ))
+              : mock.map((item, i) => (
+                  <Text key={i} fontWeight="medium">
+                    {item.totalAmt ?? "—"}
+                  </Text>
+                ))}
           </Box>
 
           <Box>
