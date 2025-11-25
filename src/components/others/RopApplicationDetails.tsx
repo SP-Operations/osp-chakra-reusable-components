@@ -70,7 +70,20 @@ export default function ROPApplicationDetails({
             Request#: CNT-2025-0001
           </Text>
         </Box>
-
+        {/* <Box>
+          <Text color="gray.500">ROP Amount</Text>
+          {data.length
+            ? data.map((item, i) => (
+                <Text key={i} fontWeight="medium">
+                  {item.totalAmt ?? "—"}
+                </Text>
+              ))
+            : mock.map((item, i) => (
+                <Text key={i} fontWeight="medium">
+                  {item.totalAmt ?? "—"}
+                </Text>
+              ))}
+        </Box> */}
         <Flex gap={2}>
           {!isEditing ? (
             <Button size="sm" onClick={() => setIsEditing(true)}>
@@ -101,14 +114,18 @@ export default function ROPApplicationDetails({
       {/* Form */}
       <Box as="form" onSubmit={ropForm.handleSubmit(handleSave)}>
         {/* Plan Details */}
-        <Heading size="sm" mb={2} mt={4}>
+        <Heading size="lg" mb={2} mt={4}>
           Plan Details
         </Heading>
-        <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={4}>
+        <Grid
+          templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+          gap={4}
+          borderBottom="1px solid"
+          borderColor="gray.200"
+          mb="2"
+        >
           <Box>
-            <Text fontSize="xs" color="gray.500">
-              Contract Number
-            </Text>
+            <Text color="gray.500">Contract Number</Text>
 
             {data.length
               ? data.map((item, i) => (
@@ -124,9 +141,7 @@ export default function ROPApplicationDetails({
           </Box>
 
           <Box>
-            <Text fontSize="xs" color="gray.500">
-              Plan Type
-            </Text>
+            <Text color="gray.500">Plan Type</Text>
             {data.length
               ? data.map((item, i) => (
                   <Text key={i} fontWeight="medium">
@@ -139,24 +154,18 @@ export default function ROPApplicationDetails({
                   </Text>
                 ))}
           </Box>
-
-          <Box>
-            <Text fontSize="xs" color="gray.500">
-              ROP Amount
-            </Text>
-            {data.length
-              ? data.map((item, i) => (
-                  <Text key={i} fontWeight="medium">
-                    {item.totalAmt ?? "—"}
-                  </Text>
-                ))
-              : mock.map((item, i) => (
-                  <Text key={i} fontWeight="medium">
-                    {item.totalAmt ?? "—"}
-                  </Text>
-                ))}
-          </Box>
-
+        </Grid>
+        {/* Contact Details */}
+        <Heading size="lg" mb={2} mt={2}>
+          Contact Information
+        </Heading>
+        <Grid
+          templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+          gap={4}
+          borderBottom="1px solid"
+          borderColor="gray.200"
+          pb="2"
+        >
           <Box>
             <Text fontSize="xs" color="gray.500">
               Email Address
@@ -179,17 +188,18 @@ export default function ROPApplicationDetails({
             ))}
           </Box>
         </Grid>
-
         {/* PlanHolder Address */}
-        <Heading size="sm" mb={2} mt={6}>
+        <Heading size="lg" mb={2} mt={2}>
           Planholder Address
         </Heading>
         {uniqueData.map((item, index) =>
           !isEditing ? (
             <Grid
-              templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
-              gap={4}
-              mb={4}
+              templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+              gap={1}
+              borderBottom="1px solid"
+              borderColor="gray.200"
+              pb="2"
               key={index}
             >
               <Box>
@@ -237,9 +247,11 @@ export default function ROPApplicationDetails({
             </Grid>
           ) : (
             <Grid
-              templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
-              gap={4}
-              mb={4}
+              templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+              gap={1}
+              borderBottom="1px solid"
+              borderColor="gray.200"
+              mb="2"
               key={index}
             >
               <FloatingInput
@@ -281,14 +293,16 @@ export default function ROPApplicationDetails({
         )}
 
         {/* Payout Details */}
-        <Heading size="sm" mb={2} mt={6}>
+        <Heading size="lg" mb={2} mt={2}>
           Payout Details
         </Heading>
         {uniqueData.map((item, index) => (
           <Grid
-            templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
+            templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
             gap={4}
-            mb={4}
+            borderBottom="1px solid"
+            borderColor="gray.200"
+            pb="2"
             key={index}
           >
             <Box>
