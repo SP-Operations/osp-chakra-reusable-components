@@ -57,7 +57,7 @@ export default function ROPApplicationDetails({
       {/* Header */}
       <Flex justify="space-between" align="center" mb={6}>
         <Box>
-          <Heading size="md">
+          <Heading textStyle="2xl">
             {uniqueData.map((item, i) => (
               <Text key={i}>
                 {[item.firstName, item.middleName, item.lastName]
@@ -182,7 +182,7 @@ export default function ROPApplicationDetails({
 
         {/* PlanHolder Address */}
         <Heading size="sm" mb={2} mt={6}>
-          PlanHolder Address
+          Planholder Address
         </Heading>
         {uniqueData.map((item, index) =>
           !isEditing ? (

@@ -4,7 +4,7 @@ import { LuUpload } from "react-icons/lu";
 
 export const UploadFile = () => {
   return (
-    <FileUpload.Root maxFiles={10} display="inline-block">
+    <FileUpload.Root maxFiles={10} display="inline-block" maxW="2xl">
       <FileUpload.HiddenInput />
       <FileUpload.Dropzone>
         <Icon size="md" color="fg.muted">
