@@ -289,7 +289,8 @@ export function LoginPage({
                           To keep connected with us, please log in with your personal info
                       </Text>
                       <Button
-                      size={"lg"}
+                      size={"md"}
+                      width={"full"}
                       color="white"
                       borderColor="white"
                       onClick={handleSignInClick}
@@ -323,7 +324,8 @@ export function LoginPage({
                           Enter your personal details and start your journey with us
                       </Text>
                       <Button
-                      size={"lg"}
+                      size={"md"}
+                      width={"full"}
                       color="white"
                       borderColor="white"
                       onClick={handleSignUpClick}
