@@ -5,7 +5,7 @@ import { type Claimant, type PhClaimant } from '../../models/types/claim.types';
 import { Box, Button, CloseButton, Container, Dialog, FieldRoot, FileUpload, Flex, Grid, GridItem, Heading, Icon, Portal, Stack, Steps, Table, Text, useDisclosure } from '@chakra-ui/react';
 import { LuUpload, LuUserRound } from 'react-icons/lu';
 import { PlanholderForm } from '../../components/forms/PlanholderForm';
-import SuccessPage from '../success-page/SuccessPage';
+import { SuccessPage } from '../success-page/SuccessPage';
 import { ClaimantCard } from '../../components/cards/ClaimantCard';
 import { PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton } from 'st-peter-ui';
 import { ClaimantPopUpForm } from '../../components/forms/ClaimantPopUpForm';
