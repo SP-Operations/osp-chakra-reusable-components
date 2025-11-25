@@ -5,7 +5,7 @@ import { type Claimant, type PhClaimant } from '../../models/types/claim.types';
 import { Box, Button, CloseButton, Container, Dialog, FieldRoot, FileUpload, Flex, Grid, GridItem, Heading, Icon, Portal, Stack, Steps, Table, Text, useDisclosure } from '@chakra-ui/react';
 import { LuUpload, LuUserRound } from 'react-icons/lu';
 import { PlanholderForm } from '../../components/forms/PlanholderForm';
-import { SuccessPage } from '../success-page/SuccessPage';
+import SuccessPage from '../success-page/SuccessPage';
 import { ClaimantCard } from '../../components/cards/ClaimantCard';
 import { PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton } from 'st-peter-ui';
 import { ClaimantPopUpForm } from '../../components/forms/ClaimantPopUpForm';
@@ -451,25 +451,13 @@ export const FileClaimPage = () => {
                     {(pageNumber === 5) && (
                         <Box display="flex" alignItems="center" justifyContent="center">
                             <Box>
-                                <SuccessPage title="Claims Successfully Submitted" content={
-                                    <>
-                                        <Text>Your Claim Transaction has been successfully submitted.</Text>
-                                        <Text wordBreak="break-word">
-                                            The reference number for your claim is <strong>CL{Math.floor(Math.random() * 1000000000)}</strong>.
-                                            Please keep this number safe, as you will need it for any future inquiries, updates, or 
-                                            correspondence regarding this claim. You may also use it to track the status of your claim
-                                            through our customer service or online portal.
-                                        </Text>
-                                    </>
+                                <SuccessPage title="Thank You!" description={`
+                                    Your application has been completed successfully. We will notify you via email when there is an update.
+                                `
                                 } 
-                                footer={
-                                    <Box display="flex" alignItems="center" justifyContent="center">
-                                        <Stack direction="row" gap="10px">
-                                            <Button variant="outline">Home</Button>
-                                            <Button variant="solid">Track</Button>
-                                        </Stack>
-                                    </Box>
-                                } />
+                                transactionId={`CL-${Math.floor(Math.random() * 1000000000)}`}
+                                dateTime={new Date().toLocaleString()}
+                                 />
                             </Box>
                         </Box>
                     )}
