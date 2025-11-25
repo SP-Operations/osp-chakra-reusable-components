@@ -2,11 +2,13 @@
 
 import React from 'react'
 import { type Claimant, type PhClaimant } from '../../models/types/claim.types';
-import { Box, Button, CloseButton, Container, Dialog, FileUpload, Grid, GridItem, Icon, Portal, Stack, Steps, Table, Text } from '@chakra-ui/react';
-import { LuUpload } from 'react-icons/lu';
+import { Box, Button, CloseButton, Container, Dialog, FieldRoot, FileUpload, Flex, Grid, GridItem, Heading, Icon, Portal, Stack, Steps, Table, Text, useDisclosure } from '@chakra-ui/react';
+import { LuUpload, LuUserRound } from 'react-icons/lu';
 import { PlanholderForm } from '../../components/forms/PlanholderForm';
-import { ClaimantForm } from '../../components/forms/ClaimantForm';
 import { SuccessPage } from '../success-page/SuccessPage';
+import { ClaimantCard } from '../../components/cards/ClaimantCard';
+import { PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton } from 'st-peter-ui';
+import { ClaimantPopUpForm } from '../../components/forms/ClaimantPopUpForm';
 
 export const FileClaimPage = () => {
     // Summary:
@@ -153,13 +155,26 @@ export const FileClaimPage = () => {
         genRandomPh();
     }, []);
 
+
+    const [claimantModel, setClaimantModel] = React.useState<Claimant>({
+        index: 0,
+        firstName: "",
+        lastName: "",
+        email: "",
+        relToPh: "",
+        payoutChannel: "",
+        middleName: "",
+        mobile: "",
+        suffix: ""
+    });
+
+    const {open, onOpen, onClose} = useDisclosure();
+
     return (
         <Container
             display="flex" flexDirection="column" 
-            height="fit-content" width="100%" 
+            height="fit-content" maxW="7xl" width="100%"
             gap="20px" padding="20px"
-            borderStyle="solid" borderColor="border" borderWidth="1px" borderRadius="8px"
-            boxShadow="sm" boxShadowColor="bg.muted"
         >
             <Steps.Root defaultStep={0} count={stepTitles.length} step={stepNumber} onStepChange={(e) => setStepNumber(e.step)}>
                 {(pageNumber < 5) && (
@@ -173,7 +188,7 @@ export const FileClaimPage = () => {
                                 {stepTitles.map((step, index) => (
                                     <Steps.Item key={index} index={index} title={step} colorPalette="green">
                                         <Steps.Indicator />
-                                        <Steps.Title>{step}</Steps.Title>
+                                        <Steps.Title display={{base:"block", mdDown:"none"}}>{step}</Steps.Title>
                                         <Steps.Separator />
                                     </Steps.Item> 
                                 ))}
@@ -186,46 +201,55 @@ export const FileClaimPage = () => {
                     {(pageNumber === 1) && (
                         <>
                             <Box>
-                                <Text textStyle="lg" fontWeight="semibold">Start Your Claim</Text>
+                                <Text textStyle="xl" fontWeight="semibold">Start Your Claim</Text>
 
-                                <Text textStyle="sm">
+                                <Text textStyle="md">
                                     Before submitting your application, please prepare the following documentation for your convenience in the next steps.
                                 </Text>
                             </Box>
-                            <Text textStyle="md" fontWeight="semibold">Requirements:</Text>
 
-                            <Container textStyle="sm">
-                                <Box as="ol" listStyle="decimal" display="flex" flexDirection="column" gap="5px">
-                                    <li>Registered Death Certificate with seal and issued by the Local Civil Registrar or Philippine Statistics Authority (PSA)</li>
-                                    <li>Photocopy of Valid IDs of the Planholder (Government-issued ID's)</li>
-                                    <li>Statement of Claimant Form</li>
-                                    <li>Photocopy of Valid IDs of the Beneficiaries / Claimants (Government-issued ID's)</li>
-                                    <li>Marriage Contract (If Claimant is the spouse or if the Planholder's daughter is already married)</li>
-                                    <li>Medical History (If plan is less than 1 year or if cause of death is accident)</li>
-                                    <li>Attending Physician's Statement</li>
-                                </Box>
-                            </Container>
+                            <Box padding="5px">
+                                <Text textStyle="lg" fontWeight="semibold">Requirements:</Text>
 
-                            <Container border="1px solid gray" display="flex" flexDirection="column" gap="10px" marginTop="10px" paddingTop="20px" paddingBottom="20px">
-                                <Text textStyle="md" fontWeight="semibold">Upload Documents</Text>
-                                <Box textStyle="sm">Please upload the required documents listed in the previous step.</Box>
-                                <FileUpload.Root alignItems="stretch">
-                                    <FileUpload.HiddenInput />
-                                    <FileUpload.Dropzone>
-                                        <Icon size="md" color="fg.muted">
-                                            <LuUpload />
-                                        </Icon>
+                                <Container textStyle="md">
+                                    <Box as="ol" listStyle="decimal" display="flex" flexDirection="column" gap="5px">
+                                        <li>Registered Death Certificate with seal and issued by the Local Civil Registrar or Philippine Statistics Authority (PSA)</li>
+                                        <li>Photocopy of Valid IDs of the Planholder (Government-issued ID's)</li>
+                                        <li>Statement of Claimant Form</li>
+                                        <li>Photocopy of Valid IDs of the Beneficiaries / Claimants (Government-issued ID's)</li>
+                                        <li>Marriage Contract (If Claimant is the spouse or if the Planholder's daughter is already married)</li>
+                                        <li>Medical History (If plan is less than 1 year or if cause of death is accident)</li>
+                                        <li>Attending Physician's Statement</li>
+                                    </Box>
+                                </Container>
 
-                                        <FileUpload.DropzoneContent>
-                                            <Box>Drag and drop files here.</Box>
-                                            <Box color="fg.muted">
-                                                Upload the required documents in PDF.
-                                            </Box>
-                                        </FileUpload.DropzoneContent>
-                                    </FileUpload.Dropzone>
-                                    <FileUpload.List clearable />
-                                </FileUpload.Root>
-                            </Container>
+                                <Container display="flex" flexDirection="column" gap="10px" marginTop="10px" padding="20px 0">
+                                    <Flex gap="15px">
+                                        <Box width="100%">
+                                            <Text textStyle="lg" fontWeight="semibold">Upload Documents</Text>
+                                            <Box textStyle="md">Please upload the required documents listed in the previous step.</Box>
+                                            <FileUpload.Root alignItems="stretch">
+                                                <FileUpload.HiddenInput />
+                                                <FileUpload.Dropzone>
+                                                    <Icon size="md" color="fg.muted">
+                                                        <LuUpload />
+                                                    </Icon>
+
+                                                    <FileUpload.DropzoneContent>
+                                                        <Box>Drag and drop files here.</Box>
+                                                        <Box color="fg.muted">
+                                                            Upload the required documents in PDF.
+                                                        </Box>
+                                                    </FileUpload.DropzoneContent>
+                                                </FileUpload.Dropzone>
+                                                <FileUpload.List clearable />
+                                            </FileUpload.Root>
+                                        </Box>
+
+                                        <FieldRoot></FieldRoot>
+                                    </Flex>
+                                </Container>
+                            </Box>
                         </>
                     )}
 
@@ -234,18 +258,106 @@ export const FileClaimPage = () => {
                     )}
 
                     {(pageNumber === 3) && (
-                        <ClaimantForm onClaimantEvent={setClaimantList} value={claimantList} />
+                        <>
+                            {/* <ClaimantForm onClaimantEvent={setClaimantList} value={claimantList} /> */}
+                            <Box>
+                                <Heading size="xl" fontWeight="bold">Claimant(s)</Heading>
+                                <Text fontSize="sm" fontStyle={"italic"}>
+                                    Provide the necessary details of the claimant(s) who will be receiving the claim benefits on behalf of the planholder.
+                                </Text>
+
+                                <Stack direction="column" gap="10px" padding="5px">
+                                    <Box display="flex" gap="5px" justifyContent="space-between" alignItems="center" width="100%">
+                                        <Text textStyle={"md"} fontWeight="semibold">
+                                            Record(s): {claimantList.length}
+                                        </Text>
+
+                                        <Dialog.Root open={open} size="xl" placement="center">
+                                            <Dialog.Trigger asChild>
+                                                <SecondarySmButton onClick={onOpen}>Add Claimant</SecondarySmButton>
+                                            </Dialog.Trigger>
+
+                                            <Portal>
+                                                <Dialog.Backdrop />
+                                                <Dialog.Positioner>
+                                                    <Dialog.Content>
+                                                        <Dialog.Body>
+                                                            <ClaimantPopUpForm value={claimantModel}
+                                                                onCancel={() => {
+                                                                    setClaimantModel({
+                                                                        index: 0,
+                                                                        firstName: "",
+                                                                        lastName: "",
+                                                                        email: "",
+                                                                        relToPh: "",
+                                                                        payoutChannel: "",
+                                                                        middleName: "",
+                                                                        mobile: "",
+                                                                        suffix: ""
+                                                                    });
+                                                                    onClose();
+                                                                }}  
+
+                                                                onSubmit={(value) => {
+                                                                    const maxIndex = claimantList.length > 0 ? Math.max(...claimantList.map(item => item.index)) + 1 : 1;
+                                                                    const newClaimantList = [...claimantList, {...value, index: maxIndex}];
+                                                                    setClaimantList(newClaimantList);
+                                                                    setClaimantModel(
+                                                                        {
+                                                                        index: 0,
+                                                                        firstName: "",
+                                                                        lastName: "",
+                                                                        email: "",
+                                                                        relToPh: "",
+                                                                        payoutChannel: "",
+                                                                        middleName: "",
+                                                                        mobile: "",
+                                                                        suffix: ""
+                                                                    });
+                                                                    onClose();
+                                                                }}
+                                                            />
+                                                        </Dialog.Body>
+                                                    </Dialog.Content>
+                                                </Dialog.Positioner>
+                                            </Portal>
+                                        </Dialog.Root>
+                                    </Box>
+
+                                    {claimantList.length === 0 ? (
+                                        <Box display="flex" justifyContent="center" alignItems="center" height="100%" flexDirection="column" minHeight="200px" 
+                                            borderRadius="4px" background="gray.50" boxShadow="sm"
+                                        >
+                                            <LuUserRound size="40px" color="#a1a1aa" />
+                                            <Text textStyle="sm" color="#a1a1aa">No claimant's added.</Text>
+                                        </Box>
+                                    )
+                                    : (
+                                        <Stack direction="column" gap="5px">
+                                            {claimantList.map((item, index) => (
+                                                <ClaimantCard key={index} value={item} onValueChange={(e)=> {
+                                                    let filteredList = claimantList.filter((item, i) => item.index !== e.index);
+                                                    let newList = [...filteredList, e];
+                                                    let sortedList = newList.sort((a, b) => a.index - b.index);
+                                                    setClaimantList(sortedList);
+                                                }}/>
+                                            ))}
+                                        </Stack>
+                                    )}
+                                </Stack>
+                            </Box>
+                        </>
                     )}
 
                     {(pageNumber === 4) && (
                         <>
-                            <Box as="div">
-                                <Box textStyle="lg" fontWeight="semibold" w="100%">Claims Summary</Box>
+                            <Stack direction="column" gap="0">
+                                <Box textStyle="xl" fontWeight="bold" w="100%">Claim Summary</Box>
 
-                                <Box marginBottom="5">
+                                <Box as="div" padding="5px">
                                     <Text textStyle="md" fontWeight="semibold" borderBottom="1px solid #a1a1aa" paddingBottom="5px" marginBottom="10px">Planholder Details</Text>
 
-                                    <Box display="flex" flexDirection="column" gap="1">
+                                    <Box display="flex" flexDirection="column" gap="1" padding="5px">
                                         <Grid templateColumns="repeat(2, 1fr)" gap="5">
                                             <GridItem>
                                                 <Stack gap="2" direction="row">
@@ -283,42 +395,56 @@ export const FileClaimPage = () => {
                                         </Grid>
                                     </Box>
                                 </Box>
-                            </Box>
 
-                            <Box as="div">
-                                <Box textStyle="md" marginBottom="15px" fontWeight="semibold" borderBottom="1px solid #a1a1aa" paddingBottom="5px">Claimant's {(claimantList.length)}</Box>
+                                <Box as="div" padding="5px">
+                                    <Box 
+                                        borderBottom="1px solid #a1a1aa" 
+                                        paddingBottom="5px" marginBottom="15px"
+                                        display="flex" justifyContent="space-between">
+                                        <Text textStyle="md" fontWeight="semibold">
+                                            Claimant(s)
+                                        </Text>
 
-                                <Table.Root size="lg" variant="outline">
-                                    <Table.Header>
-                                        <Table.Row>
-                                            <Table.ColumnHeader></Table.ColumnHeader>
-                                            <Table.ColumnHeader textAlign="center">Contacts</Table.ColumnHeader>
-                                            <Table.ColumnHeader textAlign="center">Payout Channel</Table.ColumnHeader>
-                                        </Table.Row>
-                                    </Table.Header>
+                                        <Text textStyle="md" fontWeight="initial">
+                                            Record(s): {claimantList.length}
+                                        </Text>
+                                    </Box>
+                                    
+                                    <Box padding="5px">
+                                        <Table.Root size="lg" variant="outline">
+                                            <Table.Header>
+                                                <Table.Row>
+                                                    <Table.ColumnHeader></Table.ColumnHeader>
+                                                    <Table.ColumnHeader textAlign="center">Contacts</Table.ColumnHeader>
+                                                    <Table.ColumnHeader textAlign="center">Payout Channel</Table.ColumnHeader>
+                                                </Table.Row>
+                                            </Table.Header>
 
-                                    <Table.Body>
-                                        {claimantList.map((model) => (
-                                            <Table.Row key={model.index}>
-                                                <Table.Cell>
-                                                    <Stack gap="0" textAlign="center">
-                                                        <Text textStyle="sm" fontWeight="semibold">{model.firstName} {model.middleName ?? ""} {model.lastName} {model.suffix ?? ""}</Text>
-                                                        <Text textStyle="xs">{model.relToPh}</Text>
-                                                    </Stack>
-                                                </Table.Cell>
+                                            <Table.Body>
+                                                {claimantList.map((model) => (
+                                                    <Table.Row key={model.index}>
+                                                        <Table.Cell>
+                                                            <Stack gap="0" textAlign="center">
+                                                                <Text textStyle="sm" fontWeight="semibold">{model.firstName} {model.middleName ?? ""} {model.lastName} {model.suffix ?? ""}</Text>
+                                                                <Text textStyle="xs">{model.relToPh}</Text>
+                                                            </Stack>
+                                                        </Table.Cell>
 
-                                                <Table.Cell>
-                                                    <Text textStyle="xs" textAlign="center">{model.email} {(model.mobile == "" || model.mobile == null) ? "" : "- " + model.mobile}</Text>
-                                                </Table.Cell>
+                                                        <Table.Cell>
+                                                            <Text textStyle="xs" textAlign="center">{model.email} {(model.mobile == "" || model.mobile == null) ? "" : "- " + model.mobile}</Text>
+                                                        </Table.Cell>
 
-                                                <Table.Cell>
-                                                    <Text textStyle="xs" textAlign="center">{model.payoutChannel}</Text>
-                                                </Table.Cell>
-                                            </Table.Row>
-                                        ))}
-                                    </Table.Body>
-                                </Table.Root>
-                            </Box>
+                                                        <Table.Cell>
+                                                            <Text textStyle="xs" textAlign="center">{model.payoutChannel}</Text>
+                                                        </Table.Cell>
+                                                    </Table.Row>
+                                                ))}
+                                            </Table.Body>
+                                        </Table.Root>
+                                    </Box>
+                                </Box>
+                            </Stack>
+
                         </>
                     )}
 
@@ -348,16 +474,14 @@ export const FileClaimPage = () => {
                         </Box>
                     )}
 
-                    <Box display="flex" gap="10px" flexDirection="row" justifyContent="flex-end" marginTop="auto">
-                        {(pageNumber > 1 && pageNumber < 5) && (
-                            <Steps.PrevTrigger asChild>
-                                <Button variant="ghost" onClick={onPrevBtnClick}>Previous</Button>
-                            </Steps.PrevTrigger>
-                        )}
+                    <Box display="flex" gap="10px" flexDirection="row" justifyContent="space-between" marginTop="auto">
+                        <Steps.PrevTrigger asChild>
+                            <SecondaryMdButton onClick={onPrevBtnClick} visibility={(pageNumber > 1 && pageNumber < 5) ? "visible" : "hidden"}>Previous</SecondaryMdButton>
+                        </Steps.PrevTrigger>
 
                         {(pageNumber < 5) && (
                             <Steps.NextTrigger asChild>
-                                <Button onClick={onNextBtnClick}>{(pageNumber) >= 4 ? "Submit" : "Next"}</Button>
+                                <PrimaryMdButton onClick={onNextBtnClick}>{(pageNumber) >= 4 ? "Submit" : "Next"}</PrimaryMdButton>
                             </Steps.NextTrigger>
                         )}
                     </Box>

@@ -39,3 +39,14 @@ export type PlanholderFormParams = {
     value: PhClaimant;
     onValueChange: (value: PhClaimant) => void;
 }
+
+export type ClaimantPopUpFormParams = {
+    value: Claimant;
+    onSubmit: (value: Claimant) => void;
+    onCancel: () => void;
+}
+
+export type ClaimantCardParams = {
+    value: Claimant;
+    onValueChange: (value: Claimant) => void;
+}
