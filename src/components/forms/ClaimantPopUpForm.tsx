@@ -5,6 +5,7 @@ import { LuUpload } from 'react-icons/lu';
 import { FileInput } from 'lucide-react';
 import type { Claimant, ClaimantPopUpFormParams } from '../../models/types/claim.types';
 import { set } from 'zod';
+import { UploadFile } from '../others/UploadFile';
 
 export const ClaimantPopUpForm = (params: ClaimantPopUpFormParams) => {
     // Summary:
@@ -160,23 +161,12 @@ export const ClaimantPopUpForm = (params: ClaimantPopUpFormParams) => {
             </Flex>
 
             <Flex gap="15px">
-                <FileUpload.Root alignItems="stretch">
-                    <FileUpload.HiddenInput />
-                    <FileUpload.Label>Upload Supporting Document</FileUpload.Label>
-                    <FileUpload.Dropzone>
-                        <Icon size="md" color="fg.muted">
-                            <LuUpload />
-                        </Icon>
-
-                        <FileUpload.DropzoneContent>
-                            <Box>Drag and drop files here.</Box>
-                            <Box color="fg.muted">
-                                Upload the required documents in PDF.
-                            </Box>
-                        </FileUpload.DropzoneContent>
-                    </FileUpload.Dropzone>
-                    <FileUpload.List clearable />
-                </FileUpload.Root>
+                <Box width="100%">
+                    <Text textStyle="sm">Upload Documents</Text>
+                    <Box padding="5px">
+                        <UploadFile />
+                    </Box>
+                </Box>
 
                 <FieldRoot>
 

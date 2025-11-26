@@ -10,7 +10,7 @@ import { ClaimantCard } from '../../components/cards/ClaimantCard';
 import { PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton } from 'st-peter-ui';
 import { ClaimantPopUpForm } from '../../components/forms/ClaimantPopUpForm';
 import { UploadFile } from '../../components/others/UploadFile';
-import { SummaryLabel } from '../../components/others/SummaryLabel';
+import { SummaryLabel, SummaryLabelList } from '../../components/others/SummaryLabel';
 // Summary: This is a test for merging.
 
 export const FileClaimPage = () => {
@@ -347,7 +347,7 @@ export const FileClaimPage = () => {
                                 <Box as="div" padding="5px">
                                     <Text textStyle="md" fontWeight="semibold" borderBottom="1px solid #a1a1aa" paddingBottom="5px" marginBottom="10px">Planholder Details</Text>
 
-                                    <Box display="flex" flexDirection="column" gap="1" padding="5px">
+                                    <Box display="flex" flexDirection="column" gap="3" padding="5px">
                                         <Grid templateColumns="repeat(2, 1fr)" gap="5">
                                             <GridItem>
                                                 <SummaryLabel label="LPA Number" value ={planholder.lpaNumber} />
@@ -364,14 +364,7 @@ export const FileClaimPage = () => {
                                             </GridItem>
 
                                             <GridItem>
-                                                <Stack gap="2" direction="row">
-                                                    <Text textStyle="sm" fontWeight="semibold" flexShrink={0}>Claim Benefits:</Text>
-                                                    <Box as="ul" display="flex" flexDirection="column" gap="1px">
-                                                        {currBenefitList.map((item, index) => (
-                                                            <li key={index}>{item} Benefit</li>
-                                                        ))}
-                                                    </Box>
-                                                </Stack>
+                                                <SummaryLabelList label="Claim Benefits" value={currBenefitList.map((item) => `${item} Benefit`)} />
                                             </GridItem>
                                         </Grid>
                                     </Box>
