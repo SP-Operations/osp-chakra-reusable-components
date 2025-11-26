@@ -16,12 +16,14 @@ import {
   Portal,
   createListCollection,
   Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import type { PayoutChannelFormProps } from "../../models/types/rop.types";
 import { FileUpload } from "../others/FileUpload";
-import { PrimaryMdFlexButton } from "st-peter-ui";
+import { InputFloatingLabel, PrimaryMdFlexButton } from "st-peter-ui";
 import { UploadFile } from "../others/UploadFile";
 import { FloatingInput } from "../others/FloatingInput";
+import { FileUploader } from "../others/FileUploader";
 
 export default function PayoutChannelForm({
   mode,
@@ -29,8 +31,6 @@ export default function PayoutChannelForm({
   document,
   isShowButton = true,
 }: PayoutChannelFormProps) {
-  const [payoutChannel, setPayoutChannel] = useState("");
-
   const existingPayout = {
     channel: "Gcash",
     account: "09171234567",
@@ -57,6 +57,18 @@ export default function PayoutChannelForm({
     ],
   });
 
+  // Create New Payout
+  const [payoutChannel, setPayoutChannel] = useState<string | string[]>("");
+  const [payoutAccount, setPayoutAccount] = useState("");
+  const [payoutFiles, setPayoutFiles] = useState([]);
+
+  const handleSubmit = () => {
+    console.log({
+      payoutChannel,
+      payoutAccount,
+      payoutFiles,
+    });
+  };
   return (
     <Box as="form" p={4} maxW="7xl" w="full" mx="auto">
       {/* Mode toggle */}
@@ -162,12 +174,11 @@ export default function PayoutChannelForm({
             {/* <Text mb={1}>Payout Channel</Text> */}
 
             <Select.Root
+              multiple={false}
               variant={"outline"}
               key={"outline"}
               collection={payout}
-              onChange={(e) =>
-                setPayoutChannel((e.target as HTMLSelectElement).value)
-              }
+              onValueChange={(item) => setPayoutChannel(item.value)}
             >
               <Select.HiddenSelect />
               {/* <Select.Label>Select Payout Channel</Select.Label> */}
@@ -195,14 +206,17 @@ export default function PayoutChannelForm({
           </Box>
 
           <Box>
-            <FloatingInput
-              //   placeholder="Enter account number or wallet ID"
+            <InputFloatingLabel
               label={"Payout Account"}
+              name={"payoutAccount"}
+              value={payoutAccount}
+              onChange={(e) => setPayoutAccount(e.target.value)}
             />
           </Box>
 
           <Flex direction="column" gap={2}>
             <UploadFile />
+
             {/* {document?.map((item) => (
               <FileUpload id={item.id} label={item.label} key={item.id} />
             ))} */}
@@ -211,7 +225,7 @@ export default function PayoutChannelForm({
       )}
 
       {(mode === "new" || mode == null) && isShowButton && (
-        <PrimaryMdFlexButton type="submit" mt="2">
+        <PrimaryMdFlexButton mt="2" onClick={handleSubmit}>
           Register Payout Channel
         </PrimaryMdFlexButton>
       )}
