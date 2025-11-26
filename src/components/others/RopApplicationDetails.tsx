@@ -15,6 +15,7 @@ import {
 import type { IRopSchema } from "../../models/types/rop.types";
 import { FloatingInput } from "./FloatingInput";
 import { mock } from "../../models/schema/RopMock";
+import { SummaryLabel } from "./SummaryLabel";
 
 export default function ROPApplicationDetails({
   data,
@@ -167,13 +168,16 @@ export default function ROPApplicationDetails({
           pb="2"
         >
           <Box>
-            <Text fontSize="xs" color="gray.500">
-              Email Address
-            </Text>
+            <Text fontSize="xs" color="gray.500"></Text>
             {uniqueData.map((item, i) => (
-              <Text key={i} fontWeight="medium">
-                {item.emailAddress ?? "—"}
-              </Text>
+              <SummaryLabel
+                key={i}
+                label=" Email Address"
+                value={item.emailAddress ?? "—"}
+              />
+              // <Text key={i} fontWeight="medium">
+              //   {item.emailAddress ?? "—"}
+              // </Text>
             ))}
           </Box>
 
