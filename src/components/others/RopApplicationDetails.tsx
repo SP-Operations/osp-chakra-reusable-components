@@ -15,6 +15,7 @@ import {
 import type { IRopSchema } from "../../models/types/rop.types";
 import { FloatingInput } from "./FloatingInput";
 import { mock } from "../../models/schema/RopMock";
+import { SummaryLabel, SummaryLabelList } from "./SummaryLabel";
 
 export default function ROPApplicationDetails({
   data,
@@ -70,7 +71,20 @@ export default function ROPApplicationDetails({
             Request#: CNT-2025-0001
           </Text>
         </Box>
-
+        {/* <Box>
+          <Text color="gray.500">ROP Amount</Text>
+          {data.length
+            ? data.map((item, i) => (
+                <Text key={i} fontWeight="medium">
+                  {item.totalAmt ?? "—"}
+                </Text>
+              ))
+            : mock.map((item, i) => (
+                <Text key={i} fontWeight="medium">
+                  {item.totalAmt ?? "—"}
+                </Text>
+              ))}
+        </Box> */}
         <Flex gap={2}>
           {!isEditing ? (
             <Button size="sm" onClick={() => setIsEditing(true)}>
@@ -101,145 +115,127 @@ export default function ROPApplicationDetails({
       {/* Form */}
       <Box as="form" onSubmit={ropForm.handleSubmit(handleSave)}>
         {/* Plan Details */}
-        <Heading size="sm" mb={2} mt={4}>
+        <Heading size="lg" mb={2} mt={4}>
           Plan Details
         </Heading>
-        <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={4}>
+        <Grid
+          templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+          gap={4}
+          // borderBottom="1px solid"
+          // borderColor="gray.200"
+          mb="2"
+        >
           <Box>
-            <Text fontSize="xs" color="gray.500">
-              Contract Number
-            </Text>
-
-            {data.length
-              ? data.map((item, i) => (
-                  <Text key={i} fontWeight="medium">
-                    {item.lpaNo ?? "—"}
-                  </Text>
-                ))
-              : mock.map((item, i) => (
-                  <Text key={i} fontWeight="medium">
-                    {item.lpaNo ?? "—"}
-                  </Text>
-                ))}
+            {data.length ? (
+              <SummaryLabelList
+                label="Contract Number"
+                value={data.map((item) => item.lpaNo)}
+              />
+            ) : (
+              mock.map((item, i) => (
+                <Text key={i} fontWeight="medium">
+                  {item.lpaNo ?? "—"}
+                </Text>
+              ))
+            )}
           </Box>
 
           <Box>
-            <Text fontSize="xs" color="gray.500">
-              Plan Type
-            </Text>
-            {data.length
-              ? data.map((item, i) => (
-                  <Text key={i} fontWeight="medium">
-                    {item.planType ?? "—"}
-                  </Text>
-                ))
-              : mock.map((item, i) => (
-                  <Text key={i} fontWeight="medium">
-                    {item.planType ?? "—"}
-                  </Text>
-                ))}
+            {data.length ? (
+              <SummaryLabelList
+                label="Plan Type"
+                value={data.map((item) => item.planType)}
+              />
+            ) : (
+              mock.map((item, i) => (
+                <Text key={i} fontWeight="medium">
+                  {item.planType ?? "—"}
+                </Text>
+              ))
+            )}
           </Box>
-
+        </Grid>
+        {/* Contact Details */}
+        <Heading size="lg" mb={2} mt={2}>
+          Contact Information
+        </Heading>
+        <Grid
+          templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+          gap={4}
+          // borderBottom="1px solid"
+          // borderColor="gray.200"
+          pb="2"
+        >
           <Box>
-            <Text fontSize="xs" color="gray.500">
-              ROP Amount
-            </Text>
-            {data.length
-              ? data.map((item, i) => (
-                  <Text key={i} fontWeight="medium">
-                    {item.totalAmt ?? "—"}
-                  </Text>
-                ))
-              : mock.map((item, i) => (
-                  <Text key={i} fontWeight="medium">
-                    {item.totalAmt ?? "—"}
-                  </Text>
-                ))}
-          </Box>
-
-          <Box>
-            <Text fontSize="xs" color="gray.500">
-              Email Address
-            </Text>
+            <Text fontSize="xs" color="gray.500"></Text>
             {uniqueData.map((item, i) => (
-              <Text key={i} fontWeight="medium">
-                {item.emailAddress ?? "—"}
-              </Text>
+              <SummaryLabel
+                key={i}
+                label="Email Address"
+                value={item.emailAddress ?? "—"}
+              />
+              // <Text key={i} fontWeight="medium">
+              //   {item.emailAddress ?? "—"}
+              // </Text>
             ))}
           </Box>
 
           <Box>
-            <Text fontSize="xs" color="gray.500">
-              Contact Number
-            </Text>
             {uniqueData.map((item, i) => (
-              <Text key={i} fontWeight="medium">
-                {item.mobileNo ?? "—"}
-              </Text>
+              <SummaryLabel
+                key={i}
+                label=" Contact Number"
+                value={item.mobileNo ?? "—"}
+              ></SummaryLabel>
             ))}
           </Box>
         </Grid>
-
         {/* PlanHolder Address */}
-        <Heading size="sm" mb={2} mt={6}>
+        <Heading size="lg" mb={2} mt={2}>
           Planholder Address
         </Heading>
         {uniqueData.map((item, index) =>
           !isEditing ? (
             <Grid
-              templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
-              gap={4}
-              mb={4}
+              templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+              gap={1}
+              // borderBottom="1px solid"
+              // borderColor="gray.200"
+              pb="2"
               key={index}
             >
               <Box>
-                <Text fontSize="xs" color="gray.500">
-                  Lot#
-                </Text>
-                <Text fontWeight="medium">{item.lotNumber ?? "—"}</Text>
+                <SummaryLabel label="Lot#" value={item.lotNumber ?? "—"} />
               </Box>
               <Box>
-                <Text fontSize="xs" color="gray.500">
-                  Street
-                </Text>
-                <Text fontWeight="medium">{item.street ?? "—"}</Text>
+                <SummaryLabel label="Street" value={item.street ?? "—"} />
               </Box>
               <Box>
-                <Text fontSize="xs" color="gray.500">
-                  Barangay
-                </Text>
-                <Text fontWeight="medium">{item.brangay ?? "—"}</Text>
+                <SummaryLabel label="Barangay" value={item.brangay ?? "—"} />
               </Box>
               <Box>
-                <Text fontSize="xs" color="gray.500">
-                  District
-                </Text>
-                <Text fontWeight="medium">{item.district ?? "—"}</Text>
+                <SummaryLabel label="District" value={item.district ?? "—"} />
               </Box>
               <Box>
-                <Text fontSize="xs" color="gray.500">
-                  City
-                </Text>
-                <Text fontWeight="medium">{item.city ?? "—"}</Text>
+                <SummaryLabel label="City" value={item.city ?? "—"} />
               </Box>
               <Box>
                 <Text fontSize="xs" color="gray.500">
                   Province
                 </Text>
-                <Text fontWeight="medium">{item.province ?? "—"}</Text>
+                <SummaryLabel label="Province" value={item.province ?? "—"} />
               </Box>
               <Box>
-                <Text fontSize="xs" color="gray.500">
-                  Zip Code
-                </Text>
-                <Text fontWeight="medium">{item.zipCode ?? "—"}</Text>
+                <SummaryLabel label="Zip Code" value={item.zipCode ?? "—"} />
               </Box>
             </Grid>
           ) : (
             <Grid
-              templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
-              gap={4}
-              mb={4}
+              templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+              gap={1}
+              borderBottom="1px solid"
+              borderColor="gray.200"
+              mb="2"
               key={index}
             >
               <FloatingInput
@@ -281,27 +277,29 @@ export default function ROPApplicationDetails({
         )}
 
         {/* Payout Details */}
-        <Heading size="sm" mb={2} mt={6}>
+        <Heading size="lg" mb={2} mt={2}>
           Payout Details
         </Heading>
         {uniqueData.map((item, index) => (
           <Grid
-            templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
+            templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
             gap={4}
-            mb={4}
+            borderBottom="1px solid"
+            borderColor="gray.200"
+            pb="2"
             key={index}
           >
             <Box>
-              <Text fontSize="xs" color="gray.500">
-                Payout Channel
-              </Text>
-              <Text fontWeight="medium">{item.payoutChannel ?? "—"}</Text>
+              <SummaryLabel
+                label="Payout Channel"
+                value={item.payoutChannel ?? "—"}
+              />
             </Box>
             <Box>
-              <Text fontSize="xs" color="gray.500">
-                Account Number
-              </Text>
-              <Text fontWeight="medium">{item.payoutAccount ?? "—"}</Text>
+              <SummaryLabel
+                label="Account Number"
+                value={item.payoutAccount ?? "—"}
+              />
             </Box>
           </Grid>
         ))}

@@ -2,13 +2,16 @@
 
 import React from 'react'
 import { type Claimant, type PhClaimant } from '../../models/types/claim.types';
-import { Box, Button, CloseButton, Container, Dialog, FieldRoot, FileUpload, Flex, Grid, GridItem, Heading, Icon, Portal, Stack, Steps, Table, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, CloseButton, Container, Dialog, FieldRoot, FileUpload, Flex, Grid, GridItem, Heading, Icon, Link, Portal, Stack, Steps, Table, Text, useDisclosure } from '@chakra-ui/react';
 import { LuUpload, LuUserRound } from 'react-icons/lu';
 import { PlanholderForm } from '../../components/forms/PlanholderForm';
 import { SuccessPage } from '../success-page/SuccessPage';
 import { ClaimantCard } from '../../components/cards/ClaimantCard';
 import { PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton } from 'st-peter-ui';
 import { ClaimantPopUpForm } from '../../components/forms/ClaimantPopUpForm';
+import { UploadFile } from '../../components/others/UploadFile';
+import { SummaryLabel, SummaryLabelList } from '../../components/others/SummaryLabel';
+// Summary: This is a test for merging.
 
 export const FileClaimPage = () => {
     // Summary:
@@ -68,7 +71,7 @@ export const FileClaimPage = () => {
     const stepTitles = [
         "Documents",
         "Planholder",
-        "Claimant's",
+        "Claimant(s)",
         "Review & Submit"
     ];
 
@@ -227,23 +230,10 @@ export const FileClaimPage = () => {
                                     <Flex gap="15px">
                                         <Box width="100%">
                                             <Text textStyle="lg" fontWeight="semibold">Upload Documents</Text>
-                                            <Box textStyle="md">Please upload the required documents listed in the previous step.</Box>
-                                            <FileUpload.Root alignItems="stretch">
-                                                <FileUpload.HiddenInput />
-                                                <FileUpload.Dropzone>
-                                                    <Icon size="md" color="fg.muted">
-                                                        <LuUpload />
-                                                    </Icon>
-
-                                                    <FileUpload.DropzoneContent>
-                                                        <Box>Drag and drop files here.</Box>
-                                                        <Box color="fg.muted">
-                                                            Upload the required documents in PDF.
-                                                        </Box>
-                                                    </FileUpload.DropzoneContent>
-                                                </FileUpload.Dropzone>
-                                                <FileUpload.List clearable />
-                                            </FileUpload.Root>
+                                            <Text textStyle="md">Please upload the required documents listed in the previous step.</Text>
+                                            <Box padding="5px">
+                                                <UploadFile />
+                                            </Box>
                                         </Box>
 
                                         <FieldRoot></FieldRoot>
@@ -357,40 +347,24 @@ export const FileClaimPage = () => {
                                 <Box as="div" padding="5px">
                                     <Text textStyle="md" fontWeight="semibold" borderBottom="1px solid #a1a1aa" paddingBottom="5px" marginBottom="10px">Planholder Details</Text>
 
-                                    <Box display="flex" flexDirection="column" gap="1" padding="5px">
+                                    <Box display="flex" flexDirection="column" gap="3" padding="5px">
                                         <Grid templateColumns="repeat(2, 1fr)" gap="5">
                                             <GridItem>
-                                                <Stack gap="2" direction="row">
-                                                    <Text textStyle="sm" fontWeight="semibold">LPA Number:</Text>
-                                                    <Text textStyle="sm">{planholder.lpaNumber}</Text>
-                                                </Stack>
+                                                <SummaryLabel label="LPA Number" value ={planholder.lpaNumber} />
                                             </GridItem>
 
                                             <GridItem>
-                                                <Stack gap="2" direction="row">
-                                                    <Text textStyle="sm" fontWeight="semibold">Date of Death:</Text>
-                                                    <Text textStyle="sm">{getPhDeathDate()}</Text>
-                                                </Stack>
+                                                <SummaryLabel label="Date of Death" value={getPhDeathDate()} />
                                             </GridItem>
                                         </Grid>
 
                                         <Grid templateColumns="repeat(2, 1fr)" gap="5">
                                             <GridItem>
-                                                <Stack gap="2" direction="row">
-                                                    <Text textStyle="sm" fontWeight="semibold" flexShrink={0}>Cause of Death:</Text>
-                                                    <Text textStyle="sm">{planholder.causeOfIncident}</Text>
-                                                </Stack>
+                                                <SummaryLabel label="Cause of Death" value={planholder.causeOfIncident} />
                                             </GridItem>
 
                                             <GridItem>
-                                                <Stack gap="2" direction="row">
-                                                    <Text textStyle="sm" fontWeight="semibold" flexShrink={0}>Claim Benefits:</Text>
-                                                    <Box as="ul" display="flex" flexDirection="column" gap="1px">
-                                                        {currBenefitList.map((item, index) => (
-                                                            <li key={index}>{item} Benefit</li>
-                                                        ))}
-                                                    </Box>
-                                                </Stack>
+                                                <SummaryLabelList label="Claim Benefits" value={currBenefitList.map((item) => `${item} Benefit`)} />
                                             </GridItem>
                                         </Grid>
                                     </Box>
@@ -465,6 +439,13 @@ export const FileClaimPage = () => {
                     )}
 
                     <Box display="flex" gap="10px" flexDirection="row" justifyContent="space-between" marginTop="auto">
+                        {(pageNumber === 1) && (
+                            <Box gap="5px" display="flex" flexDirection="row" alignItems="center" justifyContent="center">
+                                <Text textStyle="md" fontWeight="initial">Already submitted a claim?</Text>
+                                <Link href="#" textStyle="md" fontWeight="semibold">Click here to check your claim status.</Link>
+                            </Box>
+                        )}
+
                         <Steps.PrevTrigger asChild>
                             <SecondaryMdButton onClick={onPrevBtnClick} visibility={(pageNumber > 1 && pageNumber < 5) ? "visible" : "hidden"}>Previous</SecondaryMdButton>
                         </Steps.PrevTrigger>

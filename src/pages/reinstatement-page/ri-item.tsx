@@ -15,7 +15,7 @@ import {
     Flex
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { BaseButton, InputFloatingLabel, SecondarySmButton } from "st-peter-ui";
+import { BaseButton, InputFloatingLabel, PrimaryMdButton, SecondarySmButton, UnselectSolidButton } from "st-peter-ui";
 
 interface CheckedPlan {
   lpaNo: string;
@@ -336,9 +336,8 @@ export default function RIPlanItem({ plan, onChange }: RIPlanItemProps) {
                     </Text>
                   </Box>
                   <Box mt={3} mx={"auto"} textAlign={"center"}>
-                    <BaseButton
-                      variant={isChecked ? "outline" : "solid"}
-                      bg={"var(--chakra-colors-primary)"}
+                    {isChecked ? (
+                      <UnselectSolidButton 
                       onClick={() => {
                         setIsChecked((checked) => !checked);
                         onChange?.(!isChecked, {
@@ -349,10 +348,21 @@ export default function RIPlanItem({ plan, onChange }: RIPlanItemProps) {
                           reinstatementPayment: reinstatementPayment,
                         });
                         onClose();
-                      }}
-                    >
-                      {isChecked ? "Unselect" : "Select"}
-                    </BaseButton>
+                      }}/>
+                    ) : (
+                      <PrimaryMdButton 
+                      onClick={() => {
+                        setIsChecked((checked) => !checked);
+                        onChange?.(!isChecked, {
+                          lpaNo: plan.lpaNo,
+                          planType: plan.planType,
+                          isFullyPaid: isFullyPaid,
+                          reinstatementFee: reinstatementFee,
+                          reinstatementPayment: reinstatementPayment,
+                        });
+                        onClose();
+                      }}>Select</PrimaryMdButton>
+                    )}
                   </Box>
                 </Dialog.Body>
                 <Dialog.CloseTrigger asChild>
