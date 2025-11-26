@@ -20,7 +20,7 @@ export const PlanholderForm = (params: PlanholderFormParams) => {
         <>
             <Box>
                 <Text textStyle="xl" fontWeight="semibold" mb="0.5">Planholder Details</Text>
-                <Text textStyle="sm" fontWeight="initial">
+                <Text textStyle="md" fontWeight="initial" padding="5px">
                     You are eligible for {params.benefitText}. However, please note that your claims is subject for review and approval.
                     Please provide the following information to complete your claim request.
                 </Text>
