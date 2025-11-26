@@ -10,6 +10,7 @@ import { ClaimantCard } from '../../components/cards/ClaimantCard';
 import { PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton } from 'st-peter-ui';
 import { ClaimantPopUpForm } from '../../components/forms/ClaimantPopUpForm';
 import { UploadFile } from '../../components/others/UploadFile';
+import { SummaryLabel } from '../../components/others/SummaryLabel';
 // Summary: This is a test for merging.
 
 export const FileClaimPage = () => {
@@ -349,26 +350,17 @@ export const FileClaimPage = () => {
                                     <Box display="flex" flexDirection="column" gap="1" padding="5px">
                                         <Grid templateColumns="repeat(2, 1fr)" gap="5">
                                             <GridItem>
-                                                <Stack gap="2" direction="row">
-                                                    <Text textStyle="sm" fontWeight="semibold">LPA Number:</Text>
-                                                    <Text textStyle="sm">{planholder.lpaNumber}</Text>
-                                                </Stack>
+                                                <SummaryLabel label="LPA Number" value ={planholder.lpaNumber} />
                                             </GridItem>
 
                                             <GridItem>
-                                                <Stack gap="2" direction="row">
-                                                    <Text textStyle="sm" fontWeight="semibold">Date of Death:</Text>
-                                                    <Text textStyle="sm">{getPhDeathDate()}</Text>
-                                                </Stack>
+                                                <SummaryLabel label="Date of Death" value={getPhDeathDate()} />
                                             </GridItem>
                                         </Grid>
 
                                         <Grid templateColumns="repeat(2, 1fr)" gap="5">
                                             <GridItem>
-                                                <Stack gap="2" direction="row">
-                                                    <Text textStyle="sm" fontWeight="semibold" flexShrink={0}>Cause of Death:</Text>
-                                                    <Text textStyle="sm">{planholder.causeOfIncident}</Text>
-                                                </Stack>
+                                                <SummaryLabel label="Cause of Death" value={planholder.causeOfIncident} />
                                             </GridItem>
 
                                             <GridItem>
