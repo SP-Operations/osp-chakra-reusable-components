@@ -225,7 +225,7 @@ export default function PayoutChannelForm({
       )}
 
       {(mode === "new" || mode == null) && isShowButton && (
-        <PrimaryMdFlexButton mt="2" onClick={handleSubmit}>
+        <PrimaryMdFlexButton type="submit" mt="2" onClick={handleSubmit}>
           Register Payout Channel
         </PrimaryMdFlexButton>
       )}
