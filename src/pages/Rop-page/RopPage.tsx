@@ -18,6 +18,7 @@ import {
   Button,
   FileUpload,
   Grid,
+  Breadcrumb,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { RopPlanListForm } from "../../components/forms/RopPlanListForm";
@@ -96,6 +97,21 @@ export const RopPage = ({ onClick }: RopPageProps) => {
 
   return (
     <Card.Root w="7xl" border={0}>
+      <Breadcrumb.Root>
+        <Breadcrumb.List>
+          <Breadcrumb.Item>
+            <Breadcrumb.Link href="#">Home</Breadcrumb.Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Separator />
+          <Breadcrumb.Item>
+            <Breadcrumb.Link href="#">Plan Management</Breadcrumb.Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Separator />
+          <Breadcrumb.Item>
+            <Breadcrumb.CurrentLink>ROP Application</Breadcrumb.CurrentLink>
+          </Breadcrumb.Item>
+        </Breadcrumb.List>
+      </Breadcrumb.Root>
       <Card.Body>
         <Box mb="4">
           <H2>RETURN OF PREMIUM</H2>
