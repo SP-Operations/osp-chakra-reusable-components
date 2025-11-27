@@ -3,7 +3,7 @@
 import React from 'react'
 import { Box, createListCollection, Field, Grid, GridItem, Select, Separator, Stack, Text, Textarea } from '@chakra-ui/react'
 import type { PlanholderFormParams } from '../../models/types/claim.types'
-import { InputFloatingLabel } from 'st-peter-ui'
+import { Body, H3, InputFloatingLabel } from 'st-peter-ui'
 import { UploadFile } from '../others/UploadFile'
 
 export const PlanholderForm = (params: PlanholderFormParams) => {
@@ -21,8 +21,8 @@ export const PlanholderForm = (params: PlanholderFormParams) => {
         <>
             <Box>
                 <Box>
-                    <Text textStyle="xl" mb="0.5" fontWeight="semibold">Planholder</Text>
-                    <Text textStyle="md" mb="1">Please provide the following information about the planholder.</Text>
+                    <H3>Planholder</H3>
+                    <Body textStyle="md" mb="1">Please provide the following information about the planholder.</Body>
                 </Box>
 
                 <Box padding="5px">

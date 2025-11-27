@@ -2,12 +2,12 @@
 
 import React from 'react'
 import { type Claimant, type PhClaimant } from '../../models/types/claim.types';
-import { Box, Button, CloseButton, Container, Dialog, FieldRoot, Flex, Grid, GridItem, Heading, Separator, Link, Portal, Stack, Steps, Table, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, CloseButton, Container, Dialog, FieldRoot, Flex, Grid, GridItem, Heading, Separator, Link, Portal, Stack, Steps, Table, Text, useDisclosure, Breadcrumb } from '@chakra-ui/react';
 import { LuUserRound } from 'react-icons/lu';
 import { PlanholderForm } from '../../components/forms/PlanholderForm';
 import { SuccessPage } from '../success-page/SuccessPage';
 import { ClaimantCard } from '../../components/cards/ClaimantCard';
-import { PreviousButton, PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton } from 'st-peter-ui';
+import { Body, DynamicButton, H2, H3, PreviousButton, PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton } from 'st-peter-ui';
 import { ClaimantPopUpForm } from '../../components/forms/ClaimantPopUpForm';
 import { UploadFile } from '../../components/others/UploadFile';
 import { SummaryLabel, SummaryLabelList } from '../../components/others/SummaryLabel';
@@ -192,9 +192,24 @@ export const FileClaimPage = () => {
             <Steps.Root defaultStep={0} count={stepTitles.length} step={stepNumber} onStepChange={(e) => setStepNumber(e.step)}>
                 {(pageNumber < 5) && (
                     <>
+                        <Breadcrumb.Root>
+                            <Breadcrumb.List>
+                                <Breadcrumb.Item>
+                                    <Breadcrumb.Link href="#">Home</Breadcrumb.Link>
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Separator />
+                                <Breadcrumb.Item>
+                                    <Breadcrumb.Link href="#">Plan Management</Breadcrumb.Link>
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Separator />
+                                <Breadcrumb.Item>
+                                    <Breadcrumb.CurrentLink>Change of Mode</Breadcrumb.CurrentLink>
+                                </Breadcrumb.Item>
+                            </Breadcrumb.List>
+                        </Breadcrumb.Root>
                         <Container>
-                            <Heading textStyle="2xl" fontWeight="semibold">Claim Application</Heading>
-                            <Text fontSize="sm" color="gray.600" mt={1}>Your claim matters. We make it easy.</Text>
+                            <H2>Claim Application</H2>
+                            <Body color="gray.600" mt={1}>Your claim matters. We make it easy.</Body>
                         </Container>
 
                         <Container>
@@ -221,11 +236,11 @@ export const FileClaimPage = () => {
                     {(pageNumber === 2) && (
                         <>
                             <Box>
-                                <Text textStyle="xl">Document's</Text>
+                                <H3>Document's</H3>
 
-                                <Text textStyle="md">
+                                <Body textStyle="md">
                                     Please provide the following documentation for your convenience in the next steps.
-                                </Text>
+                                </Body>
                             </Box>
 
                             <Box padding="5px">
@@ -266,10 +281,10 @@ export const FileClaimPage = () => {
                         <>
                             {/* <ClaimantForm onClaimantEvent={setClaimantList} value={claimantList} /> */}
                             <Box>
-                                <Heading size="xl" fontWeight="semibold">Claimant(s)</Heading>
-                                <Text fontSize="sm" fontStyle={"italic"}>
+                                <H3>Claimant(s)</H3>
+                                <Body>
                                     Provide the necessary details of the claimant(s) who will be receiving the claim benefits on behalf of the planholder.
-                                </Text>
+                                </Body>
 
                                 <Stack direction="column" gap="10px" padding="5px">
                                     <Box display="flex" gap="5px" justifyContent="space-between" alignItems="center" width="100%">
@@ -357,7 +372,7 @@ export const FileClaimPage = () => {
                     {(pageNumber === 4) && (
                         <>
                             <Stack direction="column" gap="0">
-                                <Box textStyle="xl" fontWeight="semibold" w="100%">Claim Summary</Box>
+                                <H3>Claim Summary</H3>
 
                                 <Box as="div" padding="5px">
                                     <Text textStyle="md" fontWeight="semibold" borderBottom="1px solid #a1a1aa" paddingBottom="5px" marginBottom="10px">Planholder Details</Text>
@@ -467,7 +482,7 @@ export const FileClaimPage = () => {
 
                         {(pageNumber < 5) && (
                             <Steps.NextTrigger asChild>
-                                <PrimaryMdButton onClick={onNextBtnClick}>{(pageNumber) >= 4 ? "Submit" : "Next"}</PrimaryMdButton>
+                                <DynamicButton onClick={onNextBtnClick} label={(pageNumber) >= 4 ? "Submit" : "Next"} />
                             </Steps.NextTrigger>
                         )}
                     </Box>
