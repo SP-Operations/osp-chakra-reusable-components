@@ -58,7 +58,7 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
 
   return (
     <Box maxW="7xl" w="full" mx="auto">
-      <Box mb="4" textAlign={"center"}>
+      <Box mb="4">
         <H2>RETURN OF PREMIUM</H2>
       </Box>
       {/* {step === 1 && (

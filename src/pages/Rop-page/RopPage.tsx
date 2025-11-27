@@ -97,7 +97,7 @@ export const RopPage = ({ onClick }: RopPageProps) => {
   return (
     <Card.Root w="7xl" border={0}>
       <Card.Body>
-        <Box mb="4" mx="auto">
+        <Box mb="4">
           <H2>RETURN OF PREMIUM</H2>
         </Box>
         <Steps.Root
