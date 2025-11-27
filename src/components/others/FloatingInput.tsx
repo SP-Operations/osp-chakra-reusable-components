@@ -15,6 +15,7 @@ interface FloatingInputProps extends InputProps {
   error?: string | undefined | null; // allow undefined and null
   value?: string | undefined;
   defaultValue?: string | undefined;
+  autoCheck?: any;
 }
 
 export const FloatingInput = ({
@@ -22,6 +23,8 @@ export const FloatingInput = ({
   register,
   error,
   value,
+  autoCheck,
+  defaultValue,
   ...rest
 }: FloatingInputProps) => {
   const [focused, setFocused] = useState(false);
@@ -29,12 +32,15 @@ export const FloatingInput = ({
   const [hasValue, setHasValue] = useState(false);
 
   // Update hasValue on mount for defaultValue
+
   useEffect(() => {
-    if (inputRef.current) {
-      setHasValue(inputRef.current.value !== "");
-      console.log(inputRef.current.value);
-    }
-  }, []);
+    requestAnimationFrame(() => {
+      if (inputRef.current) {
+        setHasValue(inputRef.current.value !== "");
+      }
+    });
+  }, [value, defaultValue, autoCheck]);
+
   const shouldFloat = focused || hasValue;
   const [inputState, setInputState] = useControllableState({
     value,
@@ -45,17 +51,19 @@ export const FloatingInput = ({
       <Box pos="relative" w="full" my="8px">
         <Input
           ref={inputRef}
-          {...register} // name, onChange, onBlur, ref
-          {...rest} // type, disabled, etc.
+          {...register}
+          {...rest}
+          value={inputState}
           onFocus={() => setFocused(true)}
           onBlur={(e) => {
             setFocused(false);
             register?.onBlur?.(e);
-            setHasValue(e.target.value !== ""); // RHF needs this
+            setHasValue(e.target.value !== "");
           }}
           onChange={(e) => {
-            register?.onChange(e);
+            register?.onChange?.(e);
             setInputState(e.target.value);
+            setHasValue(e.target.value !== "");
           }}
           data-float={shouldFloat || undefined}
         />

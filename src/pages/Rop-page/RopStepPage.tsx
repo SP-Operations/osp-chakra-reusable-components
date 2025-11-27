@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
+  Breadcrumb,
   Button,
   ButtonGroup,
   CloseButton,
@@ -24,7 +25,14 @@ import type {
 } from "../../models/types/rop.types";
 import PayoutChannelForm from "../../components/forms/PayoutChannelForm";
 import ROPApplicationDetails from "../../components/others/RopApplicationDetails";
-import { H2, PrimaryMdButton, SecondaryMdButton } from "st-peter-ui";
+import {
+  H2,
+  H3,
+  NextButton,
+  PreviousButton,
+  PrimaryMdButton,
+  SecondaryMdButton,
+} from "st-peter-ui";
 import { stepper } from "../../models/schema/RopMock";
 import { SuccessPage } from "../success-page/SuccessPage";
 
@@ -51,7 +59,25 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
 
   return (
     <Box maxW="7xl" w="full" mx="auto">
-      {step === 1 && (
+      <Breadcrumb.Root mb="4">
+        <Breadcrumb.List>
+          <Breadcrumb.Item>
+            <Breadcrumb.Link href="#">Home</Breadcrumb.Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Separator />
+          <Breadcrumb.Item>
+            <Breadcrumb.Link href="#">Plan Management</Breadcrumb.Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Separator />
+          <Breadcrumb.Item>
+            <Breadcrumb.CurrentLink>ROP Application</Breadcrumb.CurrentLink>
+          </Breadcrumb.Item>
+        </Breadcrumb.List>
+      </Breadcrumb.Root>
+      <Box mb="4">
+        <H2>RETURN OF PREMIUM</H2>
+      </Box>
+      {/* {step === 1 && (
         <Box mb="4">
           <Text textStyle="2xl" fontWeight="semibold" textAlign={"center"}>
             PAYOUT CHANNEL
@@ -64,7 +90,7 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
             SUMMARY DETAILS OVERVIEW
           </Text>
         </Box>
-      )}
+      )} */}
 
       <Steps.Root defaultStep={1} count={stepper.length} colorPalette={"green"}>
         {step < 3 && (
@@ -84,11 +110,11 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
         {/* Step 1: Payout Channel */}
         {step === 1 && (
           <VStack align="start">
-            <Heading size="md">
+            <H3>
               {mode === "existing"
                 ? "Select Payout Channel"
                 : "Register Payout Channel"}
-            </Heading>
+            </H3>
 
             {mode === "new" ? (
               <Text
@@ -116,11 +142,10 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
             <PayoutChannelForm mode={mode} setMode={setMode} document={docs} />
             {mode === "existing" && (
               <Flex justify="space-between" w="full" px="4">
-                <SecondaryMdButton onClick={() => window.history.back()}>
-                  PREVIOUS
-                </SecondaryMdButton>
+                <PreviousButton onClick={() => window.history.back()} />
+
                 <Steps.NextTrigger asChild>
-                  <PrimaryMdButton onClick={nextStep}>Next</PrimaryMdButton>
+                  <NextButton onClick={nextStep} />
                 </Steps.NextTrigger>
               </Flex>
             )}
@@ -138,19 +163,15 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
             {!isEditing && (
               <Flex justify="space-between" w="full" pt={4}>
                 <Steps.PrevTrigger asChild>
-                  <SecondaryMdButton onClick={prevStep}>
-                    PREVIOUS
-                  </SecondaryMdButton>
+                  <PreviousButton onClick={prevStep} />
                 </Steps.PrevTrigger>
                 <Steps.NextTrigger asChild>
-                  <PrimaryMdButton
+                  <NextButton
                     // onClick={() => {
                     //   setIsSuccessModalOpen(true);
                     // }}
                     onClick={nextStep}
-                  >
-                    Submit
-                  </PrimaryMdButton>
+                  />
                 </Steps.NextTrigger>
               </Flex>
             )}
