@@ -11,11 +11,25 @@ import {
   Text,
   Button,
   Input,
+  Stack,
+  Dialog,
+  Portal,
+  CloseButton,
+  useDisclosure,
+  HStack,
 } from "@chakra-ui/react";
 import type { IRopSchema } from "../../models/types/rop.types";
 import { FloatingInput } from "./FloatingInput";
 import { mock } from "../../models/schema/RopMock";
 import { SummaryLabel, SummaryLabelList } from "./SummaryLabel";
+import {
+  H2,
+  H3,
+  H4,
+  InputFloatingLabel,
+  PrimarySmButton,
+  SecondarySmButton,
+} from "st-peter-ui";
 
 export default function ROPApplicationDetails({
   data,
@@ -52,9 +66,13 @@ export default function ROPApplicationDetails({
   // }, [data, ropForm]);
 
   const onSubmit = ropForm.handleSubmit(handleSave);
+  const [open, setOpen] = useState(false);
 
   return (
     <Box maxW="7xl" w="full" p={4}>
+      <Box mb="3">
+        <H3>Return of Premium Summary</H3>
+      </Box>
       {/* Header */}
       <Flex justify="space-between" align="center" mb={6}>
         <Box>
@@ -87,11 +105,12 @@ export default function ROPApplicationDetails({
         </Box> */}
         <Flex gap={2}>
           {!isEditing ? (
-            <Button size="sm" onClick={() => setIsEditing(true)}>
-              {/* <Edit2 size={16} /> */}
-              Edit
-            </Button>
+            <></>
           ) : (
+            // <Button size="sm" onClick={() => setIsEditing(true)}>
+            //   {/* <Edit2 size={16} /> */}
+            //   Edit
+            // </Button>
             <>
               <Button colorScheme="green" size="sm" onClick={onSubmit}>
                 <Save size={16} />
@@ -115,15 +134,15 @@ export default function ROPApplicationDetails({
       {/* Form */}
       <Box as="form" onSubmit={ropForm.handleSubmit(handleSave)}>
         {/* Plan Details */}
-        <Heading size="lg" mb={2} mt={4}>
-          Plan Details
-        </Heading>
+        <Box my={2}>
+          <H4>Plan Details</H4>
+        </Box>
         <Grid
           templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
           gap={4}
-          // borderBottom="1px solid"
-          // borderColor="gray.200"
-          mb="2"
+          borderBottom="1px solid"
+          borderColor="gray.300"
+          pb="4"
         >
           <Box>
             {data.length ? (
@@ -156,15 +175,15 @@ export default function ROPApplicationDetails({
           </Box>
         </Grid>
         {/* Contact Details */}
-        <Heading size="lg" mb={2} mt={2}>
-          Contact Information
-        </Heading>
+        <Box my={2}>
+          <H4>Contact Information</H4>
+        </Box>
         <Grid
           templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
           gap={4}
-          // borderBottom="1px solid"
-          // borderColor="gray.200"
-          pb="2"
+          borderBottom="1px solid"
+          borderColor="gray.300"
+          pb="4"
         >
           <Box>
             <Text fontSize="xs" color="gray.500"></Text>
@@ -191,16 +210,20 @@ export default function ROPApplicationDetails({
           </Box>
         </Grid>
         {/* PlanHolder Address */}
-        <Heading size="lg" mb={2} mt={2}>
-          Planholder Address
-        </Heading>
+        <Stack direction={"row"} my={2}>
+          <H4>Planholder Address</H4>
+          <Button size={"sm"} onClick={() => setOpen(true)}>
+            {/* <Edit2 size={16} /> */}
+            Edit
+          </Button>
+        </Stack>
         {uniqueData.map((item, index) =>
           !isEditing ? (
             <Grid
               templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
               gap={1}
-              // borderBottom="1px solid"
-              // borderColor="gray.200"
+              borderBottom="1px solid"
+              borderColor="gray.200"
               pb="2"
               key={index}
             >
@@ -220,9 +243,6 @@ export default function ROPApplicationDetails({
                 <SummaryLabel label="City" value={item.city ?? "—"} />
               </Box>
               <Box>
-                <Text fontSize="xs" color="gray.500">
-                  Province
-                </Text>
                 <SummaryLabel label="Province" value={item.province ?? "—"} />
               </Box>
               <Box>
@@ -230,56 +250,14 @@ export default function ROPApplicationDetails({
               </Box>
             </Grid>
           ) : (
-            <Grid
-              templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
-              gap={1}
-              borderBottom="1px solid"
-              borderColor="gray.200"
-              mb="2"
-              key={index}
-            >
-              <FloatingInput
-                label="Lot#"
-                {...ropForm.register(`items.${index}.lotNumber`)}
-              />
-
-              <FloatingInput
-                label={"Street"}
-                {...ropForm.register(`items.${index}.street`)}
-              />
-
-              <FloatingInput
-                label={"Barangay"}
-                {...ropForm.register(`items.${index}.brangay`)}
-              />
-
-              <FloatingInput
-                label={"District"}
-                {...ropForm.register(`items.${index}.district`)}
-              />
-
-              <FloatingInput
-                label={"City"}
-                {...ropForm.register(`items.${index}.city`)}
-              />
-
-              <FloatingInput
-                label={"province"}
-                {...ropForm.register(`items.${index}.province`)}
-              />
-
-              <FloatingInput
-                label={"Zip Code"}
-                {...ropForm.register(`items.${index}.zipCode`)}
-              />
-            </Grid>
+            ""
           )
         )}
 
         {/* Payout Details */}
-        <Heading size="lg" mb={2} mt={2}>
-          Payout Details
-        </Heading>
+        <Box my="2">
+          <H4>Payout Details</H4>
+        </Box>
         {uniqueData.map((item, index) => (
           <Grid
             templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
@@ -304,6 +282,86 @@ export default function ROPApplicationDetails({
           </Grid>
         ))}
       </Box>
+
+      <Dialog.Root
+        lazyMount
+        open={open}
+        role="alertdialog"
+        onOpenChange={(e) => setOpen(e.open)}
+        size={{ mdDown: "full", md: "lg" }}
+        placement="center"
+      >
+        <Dialog.Trigger asChild></Dialog.Trigger>
+        <Portal>
+          <Dialog.Backdrop zIndex={1000} />
+          <Dialog.Positioner zIndex={1001}>
+            <Dialog.Content zIndex={1001} onClick={(e) => e.preventDefault()}>
+              <Dialog.Header>
+                <Dialog.Title>Edit Planholder Address</Dialog.Title>
+              </Dialog.Header>
+              <Dialog.Body>
+                {uniqueData.map((item, index) => (
+                  <Grid
+                    templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+                    gap={4}
+                    borderBottom="1px solid"
+                    borderColor="gray.300"
+                    pb="4"
+                    key={index}
+                  >
+                    <FloatingInput
+                      label="Lot#"
+                      {...ropForm.register(`items.${index}.lotNumber`)}
+                    />
+
+                    <FloatingInput
+                      label="Street"
+                      {...ropForm.register(`items.${index}.street`)}
+                      autoCheck={open} // if inside a modal
+                    />
+
+                    <FloatingInput
+                      label={"Barangay"}
+                      {...ropForm.register(`items.${index}.brangay`)}
+                    />
+
+                    <FloatingInput
+                      label={"District"}
+                      {...ropForm.register(`items.${index}.district`)}
+                    />
+
+                    <FloatingInput
+                      label={"City"}
+                      {...ropForm.register(`items.${index}.city`)}
+                    />
+
+                    <FloatingInput
+                      label={"province"}
+                      {...ropForm.register(`items.${index}.province`)}
+                    />
+
+                    <FloatingInput
+                      label={"Zip Code"}
+                      {...ropForm.register(`items.${index}.zipCode`)}
+                    />
+                  </Grid>
+                ))}
+              </Dialog.Body>
+              <Dialog.Footer>
+                <Dialog.ActionTrigger asChild>
+                  <Button variant="outline" onClick={() => setOpen(false)}>
+                    Cancel
+                  </Button>
+                </Dialog.ActionTrigger>
+                <Button>Save</Button>
+              </Dialog.Footer>
+              <Dialog.CloseTrigger asChild>
+                <CloseButton size="sm" />
+              </Dialog.CloseTrigger>
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     </Box>
   );
 }
