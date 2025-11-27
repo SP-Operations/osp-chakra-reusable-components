@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Flex, Table, Checkbox, Text, Heading } from "@chakra-ui/react";
 import type { IRopSchema } from "../../models/types/rop.types";
-import { PrimarySmButton, SecondarySmButton } from "st-peter-ui";
+import { H4, PrimarySmButton, SecondarySmButton, Small } from "st-peter-ui";
 import { ListItem, ListItemColumn } from "../list-item/list-item";
 
 type RopPlanListProps = {
@@ -120,10 +120,10 @@ export function RopPlanListForm({ data, onClick }: RopPlanListProps) {
       borderTopLeftRadius={"md"}
       borderTopEndRadius={"md"}
     >
-      <Heading size="lg">List of Fully Paid Plans</Heading>
-      <Text fontSize="sm" mb="4" fontStyle={"italic"}>
-        Kindly select plans you want to request.
-      </Text>
+      <H4>List of Fully Paid Plans</H4>
+      <Box mb={"4"} fontStyle={"italic"}>
+        <Small>Kindly select plans you want to request.</Small>
+      </Box>
       {data.map((item) => (
         <ListItem
           selectable={true}

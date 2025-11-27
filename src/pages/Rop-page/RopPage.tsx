@@ -6,7 +6,6 @@ import {
   Heading,
   ListItem,
   Flex,
-  Button,
   Text,
   List,
   Collapsible,
@@ -15,6 +14,10 @@ import {
   Portal,
   CloseButton,
   Steps,
+  Center,
+  Button,
+  FileUpload,
+  Grid,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { RopPlanListForm } from "../../components/forms/RopPlanListForm";
@@ -23,10 +26,18 @@ import type { IRopSchema, ISearchRopForm } from "../../models/types/rop.types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { mock, stepper } from "../../models/schema/RopMock";
-import { FileUpload } from "../../components/others/FileUpload";
-import { H2, PrimaryMdFlexButton } from "st-peter-ui";
+// import { FileUpload } from "../../components/others/FileUpload";
+import {
+  Body,
+  H2,
+  H3,
+  H4,
+  InputFloatingLabel,
+  PrimaryMdFlexButton,
+} from "st-peter-ui";
 import { FloatingInput } from "../../components/others/FloatingInput";
 import { UploadFile } from "../../components/others/UploadFile";
+import { HiUpload } from "react-icons/hi";
 
 type RopPageProps = {
   onClick: () => void;
@@ -87,9 +98,7 @@ export const RopPage = ({ onClick }: RopPageProps) => {
     <Card.Root w="7xl" border={0}>
       <Card.Body>
         <Box mb="4">
-          <Text textStyle="2xl" fontWeight="semibold" textAlign={"center"}>
-            RETURN OF PREMIUM
-          </Text>
+          <H2>RETURN OF PREMIUM</H2>
         </Box>
         <Steps.Root
           defaultStep={0}
@@ -113,29 +122,42 @@ export const RopPage = ({ onClick }: RopPageProps) => {
         {/* Instructions */}
 
         <Box mb="6">
+          <H3>Select Plan</H3>
           {/* <Text textStyle="sm"> */}
           <Heading size="md" mb="2">
-            Please prepare a scanned copy of the following required documents
+            <Body>
+              {" "}
+              Please prepare a scanned copy of the following required documents
+            </Body>
           </Heading>
           <List.Root textStyle="sm" ml="4">
             <ListItem>
-              One (1) valid Government issued ID with signature
+              <Body>One (1) valid Government issued ID with signature</Body>
             </ListItem>
             <ListItem>
-              Three (3) Specimen Signatures or right thumbmark, if unable to
-              write
+              <Body>
+                Three (3) Specimen Signatures or right thumbmark, if unable to
+                write
+              </Body>
             </ListItem>
             <ListItem>
-              Proof of account must contain your account name, account number,
-              and bank name
+              <Body>
+                {" "}
+                Proof of account must contain your account name, account number,
+                and bank name
+              </Body>
               <List.Root ml="6" mt="1">
                 <ListItem>
-                  Bank Account validated cash/cheque deposit slip at least six
-                  (6) months from the last date of transaction
+                  <Body>
+                    Bank Account validated cash/cheque deposit slip at least six
+                    (6) months from the last date of transaction
+                  </Body>
                 </ListItem>
                 <ListItem>
-                  eWallet (GCash) screenshot of mobile app account. Fully
-                  verified account with profile picture is required
+                  <Body>
+                    eWallet screenshot of mobile app account. Fully verified
+                    account with profile picture is required
+                  </Body>
                 </ListItem>
               </List.Root>
             </ListItem>
@@ -157,7 +179,7 @@ export const RopPage = ({ onClick }: RopPageProps) => {
             onClick={() => setShowSearch((prev) => !prev)}
             mb={2}
           >
-            <Text ml={2}>Plan not in the list?</Text>
+            <Body>Plan not in the list?</Body>
           </Flex>
 
           <Collapsible.Root open={showSearch}>
@@ -171,17 +193,73 @@ export const RopPage = ({ onClick }: RopPageProps) => {
                   id="govId"
                   label="Government issued ID with signature"
                 /> */}
-                <UploadFile />
+                {/* <UploadFile />
+                 */}
+                <FileUpload.Root>
+                  <FileUpload.HiddenInput />
+                  <FileUpload.Trigger asChild maxW="2xl">
+                    <PrimaryMdFlexButton>Upload file</PrimaryMdFlexButton>
+                  </FileUpload.Trigger>
+                  <FileUpload.ItemGroup>
+                    <FileUpload.Context>
+                      {({ acceptedFiles }) =>
+                        acceptedFiles.map((file) => (
+                          <FileUpload.Item
+                            key={file.name}
+                            file={file}
+                            maxH="300px"
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            overflow="hidden"
+                          >
+                            {/* if file is image display image else file */}
+                            {file.name.toLocaleLowerCase().endsWith(".jpg") ||
+                            file.name.toLowerCase().endsWith(".jpeg") ||
+                            file.name.toLowerCase().endsWith(".png") ? (
+                              <Grid
+                                templateColumns="repeat(auto-fit, minmax(120px, 1fr))"
+                                gap={2}
+                              >
+                                <FileUpload.ItemPreviewImage
+                                  objectFit="contain"
+                                  borderRadius="md"
+                                  maxH="300px"
+                                  m="3"
+                                />
+                                <FileUpload.ItemDeleteTrigger
+                                  position="absolute"
+                                  top="0"
+                                  right="0"
+                                />
+                                <FileUpload.ItemName
+                                  position="absolute"
+                                  bottom="0"
+                                  left={2}
+                                  overflow="hidden"
+                                  mb="1"
+                                />
+                              </Grid>
+                            ) : (
+                              <>
+                                <FileUpload.ItemPreview />
+                                <FileUpload.ItemName />
+                                <FileUpload.ItemSizeText />
+                                <FileUpload.ItemDeleteTrigger ml="auto" />
+                              </>
+                            )}
+                          </FileUpload.Item>
+                        ))
+                      }
+                    </FileUpload.Context>
+                  </FileUpload.ItemGroup>
+                </FileUpload.Root>
               </Box>
 
               {/* Right: ROP Form */}
               <Box flex="1" minW="300px">
-                <Heading size="md" mb="2">
-                  ROP Application
-                </Heading>
-                <Text mb="4">
-                  Search Your Planholder Record for ROP Application
-                </Text>
+                <H4>ROP Application</H4>
+                <Body>Search Your Planholder Record for ROP Application</Body>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <FloatingInput
