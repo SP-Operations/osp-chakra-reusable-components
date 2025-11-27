@@ -2,12 +2,12 @@
 
 import React from 'react'
 import { type Claimant, type PhClaimant } from '../../models/types/claim.types';
-import { Box, Button, CloseButton, Container, Dialog, FieldRoot, FileUpload, Flex, Grid, GridItem, Heading, Icon, Link, Portal, Stack, Steps, Table, Text, useDisclosure } from '@chakra-ui/react';
-import { LuUpload, LuUserRound } from 'react-icons/lu';
+import { Box, Button, CloseButton, Container, Dialog, FieldRoot, Flex, Grid, GridItem, Heading, Separator, Link, Portal, Stack, Steps, Table, Text, useDisclosure } from '@chakra-ui/react';
+import { LuUserRound } from 'react-icons/lu';
 import { PlanholderForm } from '../../components/forms/PlanholderForm';
 import { SuccessPage } from '../success-page/SuccessPage';
 import { ClaimantCard } from '../../components/cards/ClaimantCard';
-import { PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton } from 'st-peter-ui';
+import { PreviousButton, PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton } from 'st-peter-ui';
 import { ClaimantPopUpForm } from '../../components/forms/ClaimantPopUpForm';
 import { UploadFile } from '../../components/others/UploadFile';
 import { SummaryLabel, SummaryLabelList } from '../../components/others/SummaryLabel';
@@ -69,10 +69,10 @@ export const FileClaimPage = () => {
     // Summary:
     //      The title of the steps.
     const stepTitles = [
-        "Documents",
         "Planholder",
+        "Documents",
         "Claimant(s)",
-        "Review & Submit"
+        "Summary"
     ];
 
     // Summary:
@@ -97,7 +97,17 @@ export const FileClaimPage = () => {
 
     // Summary:
     //      The variable responsible for the data of Planholder.
-    const [planholder, setPlanholder] = React.useState<PhClaimant>({lpaNumber: "", incidentDate: "1990/01/01", causeOfIncident: "", index: 0});
+    const [planholder, setPlanholder] = React.useState<PhClaimant>({
+        lpaNumber: "", 
+        incidentDate: "1990/01/01", 
+        causeOfIncident: "", 
+        index: 0,
+        firstName: "",
+        lastName: "",
+        middleName: "",
+        suffix: "",
+        birthDate: "1990/01/01"
+    });
 
     // Summary:
     //      This variable is just for presentation purposes.
@@ -182,8 +192,9 @@ export const FileClaimPage = () => {
             <Steps.Root defaultStep={0} count={stepTitles.length} step={stepNumber} onStepChange={(e) => setStepNumber(e.step)}>
                 {(pageNumber < 5) && (
                     <>
-                        <Container centerContent padding="0">
-                            <Text textStyle="2xl" fontWeight="semibold">Claim Application</Text>
+                        <Container>
+                            <Heading textStyle="2xl" fontWeight="semibold">Claim Application</Heading>
+                            <Text fontSize="sm" color="gray.600" mt={1}>Your claim matters. We make it easy.</Text>
                         </Container>
 
                         <Container>
@@ -197,17 +208,23 @@ export const FileClaimPage = () => {
                                 ))}
                             </Steps.List>
                         </Container>
+
+                        <Separator variant="solid" />
                     </>
                 )}
 
                 <Container display="flex" flexDirection="column" gap="20px">
                     {(pageNumber === 1) && (
+                        <PlanholderForm value={planholder} onValueChange={setPlanholder} benefitText={currBenefitText} />
+                    )}
+
+                    {(pageNumber === 2) && (
                         <>
                             <Box>
-                                <Text textStyle="xl" fontWeight="semibold">Start Your Claim</Text>
+                                <Text textStyle="xl">Document's</Text>
 
                                 <Text textStyle="md">
-                                    Before submitting your application, please prepare the following documentation for your convenience in the next steps.
+                                    Please provide the following documentation for your convenience in the next steps.
                                 </Text>
                             </Box>
 
@@ -243,15 +260,13 @@ export const FileClaimPage = () => {
                         </>
                     )}
 
-                    {(pageNumber === 2) && (
-                        <PlanholderForm value={planholder} onValueChange={setPlanholder} benefitText={currBenefitText} />
-                    )}
+                    
 
                     {(pageNumber === 3) && (
                         <>
                             {/* <ClaimantForm onClaimantEvent={setClaimantList} value={claimantList} /> */}
                             <Box>
-                                <Heading size="xl" fontWeight="bold">Claimant(s)</Heading>
+                                <Heading size="xl" fontWeight="semibold">Claimant(s)</Heading>
                                 <Text fontSize="sm" fontStyle={"italic"}>
                                     Provide the necessary details of the claimant(s) who will be receiving the claim benefits on behalf of the planholder.
                                 </Text>
@@ -342,7 +357,7 @@ export const FileClaimPage = () => {
                     {(pageNumber === 4) && (
                         <>
                             <Stack direction="column" gap="0">
-                                <Box textStyle="xl" fontWeight="bold" w="100%">Claim Summary</Box>
+                                <Box textStyle="xl" fontWeight="semibold" w="100%">Claim Summary</Box>
 
                                 <Box as="div" padding="5px">
                                     <Text textStyle="md" fontWeight="semibold" borderBottom="1px solid #a1a1aa" paddingBottom="5px" marginBottom="10px">Planholder Details</Text>
@@ -447,7 +462,7 @@ export const FileClaimPage = () => {
                         )}
 
                         <Steps.PrevTrigger asChild>
-                            <SecondaryMdButton onClick={onPrevBtnClick} visibility={(pageNumber > 1 && pageNumber < 5) ? "visible" : "hidden"}>Previous</SecondaryMdButton>
+                            <PreviousButton onClick={onPrevBtnClick} visibility={(pageNumber > 1 && pageNumber < 5) ? "visible" : "hidden"} />
                         </Steps.PrevTrigger>
 
                         {(pageNumber < 5) && (

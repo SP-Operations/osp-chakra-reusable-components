@@ -17,6 +17,11 @@ export type Claimant = {
 export type PhClaimant = {
     index: number;
     lpaNumber: string;
+    firstName: string;
+    lastName: string;
+    middleName?: string;
+    suffix?: string;
+    birthDate: string;
     incidentDate: string;
     causeOfIncident: string;
 }
