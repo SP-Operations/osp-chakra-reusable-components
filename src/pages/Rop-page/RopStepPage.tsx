@@ -32,6 +32,7 @@ import {
   PreviousButton,
   PrimaryMdButton,
   SecondaryMdButton,
+  Small,
 } from "st-peter-ui";
 import { stepper } from "../../models/schema/RopMock";
 import { SuccessPage } from "../success-page/SuccessPage";
@@ -76,6 +77,7 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
       </Breadcrumb.Root>
       <Box mb="4">
         <H2>RETURN OF PREMIUM</H2>
+        <Small>File Your Premium, Quick & Simple</Small>
       </Box>
       {/* {step === 1 && (
         <Box mb="4">

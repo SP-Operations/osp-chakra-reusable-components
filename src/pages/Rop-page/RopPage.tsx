@@ -35,6 +35,7 @@ import {
   H4,
   InputFloatingLabel,
   PrimaryMdFlexButton,
+  Small,
 } from "st-peter-ui";
 import { FloatingInput } from "../../components/others/FloatingInput";
 import { UploadFile } from "../../components/others/UploadFile";
@@ -115,6 +116,7 @@ export const RopPage = ({ onClick }: RopPageProps) => {
       <Card.Body>
         <Box mb="4">
           <H2>RETURN OF PREMIUM</H2>
+          <Small>File Your Premium, Quick & Simple</Small>
         </Box>
         <Steps.Root
           defaultStep={0}
