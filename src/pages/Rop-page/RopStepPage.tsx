@@ -26,6 +26,7 @@ import type {
 import PayoutChannelForm from "../../components/forms/PayoutChannelForm";
 import ROPApplicationDetails from "../../components/others/RopApplicationDetails";
 import {
+  CancelButton,
   H2,
   H3,
   H4,
@@ -34,11 +35,12 @@ import {
   PrimaryMdButton,
   SecondaryMdButton,
   Small,
+  SubmitButton,
 } from "st-peter-ui";
 import { stepper } from "../../models/schema/RopMock";
 import { SuccessPage } from "../success-page/SuccessPage";
 
-export function RopStepPage({ children, onClick }: ButtonParams) {
+export function RopStepPage({ children }: ButtonParams) {
   const [step, setStep] = useState(1);
   const [mode, setMode] = useState<"existing" | "new">("existing");
   const [isEditing, setIsEditing] = useState(false);
@@ -76,12 +78,15 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
           </Breadcrumb.Item>
         </Breadcrumb.List>
       </Breadcrumb.Root>
-      <Box mb="4">
-        <Text fontSize={"2xl"} fontWeight={"semibold"}>
-          Return of Premium
-        </Text>
-        <Small>File Your Premium, Quick & Simple</Small>
-      </Box>
+      {step < 3 && (
+        <Box mb="4">
+          <Text fontSize={"2xl"} fontWeight={"semibold"}>
+            Return of Premium
+          </Text>
+          <Small>File Your Premium, Quick & Simple</Small>
+        </Box>
+      )}
+
       {/* {step === 1 && (
         <Box mb="4">
           <Text textStyle="2xl" fontWeight="semibold" textAlign={"center"}>
@@ -115,11 +120,11 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
         {/* Step 1: Payout Channel */}
         {step === 1 && (
           <VStack align="start">
-            <H4>
+            <Text fontSize={"xl"} fontWeight={"semibold"}>
               {mode === "existing"
                 ? "Select Payout Channel"
                 : "Register Payout Channel"}
-            </H4>
+            </Text>
 
             {mode === "new" ? (
               <Text
@@ -170,14 +175,13 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
                 <Steps.PrevTrigger asChild>
                   <PreviousButton onClick={prevStep} />
                 </Steps.PrevTrigger>
-                <Steps.NextTrigger asChild>
-                  <NextButton
-                    // onClick={() => {
-                    //   setIsSuccessModalOpen(true);
-                    // }}
-                    onClick={nextStep}
-                  />
-                </Steps.NextTrigger>
+                <SubmitButton
+                  onClick={() => {
+                    setIsSuccessModalOpen(true);
+                  }}
+                  // onClick={nextStep}
+                />
+                {/* <Steps.NextTrigger asChild></Steps.NextTrigger> */}
               </Flex>
             )}
           </VStack>
@@ -192,33 +196,50 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
             transactionId={"ROP" + Math.floor(Math.random() * 1000000000)}
             dateTime={new Date().toLocaleString()}
             variant="application"
-            onClickHome={() => {}}
-            onClickProceed={() => {}}
+            onClickHome={() => {
+              console.log("Home clicked");
+              // onClickHome?.();
+            }}
+            onClickProceed={() => {
+              console.log("Proceed clicked");
+              // onClickProceed?.();
+            }}
           />
         </Box>
       )}
 
       {/* Alert Modal */}
       <HStack>
-        <Dialog.Root open={isSuccessModalOpen} size="md">
+        <Dialog.Root
+          open={isSuccessModalOpen}
+          role="alertdialog"
+          onOpenChange={(e) => setIsSuccessModalOpen(e.open)}
+          size="md"
+          placement={"center"}
+        >
           <Portal>
-            <Dialog.Backdrop />
-            <Dialog.Positioner>
-              <Dialog.Content>
+            <Dialog.Backdrop zIndex={0} />
+            <Dialog.Positioner zIndex={1}>
+              <Dialog.Content zIndex={1}>
                 <Dialog.Header>
-                  <Dialog.Title>NOTIFICATION!</Dialog.Title>
+                  <Dialog.Title>Notification!</Dialog.Title>
                 </Dialog.Header>
                 <Dialog.Body>
                   <Text>Would you like to Submit?</Text>
                 </Dialog.Body>
                 <Dialog.Footer>
                   <Dialog.ActionTrigger asChild>
-                    <Button variant="outline">Cancel</Button>
+                    <CancelButton
+                      onClick={() => setIsSuccessModalOpen(false)}
+                    />
                   </Dialog.ActionTrigger>
 
                   <PrimaryMdButton
                     // onClick={onClick}
-                    onClick={nextStep}
+                    onClick={() => {
+                      nextStep();
+                      setIsSuccessModalOpen(false);
+                    }}
                   >
                     Yes
                   </PrimaryMdButton>

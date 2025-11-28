@@ -10,7 +10,7 @@ export const UploadFile = () => {
         maxFiles={10}
         display="inline-block"
         maxW="2xl"
-        accept=".png,.jpg,.jpeg,.pdf"
+        accept=".png,.jpg,.jpeg"
       >
         <FileUpload.HiddenInput />
         <FileUpload.Dropzone>
