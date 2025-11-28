@@ -116,9 +116,9 @@ export default function RIPlanItem({ plan, onChange }: RIPlanItemProps) {
           placement={"center"}
         >
           <Portal>
-            <Dialog.Backdrop />
-            <Dialog.Positioner>
-              <Dialog.Content>
+            <Dialog.Backdrop zIndex={1000} />
+            <Dialog.Positioner zIndex={1001} >
+              <Dialog.Content zIndex={1001} >
                 <Dialog.Header>
                   <Heading>Plan Details</Heading>
                 </Dialog.Header>

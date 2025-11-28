@@ -1,10 +1,11 @@
-import { Text, Box, Heading, Steps, Container, Flex, Separator } from "@chakra-ui/react"
+import { Text, Box, Heading, Steps, Container, Flex, Separator, Breadcrumb } from "@chakra-ui/react"
 import { Body, H2, H3, H4, NextButton, PreviousButton, Small } from "st-peter-ui"
 import RIPlanItem from "./ri-item"
 import { useRef, useEffect, useState } from "react";
 import { ReviewReinstatementPage } from "./review";
 import PaymentPage from "./payment";
 import { SuccessPage } from "../success-page/SuccessPage";
+import type { PageParams } from "../../models/types/claim.types";
 
 interface PhLapsedPlan {
     lpaNo: string;
@@ -33,12 +34,12 @@ interface CheckedPlan {
     reinstatementPayment: number;
     }
 
-interface RIProps {
+interface RIProps extends PageParams {
   initialPlans: PhLapsedPlan[];
   onSubmit: (selectedPlans: CheckedPlan[]) => void;
 }
 
-export default function RIPage({initialPlans, onSubmit}: RIProps) {
+export function RIPage({initialPlans, onSubmit, onClickHome, onClickTrack}: RIProps) {
     const [phLapsedPlans] = useState<PhLapsedPlan[]>(initialPlans || []);
     const [checkedPlans, setCheckedPlans] = useState<CheckedPlan[]>([]);
     const TotalAmountDue = useRef<HTMLSpanElement>(null);
@@ -83,9 +84,24 @@ export default function RIPage({initialPlans, onSubmit}: RIProps) {
     }, [checkedPlans]);
 
     return (
-      <Box maxW={"7xl"} mx={"auto"} my={8} px={0}>
-        <Container p="0">
-          <H2>Reinstatement Application</H2>
+      <Box maxW={"7xl"} mx={"auto"} my={0} px={8}>
+        {/* <Breadcrumb.Root>
+          <Breadcrumb.List>
+            <Breadcrumb.Item>
+              <Breadcrumb.Link href="#">Home</Breadcrumb.Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Separator />
+            <Breadcrumb.Item>
+              <Breadcrumb.Link href="#">Plan Management</Breadcrumb.Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Separator />
+            <Breadcrumb.Item>
+              <Breadcrumb.CurrentLink>Reinstatement</Breadcrumb.CurrentLink>
+            </Breadcrumb.Item>
+          </Breadcrumb.List>
+        </Breadcrumb.Root> */}
+        <Container p="0"  mt={0}>
+          <Heading size="2xl" fontWeight="semibold">Reinstatement Application</Heading>
           <Body color="gray.600" mt={1}>
             Bring your plan back on track with ease. The Reinstatement option
             lets you reactivate a lapsed plan so you can continue enjoying your
@@ -216,8 +232,8 @@ export default function RIPage({initialPlans, onSubmit}: RIProps) {
               totalAmount={TotalAmountDue.current?.innerText || ""}
               dateTime={new Date().toLocaleString()}
               variant="payment"
-              onClickHome={() => {}}
-              onClickProceed={() => {}}
+              onClickHome={onClickHome}
+              onClickProceed={onClickTrack}
             />
           </Steps.CompletedContent>
 
