@@ -230,7 +230,7 @@ export default function PayoutChannelForm({
       )}
 
       {(mode === "new" || mode == null) && isShowButton && (
-        <Flex>
+        <Flex justifyContent={"flex-end"}>
           <SubmitButton
             type="submit"
             mt="2"

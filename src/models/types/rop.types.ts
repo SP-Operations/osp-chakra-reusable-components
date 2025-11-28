@@ -18,5 +18,5 @@ export type DocumentItem = {
 
 export interface ButtonParams {
     children?: React.ReactNode;
-    onClick: () => void;
+    onClick?: () => void;
 }

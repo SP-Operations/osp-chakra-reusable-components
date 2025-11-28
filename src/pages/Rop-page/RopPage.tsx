@@ -211,7 +211,7 @@ export const RopPage = ({ onClick }: RopPageProps) => {
           <Body>Search Your Planholder Record for ROP Application</Body>
         </Box>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid templateColumns="repeat(2, 1fr)" gap="2">
+          <Grid templateColumns="repeat(2, 1fr)" gap="8px 25px">
             {/* Left: File Upload */}
 
             {/* <FileUpload

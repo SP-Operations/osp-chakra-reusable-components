@@ -39,6 +39,7 @@ import {
 } from "st-peter-ui";
 import { register } from "module";
 import { FaRegAddressCard } from "react-icons/fa";
+import { IoPersonCircleSharp } from "react-icons/io5";
 
 export default function ROPApplicationDetails({
   data,
@@ -115,20 +116,31 @@ export default function ROPApplicationDetails({
         </Text>
       </Box>
       {/* Header */}
-      <Flex justify="space-between" align="center" mb={6}>
-        <Box>
-          {uniqueData.map((item, i) => (
-            <Text textStyle="lg" fontWeight={"semibold"} key={i}>
-              {[item.firstName, item.middleName, item.lastName]
-                .filter(Boolean)
-                .join(" ")}
+      <Card.Root
+        mb={8}
+        bg="white"
+        shadow="sm"
+        borderWidth="1px"
+        rounded="lg"
+        overflow="hidden"
+      >
+        <Card.Header py={4} px={6} borderBottomWidth="1px">
+          <Flex justify={"space-between"}>
+            {uniqueData.map((item, i) => (
+              <SectionCardHeader
+                key={i}
+                icon={<IoPersonCircleSharp />}
+                title={[item.firstName, item.middleName, item.lastName]
+                  .filter(Boolean)
+                  .join(" ")}
+              ></SectionCardHeader>
+            ))}
+            <Text fontSize={"lg"} fontWeight={"semibold"} color="gray.500">
+              Request#: CNT-2025-0001
             </Text>
-          ))}
-          <Text fontSize="sm" color="gray.500">
-            Request#: CNT-2025-0001
-          </Text>
-        </Box>
-      </Flex>
+          </Flex>
+        </Card.Header>
+      </Card.Root>
 
       {/* Form */}
       <Box as="form" onSubmit={ropForm.handleSubmit(handleSave)}>
@@ -226,23 +238,18 @@ export default function ROPApplicationDetails({
           rounded="lg"
           overflow="hidden"
         >
-          <Card.Header
-            py={4}
-            px={6}
-            borderBottomWidth="1px"
-            display={"flex"}
-            justifyContent={"space-between"}
-          >
-            <SectionCardHeader
-              icon={<FaRegAddressCard />}
-              title="Planholder Address"
-            />
-
-            <EditButton onClick={() => setOpen(true)} />
+          <Card.Header py={4} px={6} borderBottomWidth="1px">
+            <Flex justify={"space-between"}>
+              <SectionCardHeader
+                icon={<FaRegAddressCard />}
+                title="Planholder Address"
+              />
+              <EditButton onClick={() => setOpen(true)} />
+            </Flex>
           </Card.Header>
           <Card.Body px={6} py={5}>
             <Grid
-              templateColumns={{ base: "1fr", md: "repeat(3,1fr)" }}
+              templateColumns={{ base: "1fr", md: "repeat(2,1fr)" }}
               gap={6}
             >
               {uniqueData.map((item, i) => (
@@ -338,16 +345,18 @@ export default function ROPApplicationDetails({
           <Dialog.Backdrop zIndex={1000} />
           <Dialog.Positioner zIndex={1001}>
             <Dialog.Content zIndex={1001} onClick={(e) => e.preventDefault()}>
-              <Dialog.Header>
-                <Dialog.Title>Edit Planholder Address</Dialog.Title>
+              <Dialog.Header py={4} px={6} borderBottomWidth="1px">
+                <Dialog.Title>
+                  <Text fontSize={"lg"} fontWeight={"semibold"}>
+                    Edit Planholder Address
+                  </Text>
+                </Dialog.Title>
               </Dialog.Header>
-              <Dialog.Body>
+              <Dialog.Body m="2" borderBottomWidth="1px">
                 {uniqueData.map((item, index) => (
                   <Grid
                     templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
                     gap={4}
-                    borderBottom="1px solid"
-                    borderColor="gray.300"
                     pb="4"
                     key={index}
                   >
