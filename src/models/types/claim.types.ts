@@ -55,3 +55,8 @@ export type ClaimantCardParams = {
     value: Claimant;
     onValueChange: (value: Claimant) => void;
 }
+
+export type PageParams = {
+    onClickHome: () => void;
+    onClickTrack: () => void;
+}

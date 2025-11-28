@@ -1,19 +1,19 @@
 // Author: Jimwell Arvin L. Ocsio
 
 import React from 'react'
-import { type Claimant, type PhClaimant } from '../../models/types/claim.types';
-import { Box, Button, CloseButton, Container, Dialog, FieldRoot, Flex, Grid, GridItem, Heading, Separator, Link, Portal, Stack, Steps, Table, Text, useDisclosure, Breadcrumb } from '@chakra-ui/react';
+import { type Claimant, type PageParams, type PhClaimant } from '../../models/types/claim.types';
+import { Box, Button, CloseButton, Container, Dialog, FieldRoot, Flex, Grid, GridItem, Heading, Separator, Link, Portal, Stack, Steps, Table, Text, useDisclosure, Breadcrumb, Card, Icon, VStack, Span, CardBody } from '@chakra-ui/react';
 import { LuUserRound } from 'react-icons/lu';
 import { PlanholderForm } from '../../components/forms/PlanholderForm';
 import { SuccessPage } from '../success-page/SuccessPage';
 import { ClaimantCard } from '../../components/cards/ClaimantCard';
-import { Body, DynamicButton, H2, H3, H4, PreviousButton, PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton } from 'st-peter-ui';
+import { Body, DynamicButton, H2, H3, H4, PreviousButton, PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton, Small } from 'st-peter-ui';
 import { ClaimantPopUpForm } from '../../components/forms/ClaimantPopUpForm';
 import { UploadFile } from '../../components/others/UploadFile';
 import { SummaryLabel, SummaryLabelList } from '../../components/others/SummaryLabel';
 // Summary: This is a test for merging.
 
-export const FileClaimPage = () => {
+export const FileClaimPage = (params: PageParams) => {
     // Summary:
     //      The variable responsible for the claimants list.
     const [claimantList, setClaimantList] = React.useState<Claimant[]>([]);
@@ -182,6 +182,34 @@ export const FileClaimPage = () => {
     });
 
     const {open, onOpen, onClose} = useDisclosure();
+
+    const SectionCardHeader = ({
+        icon,
+        title,
+        }: {
+        icon: React.ReactNode;
+        title: string;
+    }) => (
+        <Flex align="center" gap={2}>
+            <Icon boxSize={5}>{icon}</Icon>
+            <H4>{title}</H4>
+        </Flex>
+    );
+
+    const InfoItem = ({
+        label,
+        value,
+        }: {
+        label: string;
+        value: React.ReactNode;
+    }) => (
+        <VStack gap={1} align="start" minW={0}>
+            <Small color="gray.500">{label}</Small>
+            <Body>
+            <Span fontWeight="semibold">{value}</Span>
+            </Body>
+        </VStack>
+    );
 
     return (
         <Container
@@ -375,7 +403,37 @@ export const FileClaimPage = () => {
                                 <Text textStyle="xl" fontWeight="semibold">Claim Summary</Text>
 
                                 <Box as="div" padding="5px">
-                                    <Text textStyle="md" fontWeight="semibold" borderBottom="1px solid #a1a1aa" paddingBottom="5px" marginBottom="10px">Planholder Details</Text>
+                                    <Card.Root mb={8} bg="white" shadow={"sm"} borderWidth="1px" rounded="lg" overflow="hidden">
+                                        <Card.Header py={4} px={6} borderBottomWidth="1px">
+                                            <SectionCardHeader icon={<LuUserRound />} title="Planholder Details" />
+                                        </Card.Header>
+
+                                        <Card.Body px={6} py={5}>
+                                            <Grid templateColumns={{base: "1fr", md: "repeat(4,1fr)"}} gap={6}>
+                                                <InfoItem label="LPA Number" value={planholder.lpaNumber} />
+
+                                                <InfoItem label="Last Name" value={planholder.lastName} />
+
+                                                <InfoItem label="First Name" value={planholder.firstName} />
+
+                                                <InfoItem label="Middle Name" value={planholder.middleName ?? "NA"} />
+
+                                                <InfoItem label="Suffix" value={planholder.suffix ?? "NA"} />
+
+                                                <InfoItem label="Birth Date" value={planholder.birthDate} />
+
+                                                <InfoItem label="Date of Death" value={planholder.incidentDate} />
+
+                                                <InfoItem label="Cause of Death" value={planholder.causeOfIncident} />
+
+                                                <InfoItem label="Claim Benefit" value={
+                                                    currBenefitList.join(" Benefit\n")
+                                                } />
+                                            </Grid>
+                                        </Card.Body>
+                                    </Card.Root>
+
+                                    {/* <Text textStyle="md" fontWeight="semibold" borderBottom="1px solid #a1a1aa" paddingBottom="5px" marginBottom="10px">Planholder Details</Text>
 
                                     <Box display="flex" flexDirection="column" gap="3" padding="5px">
                                         <Grid templateColumns="repeat(2, 1fr)" gap="5">
@@ -397,56 +455,58 @@ export const FileClaimPage = () => {
                                                 <SummaryLabelList label="Claim Benefits" value={currBenefitList.map((item) => `${item} Benefit`)} />
                                             </GridItem>
                                         </Grid>
-                                    </Box>
+                                    </Box> */}
                                 </Box>
 
-                                <Box as="div" padding="5px">
-                                    <Box 
-                                        borderBottom="1px solid #a1a1aa" 
-                                        paddingBottom="5px" marginBottom="15px"
-                                        display="flex" justifyContent="space-between">
-                                        <Text textStyle="md" fontWeight="semibold">
-                                            Claimant(s)
-                                        </Text>
+                                <Card.Root mb={8} bg="white" shadow={"sm"} borderWidth="1px" rounded="lg" overflow="hidden">
+                                    <Card.Header py={4} px={6} borderBottomWidth="1px">
+                                        <SectionCardHeader icon={<LuUserRound />} title="Claimant(s)" />
+                                    </Card.Header>
 
-                                        <Text textStyle="md" fontWeight="initial">
-                                            Record(s): {claimantList.length}
-                                        </Text>
-                                    </Box>
-                                    
-                                    <Box padding="5px">
-                                        <Table.Root size="lg" variant="outline">
-                                            <Table.Header>
-                                                <Table.Row>
-                                                    <Table.ColumnHeader></Table.ColumnHeader>
-                                                    <Table.ColumnHeader textAlign="center">Contacts</Table.ColumnHeader>
-                                                    <Table.ColumnHeader textAlign="center">Payout Channel</Table.ColumnHeader>
-                                                </Table.Row>
-                                            </Table.Header>
-
-                                            <Table.Body>
-                                                {claimantList.map((model) => (
-                                                    <Table.Row key={model.index}>
-                                                        <Table.Cell>
-                                                            <Stack gap="0" textAlign="center">
-                                                                <Text textStyle="sm" fontWeight="semibold">{model.firstName} {model.middleName ?? ""} {model.lastName} {model.suffix ?? ""}</Text>
-                                                                <Text textStyle="xs">{model.relToPh}</Text>
-                                                            </Stack>
-                                                        </Table.Cell>
-
-                                                        <Table.Cell>
-                                                            <Text textStyle="xs" textAlign="center">{model.email} {(model.mobile == "" || model.mobile == null) ? "" : "- " + model.mobile}</Text>
-                                                        </Table.Cell>
-
-                                                        <Table.Cell>
-                                                            <Text textStyle="xs" textAlign="center">{model.payoutChannel}</Text>
-                                                        </Table.Cell>
+                                    <Card.Body>
+                                        <Box 
+                                            borderBottom="1px solid #a1a1aa" 
+                                            paddingBottom="5px" marginBottom="15px"
+                                            display="flex" justifyContent="flex-end">
+                                            <Text textStyle="md" fontWeight="initial">
+                                                Record(s): {claimantList.length}
+                                            </Text>
+                                        </Box>
+                                        
+                                        <Box padding="5px">
+                                            <Table.Root size="lg" variant="outline">
+                                                <Table.Header>
+                                                    <Table.Row>
+                                                        <Table.ColumnHeader></Table.ColumnHeader>
+                                                        <Table.ColumnHeader textAlign="center">Contacts</Table.ColumnHeader>
+                                                        <Table.ColumnHeader textAlign="center">Payout Channel</Table.ColumnHeader>
                                                     </Table.Row>
-                                                ))}
-                                            </Table.Body>
-                                        </Table.Root>
-                                    </Box>
-                                </Box>
+                                                </Table.Header>
+
+                                                <Table.Body>
+                                                    {claimantList.map((model) => (
+                                                        <Table.Row key={model.index}>
+                                                            <Table.Cell>
+                                                                <Stack gap="0" textAlign="center">
+                                                                    <Text textStyle="sm" fontWeight="semibold">{model.firstName} {model.middleName ?? ""} {model.lastName} {model.suffix ?? ""}</Text>
+                                                                    <Text textStyle="xs">{model.relToPh}</Text>
+                                                                </Stack>
+                                                            </Table.Cell>
+
+                                                            <Table.Cell>
+                                                                <Text textStyle="xs" textAlign="center">{model.email} {(model.mobile == "" || model.mobile == null) ? "" : "- " + model.mobile}</Text>
+                                                            </Table.Cell>
+
+                                                            <Table.Cell>
+                                                                <Text textStyle="xs" textAlign="center">{model.payoutChannel}</Text>
+                                                            </Table.Cell>
+                                                        </Table.Row>
+                                                    ))}
+                                                </Table.Body>
+                                            </Table.Root>
+                                        </Box>
+                                    </Card.Body>
+                                </Card.Root>
                             </Stack>
 
                         </>
@@ -462,8 +522,8 @@ export const FileClaimPage = () => {
                                 transactionId={`CL-${Math.floor(Math.random() * 1000000000)}`}
                                 dateTime={new Date().toLocaleString()}
                                 variant="application"
-                                onClickHome={() => {}}
-                                onClickProceed={() => {}} />
+                                onClickHome={params.onClickHome}
+                                onClickProceed={params.onClickTrack} />
                             </Box>
                         </Box>
                     )}
@@ -516,7 +576,7 @@ export const FileClaimPage = () => {
                                     <Button variant="outline" onClick={() => setStepNumber(3)}>Cancel</Button>
                                 </Dialog.ActionTrigger>
 
-                                <Button onClick={onSubmitBtnClick}>Submit</Button>
+                                <Button onClick={onSubmitBtnClick}>Confirm</Button>
                             </Dialog.Footer>
 
                             <Dialog.CloseTrigger asChild>
