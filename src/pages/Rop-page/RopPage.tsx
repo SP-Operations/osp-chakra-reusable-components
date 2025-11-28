@@ -100,21 +100,6 @@ export const RopPage = ({ onClick }: RopPageProps) => {
 
   return (
     <Box maxW={"7xl"} my={8} px={0} w="full">
-      <Breadcrumb.Root>
-        <Breadcrumb.List>
-          <Breadcrumb.Item>
-            <Breadcrumb.Link href="#">Home</Breadcrumb.Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Separator />
-          <Breadcrumb.Item>
-            <Breadcrumb.Link href="#">Plan Management</Breadcrumb.Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Separator />
-          <Breadcrumb.Item>
-            <Breadcrumb.CurrentLink>ROP Application</Breadcrumb.CurrentLink>
-          </Breadcrumb.Item>
-        </Breadcrumb.List>
-      </Breadcrumb.Root>
       <Box mb="4">
         <Text fontSize={"2xl"} fontWeight={"semibold"}>
           Return of Premium

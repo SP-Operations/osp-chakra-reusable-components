@@ -40,6 +40,10 @@ import {
 import { register } from "module";
 import { FaRegAddressCard } from "react-icons/fa";
 import { IoPersonCircleSharp } from "react-icons/io5";
+import { RiContactsBook3Fill } from "react-icons/ri";
+import { ImLocation2 } from "react-icons/im";
+import { BiSolidCreditCardAlt } from "react-icons/bi";
+import { TbListDetails } from "react-icons/tb";
 
 export default function ROPApplicationDetails({
   data,
@@ -129,7 +133,7 @@ export default function ROPApplicationDetails({
             {uniqueData.map((item, i) => (
               <SectionCardHeader
                 key={i}
-                icon={<IoPersonCircleSharp />}
+                icon={<FaRegAddressCard />}
                 title={[item.firstName, item.middleName, item.lastName]
                   .filter(Boolean)
                   .join(" ")}
@@ -154,10 +158,7 @@ export default function ROPApplicationDetails({
           overflow="hidden"
         >
           <Card.Header py={4} px={6} borderBottomWidth="1px">
-            <SectionCardHeader
-              icon={<FaRegAddressCard />}
-              title="Plan Details"
-            />
+            <SectionCardHeader icon={<TbListDetails />} title="Plan Details" />
           </Card.Header>
           <Card.Body px={6} py={5}>
             <Grid
@@ -202,7 +203,7 @@ export default function ROPApplicationDetails({
         >
           <Card.Header py={4} px={6} borderBottomWidth="1px">
             <SectionCardHeader
-              icon={<FaRegAddressCard />}
+              icon={<RiContactsBook3Fill />}
               title="Contact Information"
             />
           </Card.Header>
@@ -241,7 +242,7 @@ export default function ROPApplicationDetails({
           <Card.Header py={4} px={6} borderBottomWidth="1px">
             <Flex justify={"space-between"}>
               <SectionCardHeader
-                icon={<FaRegAddressCard />}
+                icon={<ImLocation2 />}
                 title="Planholder Address"
               />
               <EditButton onClick={() => setOpen(true)} />
@@ -304,7 +305,7 @@ export default function ROPApplicationDetails({
         >
           <Card.Header py={4} px={6} borderBottomWidth="1px">
             <SectionCardHeader
-              icon={<FaRegAddressCard />}
+              icon={<BiSolidCreditCardAlt />}
               title="Payout Details"
             />
           </Card.Header>
