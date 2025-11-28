@@ -220,21 +220,6 @@ export const FileClaimPage = (params: PageParams) => {
             <Steps.Root defaultStep={0} count={stepTitles.length} step={stepNumber} onStepChange={(e) => setStepNumber(e.step)}>
                 {(pageNumber < 5) && (
                     <>
-                        <Breadcrumb.Root>
-                            <Breadcrumb.List>
-                                <Breadcrumb.Item>
-                                    <Breadcrumb.Link href="#">Home</Breadcrumb.Link>
-                                </Breadcrumb.Item>
-                                <Breadcrumb.Separator />
-                                <Breadcrumb.Item>
-                                    <Breadcrumb.Link href="#">Plan Management</Breadcrumb.Link>
-                                </Breadcrumb.Item>
-                                <Breadcrumb.Separator />
-                                <Breadcrumb.Item>
-                                    <Breadcrumb.CurrentLink>Change of Mode</Breadcrumb.CurrentLink>
-                                </Breadcrumb.Item>
-                            </Breadcrumb.List>
-                        </Breadcrumb.Root>
                         <Container>
                             <Text textStyle="2xl" fontWeight="semibold">Claim Application</Text>
                             <Body color="gray.600" mt={1}>Your claim matters. We make it easy.</Body>
