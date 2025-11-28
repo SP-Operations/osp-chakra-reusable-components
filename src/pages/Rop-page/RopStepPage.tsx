@@ -39,8 +39,9 @@ import {
 } from "st-peter-ui";
 import { stepper } from "../../models/schema/RopMock";
 import { SuccessPage } from "../success-page/SuccessPage";
+import type { PageParams } from "../../models/types/claim.types";
 
-export function RopStepPage({ children }: ButtonParams) {
+export function RopStepPage({ onClickHome, onClickTrack }: PageParams) {
   const [step, setStep] = useState(1);
   const [mode, setMode] = useState<"existing" | "new">("existing");
   const [isEditing, setIsEditing] = useState(false);
@@ -63,21 +64,6 @@ export function RopStepPage({ children }: ButtonParams) {
 
   return (
     <Box maxW="7xl" w="full" mx="auto">
-      <Breadcrumb.Root mb="4">
-        <Breadcrumb.List>
-          <Breadcrumb.Item>
-            <Breadcrumb.Link href="#">Home</Breadcrumb.Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Separator />
-          <Breadcrumb.Item>
-            <Breadcrumb.Link href="#">Plan Management</Breadcrumb.Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Separator />
-          <Breadcrumb.Item>
-            <Breadcrumb.CurrentLink>ROP Application</Breadcrumb.CurrentLink>
-          </Breadcrumb.Item>
-        </Breadcrumb.List>
-      </Breadcrumb.Root>
       {step < 3 && (
         <Box mb="4">
           <Text fontSize={"2xl"} fontWeight={"semibold"}>
@@ -86,22 +72,6 @@ export function RopStepPage({ children }: ButtonParams) {
           <Small>File Your Premium, Quick & Simple</Small>
         </Box>
       )}
-
-      {/* {step === 1 && (
-        <Box mb="4">
-          <Text textStyle="2xl" fontWeight="semibold" textAlign={"center"}>
-            PAYOUT CHANNEL
-          </Text>
-        </Box>
-      )}
-      {step === 2 && (
-        <Box mb="4">
-          <Text textStyle="2xl" fontWeight="semibold" textAlign={"center"}>
-            SUMMARY DETAILS OVERVIEW
-          </Text>
-        </Box>
-      )} */}
-
       <Steps.Root defaultStep={1} count={stepper.length} colorPalette={"green"}>
         {step < 3 && (
           <Steps.List mb="8">
@@ -196,14 +166,8 @@ export function RopStepPage({ children }: ButtonParams) {
             transactionId={"ROP" + Math.floor(Math.random() * 1000000000)}
             dateTime={new Date().toLocaleString()}
             variant="application"
-            onClickHome={() => {
-              console.log("Home clicked");
-              // onClickHome?.();
-            }}
-            onClickProceed={() => {
-              console.log("Proceed clicked");
-              // onClickProceed?.();
-            }}
+            onClickHome={onClickHome}
+            onClickProceed={onClickTrack}
           />
         </Box>
       )}
