@@ -1,11 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import {
-  Box,
-  Field,
-  Input,
-  defineStyle,
-  useControllableState,
-} from "@chakra-ui/react";
+import { Box, Field, Input, defineStyle } from "@chakra-ui/react";
 import type { InputProps } from "@chakra-ui/react";
 import type { UseFormRegisterReturn } from "react-hook-form";
 
@@ -13,18 +7,12 @@ interface FloatingInputProps extends InputProps {
   label: string;
   register?: UseFormRegisterReturn;
   error?: string | undefined | null; // allow undefined and null
-  value?: string | undefined;
-  defaultValue?: string | undefined;
-  autoCheck?: any;
 }
 
 export const FloatingInput = ({
   label,
   register,
   error,
-  value,
-  autoCheck,
-  defaultValue,
   ...rest
 }: FloatingInputProps) => {
   const [focused, setFocused] = useState(false);
@@ -32,38 +20,24 @@ export const FloatingInput = ({
   const [hasValue, setHasValue] = useState(false);
 
   // Update hasValue on mount for defaultValue
-
   useEffect(() => {
-    requestAnimationFrame(() => {
-      if (inputRef.current) {
-        setHasValue(inputRef.current.value !== "");
-      }
-    });
-  }, [value, defaultValue, autoCheck]);
-
+    if (inputRef.current) {
+      setHasValue(inputRef.current.value !== "");
+    }
+  }, []);
   const shouldFloat = focused || hasValue;
-  const [inputState, setInputState] = useControllableState({
-    value,
-  });
 
   return (
     <Field.Root>
-      <Box pos="relative" w="full" my="8px">
+      <Box pos="relative" w="full" my="2px">
         <Input
-          ref={inputRef}
-          {...register}
-          {...rest}
-          value={inputState}
+          {...register} // name, onChange, onBlur, ref
+          {...rest} // type, disabled, etc.
           onFocus={() => setFocused(true)}
           onBlur={(e) => {
             setFocused(false);
             register?.onBlur?.(e);
-            setHasValue(e.target.value !== "");
-          }}
-          onChange={(e) => {
-            register?.onChange?.(e);
-            setInputState(e.target.value);
-            setHasValue(e.target.value !== "");
+            setHasValue(e.target.value !== ""); // RHF needs this
           }}
           data-float={shouldFloat || undefined}
         />

@@ -20,7 +20,12 @@ import {
 } from "@chakra-ui/react";
 import type { PayoutChannelFormProps } from "../../models/types/rop.types";
 import { FileUpload } from "../others/FileUpload";
-import { InputFloatingLabel, PrimaryMdFlexButton } from "st-peter-ui";
+import {
+  DynamicButton,
+  InputFloatingLabel,
+  PrimaryMdFlexButton,
+  SubmitButton,
+} from "st-peter-ui";
 import { UploadFile } from "../others/UploadFile";
 import { FloatingInput } from "../others/FloatingInput";
 import { FileUploader } from "../others/FileUploader";
@@ -225,9 +230,14 @@ export default function PayoutChannelForm({
       )}
 
       {(mode === "new" || mode == null) && isShowButton && (
-        <PrimaryMdFlexButton type="submit" mt="2" onClick={handleSubmit}>
-          Register Payout Channel
-        </PrimaryMdFlexButton>
+        <Flex>
+          <SubmitButton
+            type="submit"
+            mt="2"
+            // label="Register Payout Channel"
+            onClick={handleSubmit}
+          />
+        </Flex>
       )}
     </Box>
   );
