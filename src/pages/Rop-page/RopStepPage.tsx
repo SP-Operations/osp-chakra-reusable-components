@@ -28,6 +28,7 @@ import ROPApplicationDetails from "../../components/others/RopApplicationDetails
 import {
   H2,
   H3,
+  H4,
   NextButton,
   PreviousButton,
   PrimaryMdButton,
@@ -76,7 +77,9 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
         </Breadcrumb.List>
       </Breadcrumb.Root>
       <Box mb="4">
-        <H2>RETURN OF PREMIUM</H2>
+        <Text fontSize={"2xl"} fontWeight={"semibold"}>
+          Return of Premium
+        </Text>
         <Small>File Your Premium, Quick & Simple</Small>
       </Box>
       {/* {step === 1 && (
@@ -112,11 +115,11 @@ export function RopStepPage({ children, onClick }: ButtonParams) {
         {/* Step 1: Payout Channel */}
         {step === 1 && (
           <VStack align="start">
-            <H3>
+            <H4>
               {mode === "existing"
                 ? "Select Payout Channel"
                 : "Register Payout Channel"}
-            </H3>
+            </H4>
 
             {mode === "new" ? (
               <Text

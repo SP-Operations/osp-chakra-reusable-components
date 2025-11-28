@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { Box, Flex, Table, Checkbox, Text, Heading } from "@chakra-ui/react";
 import type { IRopSchema } from "../../models/types/rop.types";
-import { H4, PrimarySmButton, SecondarySmButton, Small } from "st-peter-ui";
+import {
+  ApplyButton,
+  DynamicButton,
+  H4,
+  PrimarySmButton,
+  SecondarySmButton,
+  Small,
+} from "st-peter-ui";
 import { ListItem, ListItemColumn } from "../list-item/list-item";
 
 type RopPlanListProps = {
@@ -120,7 +127,9 @@ export function RopPlanListForm({ data, onClick }: RopPlanListProps) {
       borderTopLeftRadius={"md"}
       borderTopEndRadius={"md"}
     >
-      <H4>List of Fully Paid Plans</H4>
+      <Text fontSize={"xl"} fontWeight={"semibold"}>
+        List of Fully Paid Plans
+      </Text>
       <Box mb={"4"} fontStyle={"italic"}>
         <Small>Kindly select plans you want to request.</Small>
       </Box>
@@ -143,12 +152,11 @@ export function RopPlanListForm({ data, onClick }: RopPlanListProps) {
         </ListItem>
       ))}
       <Flex justify="flex-end" mt={4}>
-        <PrimarySmButton
+        <DynamicButton
           // disabled={selected.length === 0}
+          label="Apply ROP"
           onClick={onSubmit}
-        >
-          Apply ROP
-        </PrimarySmButton>
+        />
       </Flex>
     </Box>
   );

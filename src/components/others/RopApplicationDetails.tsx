@@ -17,19 +17,28 @@ import {
   CloseButton,
   useDisclosure,
   HStack,
+  Icon,
+  VStack,
+  Span,
+  Card,
 } from "@chakra-ui/react";
 import type { IRopSchema } from "../../models/types/rop.types";
 import { FloatingInput } from "./FloatingInput";
 import { mock } from "../../models/schema/RopMock";
 import { SummaryLabel, SummaryLabelList } from "./SummaryLabel";
 import {
+  Body,
+  EditButton,
   H2,
   H3,
   H4,
   InputFloatingLabel,
   PrimarySmButton,
   SecondarySmButton,
+  Small,
 } from "st-peter-ui";
+import { register } from "module";
+import { FaRegAddressCard } from "react-icons/fa";
 
 export default function ROPApplicationDetails({
   data,
@@ -68,219 +77,252 @@ export default function ROPApplicationDetails({
   const onSubmit = ropForm.handleSubmit(handleSave);
   const [open, setOpen] = useState(false);
 
+  const InfoItem = ({
+    label,
+    value,
+  }: {
+    label: string;
+    value: React.ReactNode;
+  }) => (
+    <VStack gap={1} align="start" minW={0}>
+      <Small color="gray.500">{label}</Small>
+      <Body>
+        <Span fontWeight="semibold">{value}</Span>
+      </Body>
+    </VStack>
+  );
+
+  const SectionCardHeader = ({
+    icon,
+    title,
+  }: {
+    icon: React.ReactNode;
+    title: string;
+  }) => (
+    <Flex align="center" gap={2}>
+      <Icon boxSize={5}>{icon}</Icon>
+      <Text fontSize={"lg"} fontWeight={"semibold"}>
+        {title}
+      </Text>
+    </Flex>
+  );
+
   return (
     <Box maxW="7xl" w="full" p={4}>
       <Box mb="3">
-        <H3>Return of Premium Summary</H3>
+        <Text fontSize={"xl"} fontWeight={"semibold"}>
+          Review Details
+        </Text>
       </Box>
       {/* Header */}
       <Flex justify="space-between" align="center" mb={6}>
         <Box>
-          <Heading textStyle="2xl">
-            {uniqueData.map((item, i) => (
-              <Text key={i}>
-                {[item.firstName, item.middleName, item.lastName]
-                  .filter(Boolean)
-                  .join(" ")}
-              </Text>
-            ))}
-          </Heading>
+          {uniqueData.map((item, i) => (
+            <Text textStyle="lg" fontWeight={"semibold"} key={i}>
+              {[item.firstName, item.middleName, item.lastName]
+                .filter(Boolean)
+                .join(" ")}
+            </Text>
+          ))}
           <Text fontSize="sm" color="gray.500">
             Request#: CNT-2025-0001
           </Text>
         </Box>
-        {/* <Box>
-          <Text color="gray.500">ROP Amount</Text>
-          {data.length
-            ? data.map((item, i) => (
-                <Text key={i} fontWeight="medium">
-                  {item.totalAmt ?? "—"}
-                </Text>
-              ))
-            : mock.map((item, i) => (
-                <Text key={i} fontWeight="medium">
-                  {item.totalAmt ?? "—"}
-                </Text>
-              ))}
-        </Box> */}
-        <Flex gap={2}>
-          {!isEditing ? (
-            <></>
-          ) : (
-            // <Button size="sm" onClick={() => setIsEditing(true)}>
-            //   {/* <Edit2 size={16} /> */}
-            //   Edit
-            // </Button>
-            <>
-              <Button colorScheme="green" size="sm" onClick={onSubmit}>
-                <Save size={16} />
-                Save
-              </Button>
-
-              <Button
-                size="sm"
-                onClick={() => {
-                  ropForm.reset();
-                  setIsEditing(false);
-                }}
-              >
-                Cancel
-              </Button>
-            </>
-          )}
-        </Flex>
       </Flex>
 
       {/* Form */}
       <Box as="form" onSubmit={ropForm.handleSubmit(handleSave)}>
         {/* Plan Details */}
-        <Box my={2}>
-          <H4>Plan Details</H4>
-        </Box>
-        <Grid
-          templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
-          gap={4}
-          borderBottom="1px solid"
-          borderColor="gray.300"
-          pb="4"
+        <Card.Root
+          mb={8}
+          bg="white"
+          shadow="sm"
+          borderWidth="1px"
+          rounded="lg"
+          overflow="hidden"
         >
-          <Box>
-            {data.length ? (
-              <SummaryLabelList
-                label="Contract Number"
-                value={data.map((item) => item.lpaNo)}
-              />
-            ) : (
-              mock.map((item, i) => (
-                <Text key={i} fontWeight="medium">
-                  {item.lpaNo ?? "—"}
-                </Text>
-              ))
-            )}
-          </Box>
-
-          <Box>
-            {data.length ? (
-              <SummaryLabelList
-                label="Plan Type"
-                value={data.map((item) => item.planType)}
-              />
-            ) : (
-              mock.map((item, i) => (
-                <Text key={i} fontWeight="medium">
-                  {item.planType ?? "—"}
-                </Text>
-              ))
-            )}
-          </Box>
-        </Grid>
-        {/* Contact Details */}
-        <Box my={2}>
-          <H4>Contact Information</H4>
-        </Box>
-        <Grid
-          templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
-          gap={4}
-          borderBottom="1px solid"
-          borderColor="gray.300"
-          pb="4"
-        >
-          <Box>
-            <Text fontSize="xs" color="gray.500"></Text>
-            {uniqueData.map((item, i) => (
-              <SummaryLabel
-                key={i}
-                label="Email Address"
-                value={item.emailAddress ?? "—"}
-              />
-              // <Text key={i} fontWeight="medium">
-              //   {item.emailAddress ?? "—"}
-              // </Text>
-            ))}
-          </Box>
-
-          <Box>
-            {uniqueData.map((item, i) => (
-              <SummaryLabel
-                key={i}
-                label=" Contact Number"
-                value={item.mobileNo ?? "—"}
-              ></SummaryLabel>
-            ))}
-          </Box>
-        </Grid>
-        {/* PlanHolder Address */}
-        <Stack direction={"row"} my={2}>
-          <H4>Planholder Address</H4>
-          <Button size={"sm"} onClick={() => setOpen(true)}>
-            {/* <Edit2 size={16} /> */}
-            Edit
-          </Button>
-        </Stack>
-        {uniqueData.map((item, index) =>
-          !isEditing ? (
+          <Card.Header py={4} px={6} borderBottomWidth="1px">
+            <SectionCardHeader
+              icon={<FaRegAddressCard />}
+              title="Plan Details"
+            />
+          </Card.Header>
+          <Card.Body px={6} py={5}>
             <Grid
-              templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
-              gap={1}
-              borderBottom="1px solid"
-              borderColor="gray.200"
-              pb="2"
-              key={index}
+              templateColumns={{ base: "1fr", md: "repeat(2,1fr)" }}
+              gap={6}
             >
-              <Box>
-                <SummaryLabel label="Lot#" value={item.lotNumber ?? "—"} />
-              </Box>
-              <Box>
-                <SummaryLabel label="Street" value={item.street ?? "—"} />
-              </Box>
-              <Box>
-                <SummaryLabel label="Barangay" value={item.brangay ?? "—"} />
-              </Box>
-              <Box>
-                <SummaryLabel label="District" value={item.district ?? "—"} />
-              </Box>
-              <Box>
-                <SummaryLabel label="City" value={item.city ?? "—"} />
-              </Box>
-              <Box>
-                <SummaryLabel label="Province" value={item.province ?? "—"} />
-              </Box>
-              <Box>
-                <SummaryLabel label="Zip Code" value={item.zipCode ?? "—"} />
-              </Box>
+              {data.length ? (
+                <SummaryLabelList
+                  label="Contract Number"
+                  value={data.map((item) => item.lpaNo)}
+                />
+              ) : (
+                mock.map((item, i) => (
+                  <Text key={i} fontWeight="medium">
+                    {item.lpaNo ?? "—"}
+                  </Text>
+                ))
+              )}
+              {data.length ? (
+                <SummaryLabelList
+                  label="Plan Type"
+                  value={data.map((item) => item.planType)}
+                />
+              ) : (
+                mock.map((item, i) => (
+                  <Text key={i} fontWeight="medium">
+                    {item.planType ?? "—"}
+                  </Text>
+                ))
+              )}
             </Grid>
-          ) : (
-            ""
-          )
-        )}
+          </Card.Body>
+        </Card.Root>
+        {/* Contact Details */}
+        <Card.Root
+          mb={8}
+          bg="white"
+          shadow="sm"
+          borderWidth="1px"
+          rounded="lg"
+          overflow="hidden"
+        >
+          <Card.Header py={4} px={6} borderBottomWidth="1px">
+            <SectionCardHeader
+              icon={<FaRegAddressCard />}
+              title="Contact Information"
+            />
+          </Card.Header>
+          <Card.Body px={6} py={5}>
+            <Grid
+              templateColumns={{ base: "1fr", md: "repeat(2,1fr)" }}
+              gap={6}
+            >
+              {uniqueData.map((item, i) => (
+                <InfoItem
+                  key={i}
+                  label="Email Address"
+                  value={item.emailAddress ?? "—"}
+                />
+              ))}
+              {uniqueData.map((item, i) => (
+                <InfoItem
+                  key={i}
+                  label="Contact Number"
+                  value={item.mobileNo ?? "-"}
+                />
+              ))}
+            </Grid>
+          </Card.Body>
+        </Card.Root>
+
+        {/* PlanHolder Address */}
+        <Card.Root
+          mb={8}
+          bg="white"
+          shadow="sm"
+          borderWidth="1px"
+          rounded="lg"
+          overflow="hidden"
+        >
+          <Card.Header
+            py={4}
+            px={6}
+            borderBottomWidth="1px"
+            display={"flex"}
+            justifyContent={"space-between"}
+          >
+            <SectionCardHeader
+              icon={<FaRegAddressCard />}
+              title="Planholder Address"
+            />
+
+            <EditButton onClick={() => setOpen(true)} />
+          </Card.Header>
+          <Card.Body px={6} py={5}>
+            <Grid
+              templateColumns={{ base: "1fr", md: "repeat(3,1fr)" }}
+              gap={6}
+            >
+              {uniqueData.map((item, i) => (
+                <InfoItem key={i} label="Lot#" value={item.lotNumber ?? "—"} />
+              ))}
+              {uniqueData.map((item, i) => (
+                <InfoItem key={i} label="Street" value={item.street ?? "—"} />
+              ))}
+              {uniqueData.map((item, i) => (
+                <InfoItem
+                  key={i}
+                  label="Barangay"
+                  value={item.brangay ?? "—"}
+                />
+              ))}
+              {uniqueData.map((item, i) => (
+                <InfoItem
+                  key={i}
+                  label="District"
+                  value={item.district ?? "-"}
+                />
+              ))}
+              {uniqueData.map((item, i) => (
+                <InfoItem key={i} label="City" value={item.city ?? "—"} />
+              ))}
+              {uniqueData.map((item, i) => (
+                <InfoItem
+                  key={i}
+                  label="Province"
+                  value={item.province ?? "-"}
+                />
+              ))}
+              {uniqueData.map((item, i) => (
+                <InfoItem
+                  key={i}
+                  label="Zip Code"
+                  value={item.zipCode ?? "-"}
+                />
+              ))}
+            </Grid>
+          </Card.Body>
+        </Card.Root>
 
         {/* Payout Details */}
-        <Box my="2">
-          <H4>Payout Details</H4>
-        </Box>
-        {uniqueData.map((item, index) => (
-          <Grid
-            templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
-            gap={4}
-            borderBottom="1px solid"
-            borderColor="gray.200"
-            pb="2"
-            key={index}
-          >
-            <Box>
-              <SummaryLabel
-                label="Payout Channel"
-                value={item.payoutChannel ?? "—"}
-              />
-            </Box>
-            <Box>
-              <SummaryLabel
-                label="Account Number"
-                value={item.payoutAccount ?? "—"}
-              />
-            </Box>
-          </Grid>
-        ))}
+        <Card.Root
+          mb={8}
+          bg="white"
+          shadow="sm"
+          borderWidth="1px"
+          rounded="lg"
+          overflow="hidden"
+        >
+          <Card.Header py={4} px={6} borderBottomWidth="1px">
+            <SectionCardHeader
+              icon={<FaRegAddressCard />}
+              title="Payout Details"
+            />
+          </Card.Header>
+          <Card.Body px={6} py={5}>
+            <Grid
+              templateColumns={{ base: "1fr", md: "repeat(2,1fr)" }}
+              gap={6}
+            >
+              {uniqueData.map((item, i) => (
+                <InfoItem
+                  key={i}
+                  label="Payout Channel"
+                  value={item.payoutChannel ?? "—"}
+                />
+              ))}
+              {uniqueData.map((item, i) => (
+                <InfoItem
+                  key={i}
+                  label="Account Number"
+                  value={item.payoutAccount ?? "—"}
+                />
+              ))}
+            </Grid>
+          </Card.Body>
+        </Card.Root>
       </Box>
 
       <Dialog.Root
@@ -317,7 +359,6 @@ export default function ROPApplicationDetails({
                     <FloatingInput
                       label="Street"
                       {...ropForm.register(`items.${index}.street`)}
-                      autoCheck={open} // if inside a modal
                     />
 
                     <FloatingInput

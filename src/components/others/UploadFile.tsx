@@ -6,7 +6,12 @@ import { PrimaryMdButton, PrimarySmButton } from "st-peter-ui";
 export const UploadFile = () => {
   return (
     <Flex gap={4} align="flex-start">
-      <FileUpload.Root maxFiles={10} display="inline-block" maxW="2xl">
+      <FileUpload.Root
+        maxFiles={10}
+        display="inline-block"
+        maxW="2xl"
+        accept=".png,.jpg,.jpeg,.pdf"
+      >
         <FileUpload.HiddenInput />
         <FileUpload.Dropzone>
           {/* <Icon size="md" color="fg.muted">

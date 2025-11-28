@@ -1,5 +1,6 @@
 import { Box, Stack, Text } from "@chakra-ui/react";
 import React from "react";
+import { Body, Small } from "st-peter-ui";
 
 interface SummaryLabelProps {
   label: string;
@@ -28,16 +29,14 @@ export function SummaryLabelList({
   value = [],
 }: SummaryLabelListProps) {
   return (
-    <Stack direction="column" gap={1}>
-      <Text fontSize="sm" color="gray.500">
-        {label}
-      </Text>
+    <Stack direction="column" gap={1} align="start" minW={0}>
+      <Small color="gray.500">{label}</Small>
 
-      <Stack direction="column" gap={1}>
+      <Stack direction="column" gap={1} align="start" minW={0}>
         {value.map((item, key) => (
-          <Text fontWeight="medium" key={key}>
+          <Body fontWeight="semibold" key={key}>
             {item}
-          </Text>
+          </Body>
         ))}
       </Stack>
     </Stack>
