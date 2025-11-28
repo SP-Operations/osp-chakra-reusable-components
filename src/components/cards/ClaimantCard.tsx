@@ -2,7 +2,7 @@
 import { Checkbox, CheckboxCard, Dialog, Heading, Portal, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
 import { LuInfo } from 'react-icons/lu';
-import { BaseButton } from 'st-peter-ui';
+import { BaseButton, SecondarySmButton } from 'st-peter-ui';
 import { ClaimantPopUpForm } from '../forms/ClaimantPopUpForm';
 import type { Claimant, ClaimantCardParams } from '../../models/types/claim.types';
 import { param } from 'framer-motion/client';
@@ -49,12 +49,12 @@ export const ClaimantCard = (params: ClaimantCardParams) => {
                         <CheckboxCard.Description>Payout Channel</CheckboxCard.Description>
                     </CheckboxCard.Content>
 
-                    <BaseButton size="sm" variant="ghost" onClick={(e) => {
+                    <SecondarySmButton onClick={(e) => {
                         e.stopPropagation();
                         onOpen();
                     }}>
-                        <LuInfo />
-                    </BaseButton>
+                        View Details
+                    </SecondarySmButton>
                 </CheckboxCard.Control>
 
             </CheckboxCard.Root>

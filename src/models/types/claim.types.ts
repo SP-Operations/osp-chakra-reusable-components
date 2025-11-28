@@ -17,6 +17,11 @@ export type Claimant = {
 export type PhClaimant = {
     index: number;
     lpaNumber: string;
+    firstName: string;
+    lastName: string;
+    middleName?: string;
+    suffix?: string;
+    birthDate: string;
     incidentDate: string;
     causeOfIncident: string;
 }
@@ -49,4 +54,9 @@ export type ClaimantPopUpFormParams = {
 export type ClaimantCardParams = {
     value: Claimant;
     onValueChange: (value: Claimant) => void;
+}
+
+export type PageParams = {
+    onClickHome: () => void;
+    onClickTrack: () => void;
 }
