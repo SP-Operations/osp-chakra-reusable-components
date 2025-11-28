@@ -7,7 +7,7 @@ import { LuUserRound } from 'react-icons/lu';
 import { PlanholderForm } from '../../components/forms/PlanholderForm';
 import { SuccessPage } from '../success-page/SuccessPage';
 import { ClaimantCard } from '../../components/cards/ClaimantCard';
-import { Body, DynamicButton, H2, H3, PreviousButton, PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton } from 'st-peter-ui';
+import { Body, DynamicButton, H2, H3, H4, PreviousButton, PrimaryMdButton, PrimarySmButton, SecondaryMdButton, SecondarySmButton } from 'st-peter-ui';
 import { ClaimantPopUpForm } from '../../components/forms/ClaimantPopUpForm';
 import { UploadFile } from '../../components/others/UploadFile';
 import { SummaryLabel, SummaryLabelList } from '../../components/others/SummaryLabel';
@@ -208,7 +208,7 @@ export const FileClaimPage = () => {
                             </Breadcrumb.List>
                         </Breadcrumb.Root>
                         <Container>
-                            <H2>Claim Application</H2>
+                            <Text textStyle="2xl" fontWeight="semibold">Claim Application</Text>
                             <Body color="gray.600" mt={1}>Your claim matters. We make it easy.</Body>
                         </Container>
 
@@ -236,7 +236,7 @@ export const FileClaimPage = () => {
                     {(pageNumber === 2) && (
                         <>
                             <Box>
-                                <H3>Document's</H3>
+                                <Text textStyle="xl" fontWeight="semibold">Document's</Text>
 
                                 <Body textStyle="md">
                                     Please provide the following documentation for your convenience in the next steps.
@@ -281,7 +281,7 @@ export const FileClaimPage = () => {
                         <>
                             {/* <ClaimantForm onClaimantEvent={setClaimantList} value={claimantList} /> */}
                             <Box>
-                                <H3>Claimant(s)</H3>
+                                <Text textStyle="xl" fontWeight="semibold">Claimant(s)</Text>
                                 <Body>
                                     Provide the necessary details of the claimant(s) who will be receiving the claim benefits on behalf of the planholder.
                                 </Body>
@@ -372,7 +372,7 @@ export const FileClaimPage = () => {
                     {(pageNumber === 4) && (
                         <>
                             <Stack direction="column" gap="0">
-                                <H3>Claim Summary</H3>
+                                <Text textStyle="xl" fontWeight="semibold">Claim Summary</Text>
 
                                 <Box as="div" padding="5px">
                                     <Text textStyle="md" fontWeight="semibold" borderBottom="1px solid #a1a1aa" paddingBottom="5px" marginBottom="10px">Planholder Details</Text>
