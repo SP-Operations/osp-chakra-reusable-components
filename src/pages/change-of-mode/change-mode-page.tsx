@@ -22,10 +22,9 @@ import {
   ListItem,
   ListItemColumn,
   ListItemColumnButton,
-  ListItemColumnDialog
+  ListItemColumnDialog,
 } from "../../components/list-item/list-item";
 import type { PlanDetails } from "./change-mode.types";
-// import { InputFloatingLabel } from "../components/input/input-floating-label";
 import { PHPlans } from "./data";
 import { PlanDetailsDialog } from "./plan-details-dialog";
 import { Body, H3, H4, Small } from "st-peter-ui";
@@ -49,8 +48,8 @@ export function ChangeModePage() {
   };
 
   return (
-    <Box maxW={"7xl"} mx={"auto"} my={0} px={0}>
-      <Breadcrumb.Root>
+    <Box maxW={"7xl"} mx={"auto"} my={0} px={8}>
+      {/* <Breadcrumb.Root>
         <Breadcrumb.List>
           <Breadcrumb.Item>
             <Breadcrumb.Link href="#">Home</Breadcrumb.Link>
@@ -64,16 +63,15 @@ export function ChangeModePage() {
             <Breadcrumb.CurrentLink>Change of Mode</Breadcrumb.CurrentLink>
           </Breadcrumb.Item>
         </Breadcrumb.List>
-      </Breadcrumb.Root>
-      <Box mb={4} mt={6}>
-        <H3>
+      </Breadcrumb.Root> */}
+      <Box mb={4}>
+        <Heading size="2xl" fontWeight="semibold">
           Change of Mode Application
-        </H3>
-        <Body color="gray.600" mt={1}>
+        </Heading>
+        <Body fontSize="sm" color="gray.600" mt={1}>
           Switch your payment mode anytime—Quarterly, Semi-Annual, or Annual.
         </Body>
       </Box>
-
       <Steps.Root
         step={step}
         onStepChange={(e) => setStep(e.step)}
@@ -190,4 +188,4 @@ export function ChangeModePage() {
   );
 }
 
-const steps = ["Select Plan", "Review Application", "Payment"];
+const steps = ["Select Plan", "Application Summary", "Payment"];

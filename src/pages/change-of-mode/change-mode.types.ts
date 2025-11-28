@@ -21,3 +21,10 @@ export type PlanType = {
     total_amount_payable: number;
     installment_amount: number;
 }
+
+export type CheckedPlanType = {
+    lpaNo: string;
+    plan_code: string;
+    newMode: string;
+    installment_amount: number;
+}

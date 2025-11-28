@@ -14,12 +14,13 @@ import {
 import { InputFloatingLabel } from "st-peter-ui";
 import type { PlanDetails } from "./change-mode.types";
 import { PlanTypes } from "./data";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const modes = ["Monthly", "Quarterly", "Semi-Annual", "Annual"];
 
 export function PlanDetailsDialog( {plan} : {plan: PlanDetails} ) {
-    const [value, setValue] = useState(plan.mode);
+    const [selected, setSelected] = useState(0);
+    const [value, setValue] = useState(modes[modes.indexOf(plan.mode) + 1]);
     const plans = useMemo(
         () => PlanTypes.filter((type) => type.description === plan.plan_type),
         [plan.plan_type]
@@ -38,42 +39,38 @@ export function PlanDetailsDialog( {plan} : {plan: PlanDetails} ) {
 
     useEffect(() => {
         const selected = plans.findLast((type) => type.mode === value) ?? plans[0];
+        if (!selected) return;
+        const _oldInstNo = (plan.total_amount_paid / plan.installment_amount);
+        const _oldMonthMode = 
+            plan.mode === "Monthly" ? 1 :    
+            plan.mode === "Quarterly" ? 3 :    
+            plan.mode === "Semi-Annual" ? 6 :    
+            plan.mode === "Annual" ? 12 : 0;
+        const _newMonthMode = 
+                selected.mode === "Monthly" ? 1 :    
+            selected.mode === "Quarterly" ? 3 :    
+            selected.mode === "Semi-Annual" ? 6 :    
+            selected.mode === "Annual" ? 12 : 0;
+        const _newInstAmt = selected.installment_amount;
+        const _totalAmtPaid = plan.total_amount_paid;
+        const _totalMonthDone = _oldInstNo * _oldMonthMode;
+        const _totalRemMonth = 60 - _totalMonthDone;
+        const _newRemInstNo = _totalRemMonth / _newMonthMode;
+        const _newBalance = _newInstAmt * _newRemInstNo;
+        const _newTAP = _newBalance + _totalAmtPaid;
 
-        const _oldInstNo = 
-            plan.mode === "Monthly" ? 60 - plan.installment_no : 
-            plan.mode === "Quarterly" ? 20 - plan.installment_no : 
-            plan.mode === "Semi-Annual" ? 10 - plan.installment_no : 
-            plan.mode === "Annual" ? 5 - plan.installment_no : 0;
-            console.log("oldInstNo: ", _oldInstNo, plan.installment_no);
-        const _newMode = 
-            selected?.mode === "Monthly" ? 1 :    
-            selected?.mode === "Quarterly" ? 3 :    
-            selected?.mode === "Semi-Annual" ? 6 :    
-            selected?.mode === "Annual" ? 12 : 0;
-            console.log("newMode: ", _newMode);
-        const _newInstNo = _oldInstNo / _newMode; 
-            console.log("newInstNo: ", _newInstNo);
-        const _newRemInstNo = selected?.mop ?? 0 - _newInstNo;
-            console.log("newRemInstNo: ", _newRemInstNo);
-        const _newInstAmt = selected?.installment_amount;
-            console.log("newInstAmt: ", _newInstAmt);
-        const _newBalance = _newInstAmt?? 0 * _newRemInstNo;
-            console.log("newBal: ", _newBalance);
-        const _newTap = plan.total_amount_paid + _newBalance;
-            console.log("newTAP: ", _newTap);
-
-        setNewMode(selected?.mode ?? "");
-        setNewInstNo(selected?.installment_no ?? 0 - _newInstNo);
-        setNewInstAmt(_newInstAmt?? 0);
+        setNewMode(selected.mode);
+        setNewInstNo(_newRemInstNo);
+        setNewInstAmt(_newInstAmt);
         setNewBalance(_newBalance);  
-        setNewTAP(_newTap);
+        setNewTAP(_newTAP);
     }, [value, plans]);
 
     return (
         <Portal>
-            <Dialog.Backdrop />
-            <Dialog.Positioner>
-                <Dialog.Content>
+            <Dialog.Backdrop zIndex={1000} />
+            <Dialog.Positioner zIndex={1001}>
+                <Dialog.Content zIndex={1001}>
                     <Dialog.Header>
                         <Dialog.Title>Plan Details</Dialog.Title>
                     </Dialog.Header>

@@ -117,10 +117,10 @@ export const PHPlans : PlanDetails[] = [
         plan_type: "St. George",
         mode: "Quarterly",
         total_amount_payable: 58300,
-        total_amount_paid: 14575,
-        installment_no: 15,
+        total_amount_paid: 17490,
+        installment_no: 14,
         installment_amount: 2915,
-        balance: 43725
+        balance: 40810
     },
     
 ];
