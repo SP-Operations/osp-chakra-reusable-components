@@ -12,10 +12,11 @@ import {
   Heading,
   Checkbox,
   useBreakpointValue,
+  Separator,
 } from '@chakra-ui/react';
 import { useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SignupButton, InputFloatingLabel } from 'st-peter-ui';
+import { SignupButton, InputFloatingLabel, Body, H4 } from 'st-peter-ui';
 import imgLogin from "../../assets/images/login.webp";
 import imgMetaLogo from "../../assets/images/icons8-meta-48.png";
 import imgStPeterLogo from "../../assets/images/stpeter-logo.png";
@@ -118,6 +119,19 @@ export function LoginPage({
                     <Heading size="lg" textAlign="center" color={"rgb(53, 53, 53)"} mb={isMobile? "20px" : "10px"}>
                       Log In
                     </Heading>
+                    <InputFloatingLabel type='email' label="Email" name='emailInput' required autoComplete='off'/>
+                    <InputFloatingLabel type='password' label="Password" name='passwordInput' required autoComplete='off'/>
+                    <Link href={forgotPasswordLink} color="blue.500" fontSize="sm" my={"10px"}>
+                      Forgot your password?
+                    </Link>
+                    <Button type='submit'>Log In</Button>
+                    
+                    <HStack my={3}>
+                      <Separator flex="1" />
+                      <Text flexShrink="0"> or </Text>
+                      <Separator flex="1" />
+                    </HStack>
+
                     <HStack justify="center">
                       <Link
                       border={"1px solid #ddd"}
@@ -156,15 +170,7 @@ export function LoginPage({
                         <Image src={imgAppleLogo} boxSize="8" />
                       </Link>
                     </HStack>
-                    <Text textAlign="center" fontSize="sm" color="gray.500" my={"10px"}> 
-                      or use your account
-                    </Text>
-                    <InputFloatingLabel type='email' label="Email" name='emailInput' required autoComplete='off'/>
-                    <InputFloatingLabel type='password' label="Password" name='passwordInput' required autoComplete='off'/>
-                    <Link href={forgotPasswordLink} color="blue.500" fontSize="sm" my={"10px"}>
-                      Forgot your password?
-                    </Link>
-                    <Button type='submit'>Log In</Button>
+
                     <Text 
                     fontSize="sm" 
                     textAlign="center" 
@@ -282,12 +288,12 @@ export function LoginPage({
                   justifyContent="center"
                   p={8}
                   >
-                      <Heading size="lg" mb={2}>
+                      <H4>
                           Already have an account?
-                      </Heading>
-                      <Text mb={4}>
+                      </H4>
+                      <Body my={4}>
                           To keep connected with us, please log in with your personal info
-                      </Text>
+                      </Body>
                       <Button
                       size={"md"}
                       width={"full"}
@@ -317,12 +323,12 @@ export function LoginPage({
                   justifyContent="center"
                   p={8}
                   >
-                      <Heading size="lg" mb={2}>
+                      <H4>
                           Welcome to St. Peter eStore!
-                      </Heading>
-                      <Text mb={4}>
+                      </H4>
+                      <Body my={4}>
                           Enter your personal details and start your journey with us
-                      </Text>
+                      </Body>
                       <Button
                       size={"md"}
                       width={"full"}
