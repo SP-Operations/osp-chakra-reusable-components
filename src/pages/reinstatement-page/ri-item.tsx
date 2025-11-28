@@ -120,7 +120,7 @@ export default function RIPlanItem({ plan, onChange }: RIPlanItemProps) {
             <Dialog.Positioner zIndex={1001} >
               <Dialog.Content zIndex={1001} >
                 <Dialog.Header>
-                  <Heading>Plan Details</Heading>
+                  <Dialog.Title>Plan Details</Dialog.Title>
                 </Dialog.Header>
                 <Dialog.Body>
                   <Stack direction={{ base: "column", md: "row" }}>
