@@ -1,0 +1,33 @@
+import { PageParams } from "osp-chakra-reusable-components";
+
+export interface PhLapsedPlan {
+  lpaNo: string;
+  phName: string;
+  planType: string;
+  mop: string;
+  status: string;
+  totalAmtPayable: string;
+  totalAmtPaid: string;
+  balance: string;
+  instAmt: string;
+  newLpaNo: string;
+  newStatus: string;
+  newTotalAmtPayable: string;
+  newTotalAmtPaid: string;
+  newBalance: string;
+  newInstAmt: string;
+  duedate: string;
+}
+
+export interface CheckedPlan {
+  lpaNo: string;
+  planType: string;
+  isFullyPaid: boolean;
+  reinstatementFee: number;
+  reinstatementPayment: number;
+}
+
+export interface RIProps extends PageParams {
+  initialPlans?: PhLapsedPlan[];
+  onSubmit?: (selectedPlans: CheckedPlan[]) => void;
+}
