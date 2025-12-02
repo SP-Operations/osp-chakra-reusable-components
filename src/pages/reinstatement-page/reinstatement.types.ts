@@ -1,4 +1,4 @@
-import { PageParams } from "osp-chakra-reusable-components";
+import type { PageParams } from "../../models/types/claim.types";
 
 export interface PhLapsedPlan {
   lpaNo: string;

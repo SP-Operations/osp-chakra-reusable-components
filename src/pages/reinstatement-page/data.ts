@@ -1,4 +1,4 @@
-import { PhLapsedPlan } from "./reinstatement.types";
+import type { PhLapsedPlan } from "./reinstatement.types";
 
 export const lapsedPlans : PhLapsedPlan[] = [
     {
