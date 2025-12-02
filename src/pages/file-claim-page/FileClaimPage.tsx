@@ -534,7 +534,7 @@ export const FileClaimPage = (params: PageParams) => {
                 </Container>
             </Steps.Root>
 
-            <Dialog.Root lazyMount open={openSubmitDialog} onOpenChange={(e) => {setOpenSubmitDialog(e.open)}}>
+            <Dialog.Root lazyMount open={openSubmitDialog} onOpenChange={(e) => {setOpenSubmitDialog(e.open)}} placement="center">
                 <Dialog.Trigger asChild>
                     <Button variant="outline" size="sm" visibility="hidden" position="absolute" zIndex={-1}>
                         Open Dialog
