@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const sourceDir = path.join(__dirname, '../dist/images/osp-chakra-reusable-components');
+const sourceDir = path.join(__dirname, '../images/osp-chakra-reusable-components');
 const destDir = path.join(process.cwd(), 'public/images/osp-chakra-reusable-components'); // Resolves to the *consumer's* public/assets
 
 function copyRecursiveSync(src, dest) {
