@@ -1,82 +1,43 @@
-"use client";
-import {
-  Box,
-  Dialog,
-  Container,
-  Flex,
-  Heading,
-  Portal,
-  SimpleGrid,
-  Stack,
-  Steps,
-  Text,
-  VStack,
-  CloseButton,
-  RadioCard,
-  HStack,
-  Breadcrumb,
-  Separator,
-} from "@chakra-ui/react";
-import { useState } from "react";
-import {
-  ListItem,
-  ListItemColumn,
-  ListItemColumnButton,
-  ListItemColumnDialog,
-} from "../../components/list-item/list-item";
-import type { PlanDetails } from "./change-mode.types";
+import { Box, Container, Flex, Separator, Steps } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Body, H3, NextButton, PreviousButton } from "st-peter-ui";
+import type { CheckedPlanType } from "./change-mode.types";
+import { ChangeModeForm } from "./change-mode-form";
 import { PHPlans } from "./data";
-import { PlanDetailsDialog } from "./plan-details-dialog";
-import { Body, H3, H4, Small } from "st-peter-ui";
+import { ChangeModeSummaryPage } from "./change-mode-summary";
+import PaymentPage from "./payment";
 
-export function ChangeModePage() {
-  const [phPlans] = useState<PlanDetails[]>(PHPlans);
-  const [checkedPlans, setCheckedPlans] = useState<PlanDetails[]>([]);
-  const [step, setStep] = useState(0);
+const steps = ["Select Plan", "Application Summary", "Payment"];
 
-  const handleCheckedChange = (checked: boolean, values: PlanDetails) => {
-    setCheckedPlans((prev) => {
-      if (checked) {
-        if (!prev.some((p) => p.lpa_no === values.lpa_no)) {
-          return [...prev, values];
-        }
-        return prev;
-      }
-
-      return prev.filter((p) => p.lpa_no !== values.lpa_no);
-    });
-  };
+export function ChangeModePage({onSuccess} : {onSuccess: (transactionId: string, transactionAmount: number) => void}) {
+  const [checkedPlans, setCheckedPlans] = useState<CheckedPlanType[] | undefined>([]);
+  const [totalAmountDue, setTotalAmountDue] = useState(0);
+  const [step, setStep] = useState(0)
+  
+  
+  useEffect(() => {
+    if(!checkedPlans) return;
+    const totalCMFee = checkedPlans.reduce((sum) => sum + 100, 0);
+    const totalInstPayment = checkedPlans.reduce((sum, p) => sum + p.new_installment_amount + p.pending_installment_amount, 0);
+    const totalDue = totalCMFee + totalInstPayment;
+    setTotalAmountDue(totalDue);
+  }, [checkedPlans])
 
   return (
-    <Box maxW={"7xl"} mx={"auto"} my={0} px={8}>
-      {/* <Breadcrumb.Root>
-        <Breadcrumb.List>
-          <Breadcrumb.Item>
-            <Breadcrumb.Link href="#">Home</Breadcrumb.Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Separator />
-          <Breadcrumb.Item>
-            <Breadcrumb.Link href="#">Plan Management</Breadcrumb.Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Separator />
-          <Breadcrumb.Item>
-            <Breadcrumb.CurrentLink>Change of Mode</Breadcrumb.CurrentLink>
-          </Breadcrumb.Item>
-        </Breadcrumb.List>
-      </Breadcrumb.Root> */}
-      <Box mb={4}>
-        <Heading size="2xl" fontWeight="semibold">
-          Change of Mode Application
-        </Heading>
-        <Body fontSize="sm" color="gray.600" mt={1}>
+    <Box maxW={"7xl"} mx={"auto"} py={3}>
+      <Container px={0}>
+        <H3>Change of Mode Application</H3>
+        <Body mt={1}>
           Switch your payment mode anytime—Quarterly, Semi-Annual, or Annual.
         </Body>
-      </Box>
+      </Container>
+
       <Steps.Root
         step={step}
         onStepChange={(e) => setStep(e.step)}
         count={steps.length}
         my={5}
+        onStepComplete={() => onSuccess("CM-12345", totalAmountDue)}
       >
         <Steps.List>
           {steps.map((step, index) => (
@@ -85,6 +46,7 @@ export function ChangeModePage() {
                 _current={{
                   backgroundColor: "var(--chakra-colors-primary-disabled)/50",
                   borderColor: "var(--chakra-colors-primary)",
+                  color: "var(--chakra-colors-primary-hover)",
                 }}
                 _complete={{
                   backgroundColor: "var(--chakra-colors-primary)",
@@ -103,89 +65,36 @@ export function ChangeModePage() {
           ))}
         </Steps.List>
 
-        <Separator variant={"solid"} />
+        <Separator />
 
-        {/* Step 1: Select Lapsed Plans */}
-        <Steps.Content key={1} index={0}>
-          <Box py={6} >
-            <Flex justify={"space-between"}>
-              <Box>
-                <H4>Active Plans</H4>
-                <Small mb="4" fontStyle={"italic"}>
-                  Kindly select plans you want to change mode.
-                </Small>
-              </Box>
-              <Box textAlign={"right"}>
-                <Text fontSize="sm" fontStyle={"italic"}>
-                  No. of plans selected:
-                </Text>
-                <Heading size="lg">
-                  {checkedPlans.length}/{phPlans.length}
-                </Heading>
-              </Box>
-            </Flex>
-            {phPlans.length === 0 ? (
-              <Text
-                textAlign={"center"}
-                border={"1px solid #ddd"}
-                p={10}
-                borderRadius={"md"}
-                fontStyle={"italic"}
-                color={"gray-500"}
-              >
-                No plans available for change of mode.
-              </Text>
-            ) : (
-              phPlans.map((plan, index) => (
-                <ListItem
-                key={index}
-                selectable
-                onCheckChange={(checked) => handleCheckedChange(checked, plan)}
-                dialog={
-                    <ListItemColumnDialog>
-                        <PlanDetailsDialog plan={plan} />
-                    </ListItemColumnDialog>
-                }
-                >
-                    <ListItemColumn label="LPA Number" value={plan.lpa_no} triggerDialog />
-                    <ListItemColumn label="Plan Type" value={plan.plan_type} triggerDialog />
-                    <ListItemColumn label="Mode" value={plan.mode} triggerDialog />
-                    <ListItemColumnButton label="Select Mode" triggerDialog />
-                </ListItem>
-              ))
-            )}
-          </Box>
-          <Box
-            width={"full"}
-            padding={2}
-            bg={"gray.100"}
-            display={"flex"}
-            alignItems={"center"}
-            borderBottomLeftRadius={"md"}
-            borderBottomEndRadius={"md"}
-            justifyContent={"flex-end"}
-          >
-            <Box>
-              <Text mr={5}>Installment Payment:</Text>
-              <Text mr={5}>Change Mode Fee:</Text>
-              <Text mr={5}>Total Amount Due:</Text>
-            </Box>
-            {/* <Box>
-              <Heading size={"lg"} mr={5} textAlign={"right"}>
-                ₱ <span ref={TotalRIPayment}>0.00</span>
-              </Heading>
-              <Heading size={"lg"} mr={5} textAlign={"right"}>
-                ₱ <span ref={TotalRIFee}>0.00</span>
-              </Heading>
-              <Heading size={"lg"} mr={5} textAlign={"right"}>
-                ₱ <span ref={TotalAmountDue}>0.00</span>
-              </Heading>
-            </Box> */}
-          </Box>
+        <Steps.Content index={0}>
+          <ChangeModeForm activePlans={PHPlans} onCheckedPlansChange={(checked) => setCheckedPlans(checked)}/>
         </Steps.Content>
+        <Steps.Content index={1}>
+          <ChangeModeSummaryPage selectedPlans={checkedPlans} onSubmit={function (): void {
+            throw new Error("Function not implemented.");
+          } } onBack={function (): void {
+            throw new Error("Function not implemented.");
+          } }/>
+        </Steps.Content>
+        <Steps.Content index={2}>
+          <PaymentPage/>
+        </Steps.Content>
+        <Steps.CompletedContent>
+          
+        </Steps.CompletedContent>
+
+        <Flex justifyContent={"space-between"}>
+          <Steps.PrevTrigger asChild>
+            {step < 3 && <PreviousButton />}
+          </Steps.PrevTrigger>
+          <Steps.NextTrigger asChild>
+            {step < 2 && (
+              <NextButton disabled={step === 0 && checkedPlans && checkedPlans.length === 0} />
+            )}
+          </Steps.NextTrigger>
+        </Flex>
       </Steps.Root>
     </Box>
   );
 }
-
-const steps = ["Select Plan", "Application Summary", "Payment"];

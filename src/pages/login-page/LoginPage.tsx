@@ -24,13 +24,13 @@ import {
   LoginFlexButton,
   PrimaryMdFlexButton,
 } from "st-peter-ui";
-import imgLogin from "../../public/images/osp-chakra-reusable-components/login.webp";
-import imgMetaLogo from "../../public/images/osp-chakra-reusable-components/icons8-meta-48.png";
-import imgStPeterLogo from "../../public/images/osp-chakra-reusable-components/stpeter-logo.png";
-import imgAppleLogo from "../../public/images/osp-chakra-reusable-components/icons8-apple-48.png";
-import imgGoogleLogo from "../../public/images/osp-chakra-reusable-components/icons8-google-48.png";
-import imgTwitterLogo from "../../public/images/osp-chakra-reusable-components/icons8-x-48.png";
-import imgCreateAccount from "../../public/images/osp-chakra-reusable-components/createaccount.jpg";
+import imgLogin from "../../assets/images/login.webp";
+import imgMetaLogo from "../../assets/images/icons8-meta-48.png";
+import imgStPeterLogo from "../../assets/images/stpeter-logo.png";
+import imgAppleLogo from "../../assets/images/icons8-apple-48.png";
+import imgGoogleLogo from "../../assets/images/icons8-google-48.png";
+import imgTwitterLogo from "../../assets/images/icons8-x-48.png";
+import imgCreateAccount from "../../assets/images/createaccount.jpg";
 
 interface LoginPageProps {
   onLogin: (email: string, password: string) => void;
@@ -124,7 +124,7 @@ export function LoginPage({
               <form onSubmit={Login_OnSubmit}>
                 <VStack padding={4} align="stretch" minW="280px">
                   <Image
-                    src={imgStPeterLogo.src}
+                    src={imgStPeterLogo}
                     w="100%"
                     mx="auto"
                     mb={isMobile ? "20px" : "10px"}
@@ -182,7 +182,7 @@ export function LoginPage({
                         border: "2px solid var(--chakra-colors-primary)",
                       }}
                     >
-                      <Image src={imgGoogleLogo.src} boxSize="6" />
+                      <Image src={imgGoogleLogo} boxSize="6" />
                     </Link>
                     <Link
                       href="#"
@@ -198,7 +198,7 @@ export function LoginPage({
                         border: "2px solid var(--chakra-colors-primary)",
                       }}
                     >
-                      <Image src={imgMetaLogo.src} boxSize="6" />
+                      <Image src={imgMetaLogo} boxSize="6" />
                     </Link>
                     {/* <Link
                       href='#'
@@ -214,7 +214,7 @@ export function LoginPage({
                         border: "2px solid var(--chakra-colors-primary)"
                       }}
                       >
-                        <Image src={imgAppleLogo.src} boxSize="6" />
+                        <Image src={imgAppleLogo} boxSize="6" />
                       </Link> */}
                     <Link
                       href="#"
@@ -230,7 +230,7 @@ export function LoginPage({
                         border: "2px solid var(--chakra-colors-primary)",
                       }}
                     >
-                      <Image src={imgTwitterLogo.src} boxSize="6" />
+                      <Image src={imgTwitterLogo} boxSize="6" />
                     </Link>
                   </HStack>
 
@@ -395,7 +395,7 @@ export function LoginPage({
             {isSignUp ? (
               <>
                 <Image
-                  src={imgCreateAccount.src}
+                  src={imgCreateAccount}
                   mb={4}
                   objectFit="cover"
                   width={"100%"}
@@ -429,7 +429,7 @@ export function LoginPage({
             ) : (
               <>
                 <Image
-                  src={imgLogin.src}
+                  src={imgLogin}
                   width={"100%"}
                   margin={0}
                   padding={0}

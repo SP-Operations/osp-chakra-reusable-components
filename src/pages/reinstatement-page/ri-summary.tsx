@@ -4,17 +4,14 @@ import {
   Flex,
   Text,
   Card,
-  CardBody,
-  Heading,
-  Button,
   VStack,
   Span,
   Icon,
   Grid,
   Separator,
 } from "@chakra-ui/react";
+import React from "react";
 import { LuClipboardCheck, LuReceiptText } from "react-icons/lu";
-import { SummaryLabel } from "../../components/others/SummaryLabel";
 import { Body, H4, Small } from "st-peter-ui";
 
 interface CheckedPlan {
@@ -39,7 +36,7 @@ const InfoItem = ({
   value: React.ReactNode;
 }) => (
   <VStack gap={1} align="start" minW={0}>
-    <Small color="gray.500">{label}</Small>
+    <Small color="gray.500" display={{base: "none", mdDown: "block"}}>{label}</Small>
     <Body>
       <Span fontWeight="semibold">{value}</Span>
     </Body>
@@ -59,7 +56,7 @@ const SectionCardHeader = ({
   </Flex>
 );
 
-export function ReviewReinstatementPage({
+export function ReinstatementSummaryPage({
   selectedPlans,
   onSubmit,
   onBack,
@@ -86,9 +83,16 @@ export function ReviewReinstatementPage({
             />
             </Card.Header>
             <Card.Body px={6} py={5}>
+                <Grid my={2} templateColumns={{ base: "1fr", md: "repeat(5,1fr)" }} gap={6} display={{base: "grid", mdDown: "none"}}>
+                    <Small color={"gray.500"}>LPA Number</Small>
+                    <Small color={"gray.500"}>Plan Type</Small>
+                    <Small color={"gray.500"}>Reinstatement Payment</Small>
+                    <Small color={"gray.500"}>Reinstatement Fee</Small>
+                    <Small color={"gray.500"}>Fully Paid</Small>
+                </Grid>
                 {selectedPlans.map((plan, index) => (
-                    <>
-                    <Grid my={1} templateColumns={{ base: "1fr", md: "repeat(5,1fr)" }} gap={6}>
+                    <React.Fragment key={plan.lpaNo}>
+                    <Grid my={2} templateColumns={{ base: "1fr", md: "repeat(5,1fr)" }} gap={6}>
                         <InfoItem label="LPA Number" value={plan.lpaNo} />  
                         <InfoItem label="Plan Type" value={plan.planType} />
                         <InfoItem label="Reinstatement Payment" value={`₱ ${plan.reinstatementPayment.toLocaleString()}`} />
@@ -96,14 +100,14 @@ export function ReviewReinstatementPage({
                         <InfoItem label="Fully Paid" value={plan.isFullyPaid ? "Yes" : "No"} />
                     </Grid>
                     {index < selectedPlans.length -1 && <Separator/>}
-                    </>
+                    </React.Fragment>
                 ))}
                 {/* Total Payable */}
                 <Flex
                     borderTop="1px solid"
                     borderColor="gray.200"
                     pt={5}
-                    mt={10}
+                    mt={0}
                     justify="space-between"
                     align="center"
                 >

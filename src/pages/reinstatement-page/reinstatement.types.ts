@@ -1,5 +1,3 @@
-import { PageParams } from "osp-chakra-reusable-components";
-
 export interface PhLapsedPlan {
   lpaNo: string;
   phName: string;
@@ -27,7 +25,7 @@ export interface CheckedPlan {
   reinstatementPayment: number;
 }
 
-export interface RIProps extends PageParams {
+export interface RIProps {
   initialPlans?: PhLapsedPlan[];
   onSubmit?: (selectedPlans: CheckedPlan[]) => void;
 }

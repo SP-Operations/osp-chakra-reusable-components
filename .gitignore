@@ -4,3 +4,4 @@ dist
 *.tgz
 /src/index.ts
 /public
+src/index.ts
