@@ -1,16 +1,15 @@
 import { Box, Container, Flex, Separator, Steps } from "@chakra-ui/react";
-import type { CheckedPlan, RIProps } from "./reinstatement.types";
+import type { CheckedPlan } from "./reinstatement.types";
 import { Body, H3, NextButton, PreviousButton } from "st-peter-ui";
 import { useState } from "react";
 import { ReinstatementForm } from "./reinstatement-form";
 import { lapsedPlans } from "./data";
 import { ReinstatementSummaryPage } from "./ri-summary";
 import PaymentPage from "./payment";
-import { SuccessPage } from "../success-page/SuccessPage";
 
 const steps = ["Select Lapsed Plan", "Review Reinstatement", "Payment"]
 
-export function ReinstatementPage({onClickHome, onClickTrack} : RIProps){
+export function ReinstatementPage({onSuccess} : {onSuccess: (transactionId: string, transactionAmount: number) => void}){
     const [checkedPlans, setCheckedPlans] = useState<CheckedPlan[]>([])
     const [step, setStep] = useState(0)
     
@@ -23,9 +22,7 @@ export function ReinstatementPage({onClickHome, onClickTrack} : RIProps){
             <Container px={0}>
                 <H3>Reinstatement Application</H3>
                 <Body mt={1}>
-                    Bring your plan back on track with ease. The Reinstatement option
-                    lets you reactivate a lapsed plan so you can continue enjoying your
-                    benefits and resume payments smoothly.
+                    Quickly bring your plan back on track by reactivating a lapsed plan.
                 </Body>
             </Container>
             <Steps.Root
@@ -33,7 +30,7 @@ export function ReinstatementPage({onClickHome, onClickTrack} : RIProps){
             onStepChange={(e) => setStep(e.step)}
             count={steps.length}
             my={5}
-            onStepComplete={() => alert("Reinstatement Applications Successfully Submitted")}
+            onStepComplete={() => onSuccess("RI-12345", totalDue)}
             >
                 <Steps.List>
                     {steps.map((step, index) => (
@@ -75,16 +72,7 @@ export function ReinstatementPage({onClickHome, onClickTrack} : RIProps){
                     <PaymentPage/>
                 </Steps.Content>
                 <Steps.CompletedContent>
-                    <SuccessPage
-                    title="Reinstatement Successfully Submitted"
-                    description="Your application has been successfully submitted."
-                    transactionId={`RI-${Math.floor(Math.random() * 1000000000)}`}
-                    totalAmount={"₱ " + totalDue.toLocaleString()}
-                    dateTime={new Date().toLocaleString()}
-                    variant="payment"
-                    onClickHome={onClickHome}
-                    onClickProceed={onClickTrack}
-                    />
+                    
                 </Steps.CompletedContent>
 
                 <Flex justifyContent={"space-between"}>

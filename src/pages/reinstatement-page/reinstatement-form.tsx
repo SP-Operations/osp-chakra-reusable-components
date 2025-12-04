@@ -1,4 +1,4 @@
-import { Box, Flex, Table } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Separator, Table } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { H4, Small, Body, Checkbox } from "st-peter-ui";
 import type { CheckedPlan, PhLapsedPlan } from "./reinstatement.types";
@@ -125,7 +125,7 @@ export function ReinstatementForm({
               <Table.ColumnHeader>Plan Type</Table.ColumnHeader>
               <Table.ColumnHeader>Mode</Table.ColumnHeader>
               <Table.ColumnHeader>Due Date</Table.ColumnHeader>
-              <Table.ColumnHeader textAlign="end">Actions</Table.ColumnHeader>
+              <Table.ColumnHeader textAlign="end" display={{base: "block", mdDown: "none"}}>Actions</Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
 
@@ -154,31 +154,45 @@ export function ReinstatementForm({
 
       {/* Totals */}
       <Box
-        width="full"
-        p={2}
-        bg="gray.subtle"
-        display="flex"
-        alignItems="center"
-        borderBottomLeftRadius="sm"
-        borderBottomEndRadius="sm"
-        justifyContent={{ base: "flex-end", mdDown: "space-between" }}
+        p={3}
+        bg="gray.100"
+        borderBottomLeftRadius={"sm"}
+        borderBottomRightRadius={"sm"}
+        display={"flex"}
+        justifyContent={"space-between"}
       >
-        <Box>
-          <Body mr={5}>Reinstatement Payment:</Body>
-          <Body mr={5}>Reinstatement Fee:</Body>
-          <Body mr={5}>Total Amount Due:</Body>
-        </Box>
-        <Box>
-          <Body fontWeight="bold" mr={5} textAlign="right">
-            ₱ <span ref={TotalRIPayment}>0.00</span>
-          </Body>
-          <Body fontWeight="bold" mr={5} textAlign="right">
-            ₱ <span ref={TotalRIFee}>0.00</span>
-          </Body>
-          <Body fontWeight="bold" mr={5} textAlign="right">
-            ₱ <span ref={TotalAmountDue}>0.00</span>
-          </Body>
-        </Box>
+        <Grid templateColumns="repeat(2, 1fr)" gap="0" width={"full"}>
+          <GridItem colSpan={4} mb={2}>
+            <Body fontSize={"lg"} fontWeight={"semibold"}>Payment Details</Body>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Body>Reinstatement Payment Subtotal :</Body>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Body textAlign="right">
+              ₱ <span ref={TotalRIPayment}>0.00</span>
+            </Body>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Body>Reinstatement Fee Subtotal :</Body>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Body textAlign="right">
+              ₱ <span ref={TotalRIFee}>0.00</span>
+            </Body>
+          </GridItem>
+          <GridItem colSpan={4} mb={2}>
+            <Separator my={2}/>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Body fontWeight={"semibold"}>Total Amount Due :</Body>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <Body textAlign="right" fontWeight={"semibold"}>
+              ₱ <span ref={TotalAmountDue}>0.00</span>
+            </Body>
+          </GridItem>
+        </Grid>
       </Box>
     </Box>
   );

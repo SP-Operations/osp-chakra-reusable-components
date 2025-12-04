@@ -1,5 +1,3 @@
-import type { PageParams } from "../../models/types/claim.types";
-
 export interface PhLapsedPlan {
   lpaNo: string;
   phName: string;
@@ -27,7 +25,7 @@ export interface CheckedPlan {
   reinstatementPayment: number;
 }
 
-export interface RIProps extends PageParams {
+export interface RIProps {
   initialPlans?: PhLapsedPlan[];
   onSubmit?: (selectedPlans: CheckedPlan[]) => void;
 }

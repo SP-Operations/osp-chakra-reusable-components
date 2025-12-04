@@ -9,14 +9,15 @@ import {
   Stack,
   Table,
   type TableRowProps,
+  useBreakpointValue,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import {
   Body,
   Checkbox,
-  PrimaryMdButton,
   SecondarySmButton,
+  SelectButton,
   Small,
   UnselectSolidButton,
 } from "st-peter-ui";
@@ -63,6 +64,11 @@ export function RITableRow({
     onClose();
   }
 
+  const handleClick = useBreakpointValue({
+      base: onOpen,
+      md: () => {}
+    });
+
   const Input = ({label, value} : {label: string, value: string}) => {
     return(
         <Box width={"full"}>
@@ -82,6 +88,7 @@ export function RITableRow({
         bg: "var(--chakra-colors-primary-disabled)",
         color: "var(--chakra-colors-primary-hover)",
       }}
+      onClick={handleClick}
     >
       <Table.Cell>
         <Checkbox
@@ -106,7 +113,7 @@ export function RITableRow({
       <Table.Cell>{plan.mop}</Table.Cell>
       <Table.Cell>{plan.duedate}</Table.Cell>
 
-      <Table.Cell textAlign="end">
+      <Table.Cell textAlign="end" display={{base: "block", mdDown: "none"}}>
         <SecondarySmButton onClick={onOpen}>View Details</SecondarySmButton>
 
         {/* ------------------- MODAL ------------------- */}
@@ -139,13 +146,13 @@ export function RITableRow({
                         </Flex>
 
                         <Flex my={3} gap={2}>
-                          <Input label="Total Amount Payable" value={"₱ " + parseFloat(plan.totalAmtPayable).toLocaleString()} />
-                          <Input label="Total Amount Paid" value={"₱ " + parseFloat(plan.totalAmtPaid).toLocaleString()} />
+                          <Input label="Total Amount Payable" value={formatMoney(parseFloat(plan.totalAmtPayable))} />
+                          <Input label="Total Amount Paid" value={formatMoney(parseFloat(plan.totalAmtPaid))} />
                         </Flex>
 
                         <Flex my={3} gap={2}>
-                          <Input label="Balance" value={"₱ " + parseFloat(plan.balance).toLocaleString()} />
-                          <Input label="Installment Amount" value={"₱ " + parseFloat(plan.instAmt).toLocaleString()} />
+                          <Input label="Balance" value={formatMoney(parseFloat(plan.balance))} />
+                          <Input label="Installment Amount" value={formatMoney(parseFloat(plan.instAmt))} />
                         </Flex>
 
                         <Checkbox
@@ -175,13 +182,13 @@ export function RITableRow({
                         </Flex>
 
                         <Flex my={3} gap={2}>
-                          <Input label="Total Amount Payable" value={"₱ " + parseFloat(plan.newTotalAmtPayable).toLocaleString()} />
-                          <Input label="Total Amount Paid" value={"₱ " + parseFloat(plan.newTotalAmtPaid).toLocaleString()} />
+                          <Input label="Total Amount Payable" value={formatMoney(parseFloat(plan.newTotalAmtPayable))} />
+                          <Input label="Total Amount Paid" value={formatMoney(parseFloat(plan.newTotalAmtPaid))} />
                         </Flex>
 
                         <Flex my={3} gap={2}>
-                          <Input label="Balance" value={"₱ " + parseFloat(plan.newBalance).toLocaleString()} />
-                          <Input label="Installment Amount" value={"₱ " + parseFloat(plan.newInstAmt).toLocaleString()} />
+                          <Input label="Balance" value={formatMoney(parseFloat(plan.newBalance))} />
+                          <Input label="Installment Amount" value={formatMoney(parseFloat(plan.newInstAmt))} />
                         </Flex>
                       </Box>
                     </SimpleGrid>
@@ -204,7 +211,7 @@ export function RITableRow({
                     borderColor="var(--chakra-colors-primary)"
                     borderRadius="lg"
                     p={5}
-                    bg={"var(--chakra-colors-primary)/15"}
+                    bg={"var(--chakra-colors-primary-disabled)/50"}
                   >
                     <Body>Applying for reinstatement requires:</Body>
 
@@ -233,9 +240,7 @@ export function RITableRow({
                         onClick={() => handleSelect(false)}
                       />
                     ) : (
-                      <PrimaryMdButton onClick={() => handleSelect(true)}>
-                        Select
-                      </PrimaryMdButton>
+                      <SelectButton onClick={() => handleSelect(true)}/>
                     )}
                   </Box>
                 </Dialog.Body>
@@ -249,5 +254,15 @@ export function RITableRow({
         </Dialog.Root>
       </Table.Cell>
     </Table.Row>
+  );
+}
+
+function formatMoney(num: number) {
+  return (
+    "₱ " +
+    num.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
   );
 }
