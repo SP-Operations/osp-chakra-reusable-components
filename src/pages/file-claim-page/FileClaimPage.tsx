@@ -241,7 +241,7 @@ export const FileClaimPage = (params: PageParams) => {
                     </>
                 )}
 
-                <Container display="flex" flexDirection="column" gap="20px">
+                <Container display="flex" flexDirection="column" gap="20px" padding="0">
                     {(pageNumber === 1) && (
                         <PlanholderForm value={planholder} onValueChange={setPlanholder} benefitText={currBenefitText} />
                     )}
