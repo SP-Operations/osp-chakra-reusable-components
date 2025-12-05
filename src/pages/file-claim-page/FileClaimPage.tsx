@@ -220,12 +220,12 @@ export const FileClaimPage = (params: PageParams) => {
             <Steps.Root defaultStep={0} count={stepTitles.length} step={stepNumber} onStepChange={(e) => setStepNumber(e.step)}>
                 {(pageNumber < 5) && (
                     <>
-                        <Container>
+                        <Container padding="0">
                             <Text textStyle="2xl" fontWeight="semibold">Claim Application</Text>
                             <Body color="gray.600" mt={1}>Your claim matters. We make it easy.</Body>
                         </Container>
 
-                        <Container>
+                        <Container padding="0">
                             <Steps.List>
                                 {stepTitles.map((step, index) => (
                                     <Steps.Item key={index} index={index} title={step} colorPalette="green">
@@ -241,7 +241,7 @@ export const FileClaimPage = (params: PageParams) => {
                     </>
                 )}
 
-                <Container display="flex" flexDirection="column" gap="20px">
+                <Container display="flex" flexDirection="column" gap="20px" padding="0">
                     {(pageNumber === 1) && (
                         <PlanholderForm value={planholder} onValueChange={setPlanholder} benefitText={currBenefitText} />
                     )}
