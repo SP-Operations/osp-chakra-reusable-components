@@ -12,7 +12,7 @@ import {
   List,
   Grid,
 } from "@chakra-ui/react";
-import { Body, SelectButton, Small, UnselectSolidButton } from "st-peter-ui";
+import { Body, SaveButton, SelectButton, Small, UnselectSolidButton } from "st-peter-ui";
 import type { CheckedPlanType, PlanDetails } from "./change-mode.types";
 import { PlanTypes } from "./data";
 import { useEffect, useMemo, useState } from "react";
@@ -31,8 +31,10 @@ const PlanDetailRow = ({label, value} : {label: string, value: string}) => {
 }
 
 export function PlanDetailsDialog( {checked, plan, onCheckedChange} : {checked: boolean, plan: PlanDetails, onCheckedChange?: (checked : boolean, values: CheckedPlanType) => void} ) {
-    const [value, setValue] = useState(modes[modes.indexOf(plan.mode) + 1]);
+    const [value, setValue] = useState<string>(modes[modes.indexOf(plan.mode) + 1] ?? modes[0] ?? "");
     const [isChecked, setIsChecked] = useState(checked);
+    const [selectedMode, setSelectedMode] = useState<CheckedPlanType>();
+    const [prevSelect, setPrevSelect] = useState("");
     const plans = useMemo(
         () => PlanTypes.filter((type) => type.description === plan.plan_type),
         [plan.plan_type]
@@ -83,15 +85,18 @@ export function PlanDetailsDialog( {checked, plan, onCheckedChange} : {checked: 
         setNewInstAmt(_newInstAmt);
         setNewBalance(_newBalance);  
         setNewTAP(_newTAP);
-
+        if(((_totalRemMonth / _newMonthMode) - _newRemInstNo) * _newMonthMode / _oldMonthMode === 0) 
+            setPrevSelect(value);
     }, [value, plans]);
 
     useEffect(() => {
         if(pendingInstallment > 0) {
             if(!confirm(`You have to pay ${pendingInstallment} installments before you can change mode from ${plan.mode} to ${newMode} which costs  ${formatMoney(pendingInstallment * plan.installment_amount)}. Do you want to proceed?`)) {
-                setValue(modes[modes.indexOf(plan.mode)])
+                setValue(prevSelect);
+                return;
             }
         }
+        setPrevSelect(value);
     }, [pendingInstallment])
 
     return (
@@ -111,7 +116,6 @@ export function PlanDetailsDialog( {checked, plan, onCheckedChange} : {checked: 
                 onValueChange={(e) => setValue(e.value ?? "")}
                 mx={1}
                 mb={5}
-                display={isChecked ? "none" : "block"}
               >
                 <RadioCard.Label>Mode of Payment</RadioCard.Label>
                 <Grid templateColumns={{ base: "repeat(2,1fr)", md: "repeat(4,1fr)" }} gap={2}>
@@ -301,30 +305,56 @@ export function PlanDetailsDialog( {checked, plan, onCheckedChange} : {checked: 
 
               {/* Select / Unselect */}
               <Box mt={3} textAlign="center">
-                {isChecked ? (
-                  <UnselectSolidButton onClick={() => {setIsChecked(false); onCheckedChange?.(false, {
-                    lpa_no: plan.lpa_no,
-                    pending_installment: 0,
-                    pending_installment_amount: 0, 
-                    new_plan_code: "",
-                    new_mode: "",
-                    new_installment_amount: 0,
-                    new_installment_number_done: 0,
-                    new_balance: 0,
-                    new_tap: 0
-                  })}} />
+                {isChecked ? 
+                selectedMode?.new_mode === value ? (
+                  <UnselectSolidButton onClick={() => {
+                    setIsChecked(false); 
+                    onCheckedChange?.(false, {
+                        lpa_no: plan.lpa_no,
+                        pending_installment: 0,
+                        pending_installment_amount: 0, 
+                        new_plan_code: "",
+                        new_mode: "",
+                        new_installment_amount: 0,
+                        new_installment_number_done: 0,
+                        new_balance: 0,
+                        new_tap: 0
+                    }
+                  )}} />
                 ) : (
-                  <SelectButton onClick={() => {setIsChecked(true); onCheckedChange?.(true, {
-                    lpa_no: plan.lpa_no,
-                    pending_installment: pendingInstallment,
-                    pending_installment_amount: pendingInstallment * plan.installment_amount,
-                    new_plan_code: newPlanCode,
-                    new_mode: newMode,
-                    new_installment_amount: newInstAmt,
-                    new_installment_number_done: newInstNoDone,
-                    new_balance: newBalance,
-                    new_tap: newTAP
-                  })}}/>
+                  <SaveButton onClick={() => {
+                    setIsChecked(true); 
+                    const payload: CheckedPlanType = {
+                      lpa_no: plan.lpa_no,
+                      pending_installment: pendingInstallment,
+                      pending_installment_amount: pendingInstallment * plan.installment_amount,
+                      new_plan_code: newPlanCode,
+                      new_mode: newMode,
+                      new_installment_amount: newInstAmt,
+                      new_installment_number_done: newInstNoDone,
+                      new_balance: newBalance,
+                      new_tap: newTAP
+                    };
+                    setSelectedMode(payload);
+                    onCheckedChange?.(true, payload);
+                  }}/>
+                ) : (
+                  <SelectButton onClick={() => {
+                    setIsChecked(true); 
+                    const payload: CheckedPlanType = {
+                      lpa_no: plan.lpa_no,
+                      pending_installment: pendingInstallment,
+                      pending_installment_amount: pendingInstallment * plan.installment_amount,
+                      new_plan_code: newPlanCode,
+                      new_mode: newMode,
+                      new_installment_amount: newInstAmt,
+                      new_installment_number_done: newInstNoDone,
+                      new_balance: newBalance,
+                      new_tap: newTAP
+                    };
+                    setSelectedMode(payload);
+                    onCheckedChange?.(true, payload);
+                  }}/>
                 )}
               </Box>
             </Dialog.Body>

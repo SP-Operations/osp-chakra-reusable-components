@@ -21,10 +21,11 @@ export function ChangeModeForm({
     const handleCheckedChange = (checked: boolean, values: CheckedPlanType) => {
         setCheckedPlans((prev) => {
           if (checked) {
-            if (!prev.some((p) => p.lpa_no === values.lpa_no)) {
-              return [...prev, values];
-            }
-            return prev;
+            // if (!prev.some((p) => p.lpa_no === values.lpa_no)) {
+            //   return [...prev, values];
+            // }
+            const filtered = prev.filter((p) => p.lpa_no !== values.lpa_no)
+            return [...filtered, values];
           }
           return prev.filter((p) => p.lpa_no !== values.lpa_no);
         });

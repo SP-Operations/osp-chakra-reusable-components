@@ -1,9 +1,5 @@
 import {
-  Badge,
-  Box,
-  CloseButton,
   Dialog,
-  Portal,
   Table,
   type TableRowProps,
   useBreakpointValue,
@@ -12,13 +8,9 @@ import {
 import type { CheckedPlanType, PlanDetails } from "./change-mode.types";
 import { useEffect, useState } from "react";
 import {
-  Body,
   Checkbox,
-  PrimaryMdButton,
   SecondarySmButton,
-  UnselectSolidButton,
 } from "st-peter-ui";
-import { PlanTypes } from "./data";
 import { PlanDetailsDialog } from "./plan-details-dialog";
 
 interface ChangeModeTableRowProps extends TableRowProps {
@@ -88,6 +80,7 @@ export function ChangeModeTableRow({
             setIsChecked(checked);
             setCheckedValues(values);
             if (values) onCheckedChanged?.(checked, values);
+            onClose();
           }}
         />
       </Dialog.Root>
