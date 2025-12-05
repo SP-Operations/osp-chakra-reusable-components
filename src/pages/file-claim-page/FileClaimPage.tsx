@@ -215,7 +215,7 @@ export const FileClaimPage = (params: PageParams) => {
         <Container
             display="flex" flexDirection="column" 
             height="fit-content" maxW="7xl" width="100%"
-            gap="20px" padding="20px"
+            gap="20px" padding="0"
         >
             <Steps.Root defaultStep={0} count={stepTitles.length} step={stepNumber} onStepChange={(e) => setStepNumber(e.step)}>
                 {(pageNumber < 5) && (
