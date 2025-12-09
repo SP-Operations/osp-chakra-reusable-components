@@ -22,9 +22,9 @@ const modes = ["Monthly", "Quarterly", "Semi-Annual", "Annual"];
 
 const PlanDetailRow = ({label, value} : {label: string, value: string}) => {
     return(
-        <Box width={"full"} my={1}>
+        <Box width={"full"} my={2}>
             <Small>{label}</Small>
-            <Box border={"1px solid"} p={1} borderRadius={"sm"} borderColor={"gray.200"} >
+            <Box border={"none"} py={0} borderRadius={"sm"} >
                 <Body fontWeight={"semibold"}>{value}</Body>
             </Box>
         </Box>
