@@ -17,6 +17,7 @@ import {
 import {
   Body,
   Checkbox,
+  SaveButton,
   SecondarySmButton,
   SelectButton,
   Small,
@@ -39,6 +40,7 @@ export function RITableRow({
 }: RIPlanItemProps) {
   const [isChecked, setIsChecked] = useState(checked);
   const [isFullyPaid, setIsFullyPaid] = useState(false);
+  const [isCheckedFullyPaid, setIsCheckedFullyPaid] = useState(false);
   const { open, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
@@ -53,7 +55,7 @@ export function RITableRow({
 
   function handleSelect(select: boolean) {
     setIsChecked(select);
-
+    setIsCheckedFullyPaid(isFullyPaid);
     onChanged?.(select, {
       lpaNo: plan.lpaNo,
       planType: plan.planType,
@@ -233,9 +235,13 @@ export function RITableRow({
 
                   {/* Select / Unselect */}
                   <Box mt={3} textAlign="center">
-                    {isChecked ? (
+                    {isChecked ? isCheckedFullyPaid == isFullyPaid ? (
                       <UnselectSolidButton
                         onClick={() => handleSelect(false)}
+                      />
+                    ) : (
+                      <SaveButton
+                        onClick={() => handleSelect(true)}
                       />
                     ) : (
                       <SelectButton onClick={() => handleSelect(true)}/>

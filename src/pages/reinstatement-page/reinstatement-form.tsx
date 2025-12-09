@@ -26,10 +26,11 @@ export function ReinstatementForm({
   const handleCheckedChange = (checked: boolean, values: CheckedPlan) => {
     setCheckedPlans((prev) => {
       if (checked) {
-        if (!prev.some((p) => p.lpaNo === values.lpaNo)) {
-          return [...prev, values];
-        }
-        return prev;
+        if (checked) {
+            const filtered = prev.filter((p) => p.lpaNo !== values.lpaNo)
+            return [...filtered, values];
+          }
+          return prev.filter((p) => p.lpaNo !== values.lpaNo);
       }
       return prev.filter((p) => p.lpaNo !== values.lpaNo);
     });
