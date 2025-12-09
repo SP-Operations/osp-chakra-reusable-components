@@ -11,6 +11,7 @@ import {
   CloseButton,
   List,
   Grid,
+  HStack,
 } from "@chakra-ui/react";
 import { Body, SaveButton, SelectButton, Small, UnselectSolidButton } from "st-peter-ui";
 import type { CheckedPlanType, PlanDetails } from "./change-mode.types";
@@ -118,45 +119,51 @@ export function PlanDetailsDialog( {checked, plan, onCheckedChange} : {checked: 
                 mb={5}
               >
                 <RadioCard.Label>Mode of Payment</RadioCard.Label>
-                <Grid templateColumns={{ base: "repeat(2,1fr)", md: "repeat(4,1fr)" }} gap={2}>
-                    {modes.map((item, index) => (
-                        <RadioCard.Item
-                        key={index}
-                        value={item}
-                        disabled={(prevPlan?.mop ?? 0) > index}
-                        >
-                        <RadioCard.ItemHiddenInput />
-                        <RadioCard.ItemControl
-                            _checked={{
+                <Grid
+                  templateColumns={{
+                    base: "repeat(2,1fr)",
+                    md: "repeat(4,1fr)",
+                  }}
+                  gap={2}
+                >
+                  {modes.map((item, index) => (
+                    <RadioCard.Item
+                      key={index}
+                      value={item}
+                      disabled={(prevPlan?.mop ?? 0) > index}
+                    >
+                      <RadioCard.ItemHiddenInput />
+                      <RadioCard.ItemControl
+                        _checked={{
+                          backgroundColor:
+                            "var(--chakra-colors-primary-disabled)/50",
+                          borderColor: "var(--chakra-colors-primary)",
+                          borderWidth: "1px",
+                          color: "var(--chakra-colors-primary-hover)",
+                        }}
+                        _disabled={{
+                          borderColor: "dangerHover",
+                          backgroundColor: "dangerDisabled",
+                          color: "danger",
+                          _checked: {
                             backgroundColor:
-                                "var(--chakra-colors-primary-disabled)/50",
+                              "var(--chakra-colors-primary-disabled)/50",
                             borderColor: "var(--chakra-colors-primary)",
                             borderWidth: "1px",
                             color: "var(--chakra-colors-primary-hover)",
-                            }}
-                            _disabled={{
-                            borderColor: "dangerHover",
-                            backgroundColor: "dangerDisabled",
-                            color: "danger",
-                            _checked: {
-                                backgroundColor:
-                                "var(--chakra-colors-primary-disabled)/50",
-                                borderColor: "var(--chakra-colors-primary)",
-                                borderWidth: "1px",
-                                color: "var(--chakra-colors-primary-hover)",
-                            },
-                            }}
-                        >
-                            <RadioCard.ItemText>{item}</RadioCard.ItemText>
-                            <RadioCard.ItemIndicator
-                            _checked={{
-                                color: "var(--chakra-colors-primary)",
-                                borderColor: "var(--chakra-colors-primary)",
-                            }}
-                            />
-                        </RadioCard.ItemControl>
-                        </RadioCard.Item>
-                    ))}
+                          },
+                        }}
+                      >
+                        <RadioCard.ItemText>{item}</RadioCard.ItemText>
+                        <RadioCard.ItemIndicator
+                          _checked={{
+                            color: "var(--chakra-colors-primary)",
+                            borderColor: "var(--chakra-colors-primary)",
+                          }}
+                        />
+                      </RadioCard.ItemControl>
+                    </RadioCard.Item>
+                  ))}
                 </Grid>
               </RadioCard.Root>
 
@@ -267,94 +274,135 @@ export function PlanDetailsDialog( {checked, plan, onCheckedChange} : {checked: 
 
               {/* Payment Summary */}
               <Box
-                mt={3}
-                mx={{ base: "auto", md: 20 }}
+                p={5}
+                mt={5}
+                width={"lg"}
+                mx="auto"
                 borderWidth="1px"
                 borderColor="var(--chakra-colors-primary)"
                 borderRadius="lg"
-                p={5}
                 bg={"var(--chakra-colors-primary-disabled)/50"}
               >
-                <Body>Applying for change of mode requires the following payments:</Body>
-
-                <List.Root py={2} px={4}>
-                    {pendingInstallment > 0 && <List.Item _marker={{color: "foreground"}}>
-                        <Body>
-                            Installment Payment From Previous Mode (x{pendingInstallment}): {" "}
-                            <strong>{formatMoney((pendingInstallment * plan.installment_amount))}</strong>
-                        </Body>
-                    </List.Item>}
-                    <List.Item _marker={{color: "foreground"}}>
-                        <Body>
-                            Installment Payment: {" "}
-                            <strong>{formatMoney(newInstAmt)}</strong>
-                        </Body>
-                    </List.Item>
-                    <List.Item _marker={{color: "foreground"}}>
-                        <Body>
-                            Change Mode Fee: {" "}
-                            <strong>{formatMoney(changeModeFee)}</strong>
-                        </Body>
-                    </List.Item>
-                </List.Root>
-
-                <Body fontWeight="bold" mt={3}>
-                  Total Amount Due: {formatMoney((pendingInstallment * plan.installment_amount) + newInstAmt + changeModeFee)}
+                <Body>
+                  Applying for change of mode requires the following payments:
                 </Body>
+
+                <List.Root mt={2} py={2} px={4}>
+                  {pendingInstallment > 0 && (
+                    <List.Item _marker={{ color: "foreground" }}>
+                      <HStack justifyContent={"space-between"} width={"full"}>
+                        <Body>
+                          Installment Payment From Previous Mode (x
+                          {pendingInstallment}):{" "}
+                        </Body>
+                        <Body>
+                          <strong>
+                            {formatMoney(
+                              pendingInstallment * plan.installment_amount
+                            )}
+                          </strong>
+                        </Body>
+                      </HStack>
+                    </List.Item>
+                  )}
+                  <List.Item _marker={{ color: "foreground" }}>
+                    <HStack justifyContent={"space-between"} width={"full"}>
+                      <Body>Installment Payment: </Body>
+                      <Body>
+                        <strong>{formatMoney(newInstAmt)}</strong>
+                      </Body>
+                    </HStack>
+                  </List.Item>
+                  <List.Item _marker={{ color: "foreground" }}>
+                    <HStack justifyContent={"space-between"} width={"full"}>
+                      <Body>Change Mode Fee: </Body>
+                      <Body>
+                        <strong>{formatMoney(changeModeFee)}</strong>
+                      </Body>
+                    </HStack>
+                  </List.Item>
+                  <List.Item _marker={{ color: "transparent" }}>
+                    <HStack
+                      justifyContent={"space-between"}
+                      width={"full"}
+                      mt={3}
+                    >
+                      <Body fontWeight="bold">Total Amount Due: </Body>
+                      <Body>
+                        <strong>
+                          {formatMoney(
+                            pendingInstallment * plan.installment_amount +
+                              newInstAmt +
+                              changeModeFee
+                          )}
+                        </strong>
+                      </Body>
+                    </HStack>
+                  </List.Item>
+                </List.Root>
               </Box>
 
               {/* Select / Unselect */}
               <Box mt={3} textAlign="center">
-                {isChecked ? 
-                selectedMode?.new_mode === value ? (
-                  <UnselectSolidButton onClick={() => {
-                    setIsChecked(false); 
-                    onCheckedChange?.(false, {
+                {isChecked ? (
+                  selectedMode?.new_mode === value ? (
+                    <UnselectSolidButton
+                      onClick={() => {
+                        setIsChecked(false);
+                        onCheckedChange?.(false, {
+                          lpa_no: plan.lpa_no,
+                          pending_installment: 0,
+                          pending_installment_amount: 0,
+                          new_plan_code: "",
+                          new_mode: "",
+                          new_installment_amount: 0,
+                          new_installment_number_done: 0,
+                          new_balance: 0,
+                          new_tap: 0,
+                        });
+                      }}
+                    />
+                  ) : (
+                    <SaveButton
+                      onClick={() => {
+                        setIsChecked(true);
+                        const payload: CheckedPlanType = {
+                          lpa_no: plan.lpa_no,
+                          pending_installment: pendingInstallment,
+                          pending_installment_amount:
+                            pendingInstallment * plan.installment_amount,
+                          new_plan_code: newPlanCode,
+                          new_mode: newMode,
+                          new_installment_amount: newInstAmt,
+                          new_installment_number_done: newInstNoDone,
+                          new_balance: newBalance,
+                          new_tap: newTAP,
+                        };
+                        setSelectedMode(payload);
+                        onCheckedChange?.(true, payload);
+                      }}
+                    />
+                  )
+                ) : (
+                  <SelectButton
+                    onClick={() => {
+                      setIsChecked(true);
+                      const payload: CheckedPlanType = {
                         lpa_no: plan.lpa_no,
-                        pending_installment: 0,
-                        pending_installment_amount: 0, 
-                        new_plan_code: "",
-                        new_mode: "",
-                        new_installment_amount: 0,
-                        new_installment_number_done: 0,
-                        new_balance: 0,
-                        new_tap: 0
-                    }
-                  )}} />
-                ) : (
-                  <SaveButton onClick={() => {
-                    setIsChecked(true); 
-                    const payload: CheckedPlanType = {
-                      lpa_no: plan.lpa_no,
-                      pending_installment: pendingInstallment,
-                      pending_installment_amount: pendingInstallment * plan.installment_amount,
-                      new_plan_code: newPlanCode,
-                      new_mode: newMode,
-                      new_installment_amount: newInstAmt,
-                      new_installment_number_done: newInstNoDone,
-                      new_balance: newBalance,
-                      new_tap: newTAP
-                    };
-                    setSelectedMode(payload);
-                    onCheckedChange?.(true, payload);
-                  }}/>
-                ) : (
-                  <SelectButton onClick={() => {
-                    setIsChecked(true); 
-                    const payload: CheckedPlanType = {
-                      lpa_no: plan.lpa_no,
-                      pending_installment: pendingInstallment,
-                      pending_installment_amount: pendingInstallment * plan.installment_amount,
-                      new_plan_code: newPlanCode,
-                      new_mode: newMode,
-                      new_installment_amount: newInstAmt,
-                      new_installment_number_done: newInstNoDone,
-                      new_balance: newBalance,
-                      new_tap: newTAP
-                    };
-                    setSelectedMode(payload);
-                    onCheckedChange?.(true, payload);
-                  }}/>
+                        pending_installment: pendingInstallment,
+                        pending_installment_amount:
+                          pendingInstallment * plan.installment_amount,
+                        new_plan_code: newPlanCode,
+                        new_mode: newMode,
+                        new_installment_amount: newInstAmt,
+                        new_installment_number_done: newInstNoDone,
+                        new_balance: newBalance,
+                        new_tap: newTAP,
+                      };
+                      setSelectedMode(payload);
+                      onCheckedChange?.(true, payload);
+                    }}
+                  />
                 )}
               </Box>
             </Dialog.Body>

@@ -111,7 +111,7 @@ export function ChangeModeSummaryPage({
                 >
                     <Flex align="center" fontWeight="bold" color="gray.700">
                         <LuReceiptText style={{ marginRight: 8 }} />
-                        Total Payable Amount
+                        Total Amount Payable
                     </Flex>
 
                     <Text fontWeight="bold" color={"gray.800"}>

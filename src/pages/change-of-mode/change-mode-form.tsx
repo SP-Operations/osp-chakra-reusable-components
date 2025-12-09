@@ -129,9 +129,11 @@ export function ChangeModeForm({
         {/* Totals */}
         <Box
           p={3}
+          mt={3}
+          width={"md"}
           bg="gray.100"
-          borderBottomLeftRadius={"sm"}
-          borderBottomRightRadius={"sm"}
+          ml={"auto"}
+          borderRadius={"sm"}
           display={"flex"}
           justifyContent={"space-between"}
         >

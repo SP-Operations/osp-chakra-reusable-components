@@ -4,6 +4,7 @@ import {
   Dialog,
   Flex,
   Heading,
+  HStack,
   Portal,
   SimpleGrid,
   Stack,
@@ -73,7 +74,7 @@ export function RITableRow({
     return(
         <Box width={"full"}>
             <Small>{label}</Small>
-            <Box border={"1px solid"} p={1} borderRadius={"sm"} borderColor={"gray.200"} >
+            <Box border={"none"} py={0} borderRadius={"sm"} >
                 <Body fontWeight={"semibold"}>{value}</Body>
             </Box>
         </Box>
@@ -205,32 +206,29 @@ export function RITableRow({
 
                   {/* Payment Summary */}
                   <Box
-                    mt={3}
-                    mx={{ base: "auto", md: 20 }}
+                    p={5}
+                    mt={5}
+                    width={"md"}
+                    mx="auto"
                     borderWidth="1px"
                     borderColor="var(--chakra-colors-primary)"
                     borderRadius="lg"
-                    p={5}
                     bg={"var(--chakra-colors-primary-disabled)/50"}
                   >
                     <Body>Applying for reinstatement requires:</Body>
 
-                    <VStack align="start" mt={2}>
-                      <Body>
-                        Reinstatement Fee:{" "}
-                        <strong>₱ {reinstatementFee.toLocaleString()}</strong>
-                      </Body>
-                      <Body>
-                        Reinstatement Payment:{" "}
-                        <strong>
-                          ₱ {reinstatementPayment.toLocaleString()}
-                        </strong>
-                      </Body>
-                    </VStack>
-
-                    <Body fontWeight="bold" mt={3}>
-                      Total Amount Due: ₱ {totalAmountDue.toLocaleString()}
-                    </Body>
+                    <HStack justifyContent={"space-between"} mt={3} width={"full"}>
+                      <VStack align={"start"} mr={3}>
+                        <Body>Reinstatement Fee:{" "}</Body>
+                        <Body>Reinstatement Payment:{" "}</Body>
+                        <Body fontWeight="bold">Total Amount Due: </Body>
+                      </VStack>
+                      <VStack align={"end"}>
+                        <Body><strong>₱ {reinstatementFee.toLocaleString()}</strong></Body>
+                        <Body><strong>₱ {reinstatementPayment.toLocaleString()}</strong></Body>
+                        <Body><strong>₱ {totalAmountDue.toLocaleString()}</strong></Body>
+                      </VStack>
+                    </HStack>
                   </Box>
 
                   {/* Select / Unselect */}
