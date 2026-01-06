@@ -21,7 +21,7 @@ const eWallets = createListCollection({
     { label: "Lazada Wallet", value: "lazadawallet" },
   ],
 });
-const page = () => {
+const PaymentPage = () => {
   const [showEWallets, setShowEWallets] = React.useState(false);
   return (
     <>
@@ -83,4 +83,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default PaymentPage;

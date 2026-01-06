@@ -215,32 +215,17 @@ export const FileClaimPage = (params: PageParams) => {
         <Container
             display="flex" flexDirection="column" 
             height="fit-content" maxW="7xl" width="100%"
-            gap="20px" padding="20px"
+            gap="20px" padding="0"
         >
             <Steps.Root defaultStep={0} count={stepTitles.length} step={stepNumber} onStepChange={(e) => setStepNumber(e.step)}>
                 {(pageNumber < 5) && (
                     <>
-                        <Breadcrumb.Root>
-                            <Breadcrumb.List>
-                                <Breadcrumb.Item>
-                                    <Breadcrumb.Link href="#">Home</Breadcrumb.Link>
-                                </Breadcrumb.Item>
-                                <Breadcrumb.Separator />
-                                <Breadcrumb.Item>
-                                    <Breadcrumb.Link href="#">Plan Management</Breadcrumb.Link>
-                                </Breadcrumb.Item>
-                                <Breadcrumb.Separator />
-                                <Breadcrumb.Item>
-                                    <Breadcrumb.CurrentLink>Change of Mode</Breadcrumb.CurrentLink>
-                                </Breadcrumb.Item>
-                            </Breadcrumb.List>
-                        </Breadcrumb.Root>
-                        <Container>
+                        <Container padding="0">
                             <Text textStyle="2xl" fontWeight="semibold">Claim Application</Text>
                             <Body color="gray.600" mt={1}>Your claim matters. We make it easy.</Body>
                         </Container>
 
-                        <Container>
+                        <Container padding="0">
                             <Steps.List>
                                 {stepTitles.map((step, index) => (
                                     <Steps.Item key={index} index={index} title={step} colorPalette="green">
@@ -256,7 +241,7 @@ export const FileClaimPage = (params: PageParams) => {
                     </>
                 )}
 
-                <Container display="flex" flexDirection="column" gap="20px">
+                <Container display="flex" flexDirection="column" gap="20px" padding="0">
                     {(pageNumber === 1) && (
                         <PlanholderForm value={planholder} onValueChange={setPlanholder} benefitText={currBenefitText} />
                     )}
@@ -549,7 +534,7 @@ export const FileClaimPage = (params: PageParams) => {
                 </Container>
             </Steps.Root>
 
-            <Dialog.Root lazyMount open={openSubmitDialog} onOpenChange={(e) => {setOpenSubmitDialog(e.open)}}>
+            <Dialog.Root lazyMount open={openSubmitDialog} onOpenChange={(e) => {setOpenSubmitDialog(e.open)}} placement="center">
                 <Dialog.Trigger asChild>
                     <Button variant="outline" size="sm" visibility="hidden" position="absolute" zIndex={-1}>
                         Open Dialog

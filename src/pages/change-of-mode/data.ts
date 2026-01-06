@@ -94,6 +94,7 @@ export const PlanTypes : PlanType[] = [
 export const PHPlans : PlanDetails[] = [
     {
         lpa_no: "L36447545F",
+        plan_code: "G5M6",
         plan_type: "St. Gregory",
         mode: "Monthly",
         total_amount_payable: 66000,
@@ -104,6 +105,7 @@ export const PHPlans : PlanDetails[] = [
     },
     {
         lpa_no: "L63454543I",
+        plan_code: "G5M6",
         plan_type: "St. Gregory",
         mode: "Monthly",
         total_amount_payable: 66000,
@@ -114,13 +116,14 @@ export const PHPlans : PlanDetails[] = [
     },
     {
         lpa_no: "L8567876I",
+        plan_code: "LG5Q10",
         plan_type: "St. George",
         mode: "Quarterly",
         total_amount_payable: 58300,
-        total_amount_paid: 14575,
-        installment_no: 15,
+        total_amount_paid: 17490,
+        installment_no: 14,
         installment_amount: 2915,
-        balance: 43725
+        balance: 40810
     },
     
 ];
