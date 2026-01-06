@@ -26,6 +26,7 @@ import type {
 import PayoutChannelForm from "../../components/forms/PayoutChannelForm";
 import ROPApplicationDetails from "../../components/others/RopApplicationDetails";
 import {
+  Body,
   CancelButton,
   H2,
   H3,
@@ -66,10 +67,8 @@ export function RopStepPage({ onClickHome, onClickTrack }: PageParams) {
     <Box maxW="7xl" w="full" mx="auto">
       {step < 3 && (
         <Box mb="4">
-          <Text fontSize={"2xl"} fontWeight={"semibold"}>
-            Return of Premium
-          </Text>
-          <Small>File Your Premium, Quick & Simple</Small>
+          <H3>Return of Premium</H3>
+          <Body>File Your Premium, Quick & Simple</Body>
         </Box>
       )}
       <Steps.Root defaultStep={1} count={stepper.length} colorPalette={"green"}>
@@ -90,11 +89,11 @@ export function RopStepPage({ onClickHome, onClickTrack }: PageParams) {
         {/* Step 1: Payout Channel */}
         {step === 1 && (
           <VStack align="start">
-            <Text fontSize={"xl"} fontWeight={"semibold"}>
+            <H4>
               {mode === "existing"
                 ? "Select Payout Channel"
                 : "Register Payout Channel"}
-            </Text>
+            </H4>
 
             {mode === "new" ? (
               <Text

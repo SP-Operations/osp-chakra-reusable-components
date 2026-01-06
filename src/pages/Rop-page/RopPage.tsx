@@ -99,12 +99,10 @@ export const RopPage = ({ onClick }: RopPageProps) => {
   };
 
   return (
-    <Box maxW={"7xl"} my={8} px={0} w="full">
+    <Box maxW={"7xl"} my={2} px={0} w="full">
       <Box mb="4">
-        <Text fontSize={"2xl"} fontWeight={"semibold"}>
-          Return of Premium
-        </Text>
-        <Small>File Your Premium, Quick & Simple</Small>
+        <H3>Return of Premium</H3>
+        <Body>File Your Premium, Quick & Simple</Body>
       </Box>
       <Steps.Root
         defaultStep={0}
