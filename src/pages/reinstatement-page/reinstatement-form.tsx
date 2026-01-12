@@ -157,7 +157,7 @@ export function ReinstatementForm({
       <Box
         p={3}
         mt={3}
-        width={"md"}
+        width={{base: "md", mdDown: "full"}}
         bg="gray.100"
         ml={"auto"}
         borderRadius={"sm"}

@@ -92,8 +92,9 @@ export function RITableRow({
         color: "var(--chakra-colors-primary-hover)",
       }}
       onClick={handleClick}
+      py={{base: 0, mdDown: 4}}
     >
-      <Table.Cell>
+      <Table.Cell>           
         <Checkbox
           checked={isChecked}
           onCheckedChange={(changes) => {
@@ -110,8 +111,7 @@ export function RITableRow({
           }}
         />
       </Table.Cell>
-
-      <Table.Cell>{plan.lpaNo}</Table.Cell>
+      <Table.Cell py={4}>{plan.lpaNo}</Table.Cell>
       <Table.Cell>{plan.planType}</Table.Cell>
       <Table.Cell>{plan.mop}</Table.Cell>
       <Table.Cell>{plan.duedate}</Table.Cell>
@@ -210,7 +210,7 @@ export function RITableRow({
                   <Box
                     p={5}
                     mt={5}
-                    width={"md"}
+                    width={{base: "md", mdDown: "full"}}
                     mx="auto"
                     borderWidth="1px"
                     borderColor="var(--chakra-colors-primary)"
@@ -234,7 +234,7 @@ export function RITableRow({
                   </Box>
 
                   {/* Select / Unselect */}
-                  <Box mt={3} textAlign="center">
+                  <Box mt={3} textAlign="center" pb={{base: "0", mdDown: "60px"}}>
                     {isChecked ? isCheckedFullyPaid == isFullyPaid ? (
                       <UnselectSolidButton
                         onClick={() => handleSelect(false)}

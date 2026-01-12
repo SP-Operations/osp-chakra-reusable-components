@@ -276,7 +276,7 @@ export function PlanDetailsDialog( {checked, plan, onCheckedChange} : {checked: 
               <Box
                 p={5}
                 mt={5}
-                width={"lg"}
+                width={{base: "lg", mdDown: "full"}}
                 mx="auto"
                 borderWidth="1px"
                 borderColor="var(--chakra-colors-primary)"
@@ -343,7 +343,7 @@ export function PlanDetailsDialog( {checked, plan, onCheckedChange} : {checked: 
               </Box>
 
               {/* Select / Unselect */}
-              <Box mt={3} textAlign="center">
+              <Box mt={3} textAlign="center" pb={{base: "0", mdDown: "60px"}}>
                 {isChecked ? (
                   selectedMode?.new_mode === value ? (
                     <UnselectSolidButton

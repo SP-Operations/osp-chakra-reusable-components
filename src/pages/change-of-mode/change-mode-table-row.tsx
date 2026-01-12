@@ -47,6 +47,7 @@ export function ChangeModeTableRow({
         color: "var(--chakra-colors-primary-hover)",
       }}
       onClick={handleClick}
+      py={{base: 0, mdDown: 4}}
     >
       <Table.Cell>
         <Checkbox
@@ -57,7 +58,7 @@ export function ChangeModeTableRow({
         />
       </Table.Cell>
 
-      <Table.Cell>{plan.lpa_no}</Table.Cell>
+      <Table.Cell py={4}>{plan.lpa_no}</Table.Cell>
       <Table.Cell>{plan.plan_type}</Table.Cell>
       <Table.Cell>{plan.plan_code}</Table.Cell>
       <Table.Cell>{plan.mode}</Table.Cell>
