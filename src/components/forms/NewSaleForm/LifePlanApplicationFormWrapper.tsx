@@ -46,7 +46,12 @@ const LifePlanApplicationFormWrapper = () => {
         </Tabs.List>
 
         <Tabs.Content value="step1">
-          <PersonalInfo />
+          <PersonalInfo
+            firstName={""}
+            lastName={""}
+            birthDate={""}
+            idType={""}
+          />
         </Tabs.Content>
 
         <Tabs.Content value="step2">
@@ -54,7 +59,15 @@ const LifePlanApplicationFormWrapper = () => {
         </Tabs.Content>
 
         <Tabs.Content value="step3">
-          <Employment />
+          <Employment
+            occupation={""}
+            employerName={""}
+            employmentStatus={""}
+            officeAddress={""}
+            TIN={""}
+            SSS={""}
+            sourceOfIncome={""}
+          />
         </Tabs.Content>
       </Tabs.Root>
     </div>

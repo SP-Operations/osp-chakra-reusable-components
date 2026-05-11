@@ -4,12 +4,12 @@
  */
 
 export interface IPersonalInfo {
-  firstName: string;
+  firstName?: string;
   middleName?: string;
   lastName: string;
   suffix?: string;
-  birthDate: string;
-  idType: string;
+  birthDate?: string;
+  idType?: string;
   idNumber?: string;
   height?: number;
   weight?: number;
