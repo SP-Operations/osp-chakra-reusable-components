@@ -19,6 +19,8 @@
         "terminal.ansiMagenta": "#D381C3",
         "terminal.ansiRed": "#FB0120",
         "terminal.ansiWhite": "#E0E0E0",
-        "terminal.ansiYellow": "#FDA331"
+        "terminal.ansiYellow": "#FDA331",
+        "statusBar.noFolderBackground": "#15158E",
+        "statusBar.noFolderForeground": "#FCFCFF"
     }
 }
